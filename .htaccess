@@ -1,0 +1,27 @@
+<ifmodule mod_expires.c>
+ ExpiresActive On
+ ExpiresDefault A3600
+ <filesmatch ".(jpg|JPG|gif|GIF|png|css|ico|js)$">
+  ExpiresDefault "access plus 7 day"
+ </filesmatch>
+</ifmodule>
+
+
+AddType font/ttf .ttf
+AddType font/eot .eot
+AddType font/otf .otf
+AddType font/woff .woff
+
+<FilesMatch "\.(ttf|otf|eot|woff)$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+    </IfModule>
+</FilesMatch>
+
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ index.php?ruta=$1 [L,QSA]
