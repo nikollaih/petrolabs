@@ -375,7 +375,7 @@ Button css
 }
 
 .green-bg {
-    background-color:#44b6ae;
+    background-color:#00363c;
 }
 
 .red-bg {
@@ -3407,15 +3407,15 @@ Salary Table
 }
 
 .slick-list {
-    border: 1px solid #44b6ae;
+    border: 1px solid #00363c;
 }
 
  .slick-prev::before, .slick-next::before {
- color: #44b6ae !important;
+ color: #00363c !important;
 }
 
  .slick-dots li.slick-active button::before {
- color: #44b6ae;
+ color: #00363c;
 }
 
 .pro-list {
@@ -3510,7 +3510,7 @@ input class
  
 /*---form control---*/
 .form-control:focus {
-    border-color: #44b6ae;
+    border-color: #00363c;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
     outline: 0 none;
 }
