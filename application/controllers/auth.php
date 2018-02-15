@@ -1,28 +1,25 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
 
-	function __construct()
+	/**
+	 * Index Page for this controller.
+	 *
+	 * Maps to the following URL
+	 * 		http://example.com/index.php/welcome
+	 *	- or -
+	 * 		http://example.com/index.php/welcome/index
+	 *	- or -
+	 * Since this controller is set as the default controller in
+	 * config/routes.php, it's displayed at http://example.com/
+	 *
+	 * So any other public methods not prefixed with an underscore will
+	 * map to /index.php/welcome/<method_name>
+	 * @see https://codeigniter.com/user_guide/general/urls.html
+	 */
+	public function index()
 	{
-		parent::__construct();
-		$this->load->model('ajustes');
-		$this->load->library('session');
-	}
-
-	function editar(){
-		if ($this->session->userdata('id_usuario')) {
-			if ($this->input->post('info')) {
-				$info = $this->input->post('info');
-
-				$this->ajustes->modifyConfig($info);
-
-			}
-
-			$data['config'] = $this->ajustes->getConfig();
-			$this->load->view('panel/config_site', $data);
-		}
-		else{
-			redirect('panel');
-		}
+		$this->load->view('welcome_message');
 	}
 }
