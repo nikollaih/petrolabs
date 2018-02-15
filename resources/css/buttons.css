@@ -178,8 +178,8 @@ background-color:#FFF
 
 .btn.green:not(.btn-outline) {
 color:#FFF;
-background-color:#44b6ae;
-border-color:#44b6ae
+background-color:#00363c;
+border-color:#00363c
 }
 .btn.green:not(.btn-outline).focus, .btn.green:not(.btn-outline):focus {
 color:#FFF;
@@ -200,22 +200,22 @@ border-color:#215955
 background-image:none
 }
 .btn.green:not(.btn-outline).disabled.focus, .btn.green:not(.btn-outline).disabled:focus, .btn.green:not(.btn-outline).disabled:hover, .btn.green:not(.btn-outline)[disabled].focus, .btn.green:not(.btn-outline)[disabled]:focus, .btn.green:not(.btn-outline)[disabled]:hover, fieldset[disabled] .btn.green:not(.btn-outline).focus, fieldset[disabled] .btn.green:not(.btn-outline):focus, fieldset[disabled] .btn.green:not(.btn-outline):hover {
-background-color:#44b6ae;
-border-color:#44b6ae
+background-color:#00363c;
+border-color:#00363c
 }
 .btn.green:not(.btn-outline) .badge {
-color:#44b6ae;
+color:#00363c;
 background-color:#FFF
 }
 .btn.btn-outline.green {
-    border-color:#44b6ae;
-    color:#44b6ae;
+    border-color:#00363c;
+    color:#00363c;
     background:0 0
 }
 .btn.btn-outline.green.active, .btn.btn-outline.green:active, .btn.btn-outline.green:active:focus, .btn.btn-outline.green:active:hover, .btn.btn-outline.green:focus, .btn.btn-outline.green:hover {
-    border-color:#44b6ae;
+    border-color:#00363c;
     color:#FFF;
-    background-color:#44b6ae
+    background-color:#00363c
 }
 
 
