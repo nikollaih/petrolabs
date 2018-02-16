@@ -14,6 +14,17 @@ class Auth extends CI_Controller {
 	}
 
 	function login(){
-		$this->load->view('login');
+		$this->load->model('usuarios');
+
+		$email = $this->input->post('correo');
+		$password = $this->input->post('clave');
+
+		$usuario = $this->usuarios->validarUsuario($email, $password);
+		
+		if (!$usuario) {
+			die("Fallo");
+		}else{
+			die(json_encode($usuario));
+		}
 	}
 }

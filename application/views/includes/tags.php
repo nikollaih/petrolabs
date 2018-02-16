@@ -24,4 +24,9 @@
 		<link href="<?= base_url() ?>resources/css/main.media.css" rel="stylesheet">
 		<!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
 		<!--[if lt IE 9]> <script src="dist/html5shiv.js"></script> <![endif]-->
+		<script type="text/javascript" src="<?= base_url() ?>resources/js/vendor/jquery.min.js"></script>
+		<script type="text/javascript" src="<?= base_url() ?>resources/js/auth.js"></script>
+		<script type="text/javascript">
+			var base_url = "<?= base_url(); ?>"
+		</script>
 	</head>
