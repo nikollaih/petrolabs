@@ -7,14 +7,14 @@
     </div>
     <h3>Bienvenido a Petrolabs</h3>
     <p>Inicia sesion para continuar</p>
-    <form action="http://adminbag-v1.3.bittyfox.com/default/dark-blue/index.html"  class="top15">
+    <form class="top15">
       <div class="form-group">
-        <input type="email" required="" placeholder="Username" class="form-control">
+        <input type="email" required="" placeholder="Username" id="email" name="email" class="form-control">
       </div>
       <div class="form-group">
-        <input type="password" required="" placeholder="Password" class="form-control">
+        <input type="password" required="" placeholder="Password" id="password" name="password" class="form-control">
       </div>
-      <button class="btn green block full-width bottom15" type="submit">Continuar</button>
+      <div id="loginSubmit" class="btn green block full-width bottom15">Continuar</div>
       <a href="forgot_password.html"><small>¿Olvidaste tu contraseña?</small></a>
     </form>
     <p class="top15"> <small>Petrolabs &copy; <?= Date('Y') ?></small> </p>
