@@ -30,7 +30,7 @@ if (!function_exists('tipoUsuarioConectado')) {
    return trim($CI->session->userdata("tipo"));
  }
 }
-[9:41 PM, 2/21/2018] Niko Hernandez: /**
+/**
  * Esta funcion obtiene el usuario logueado en ese
  * momento
  */

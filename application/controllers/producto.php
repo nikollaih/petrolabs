@@ -30,7 +30,7 @@ class Producto extends CI_Controller {
 	*/
 	function listarProductos(){
 		isLogin();
-		$data['productos'] = $this->productos->obtenerProductos();
+		$data = $this->productos->obtenerProductos();
 
 		responder($data, true, 'Lista de productos');
 	}
@@ -79,7 +79,7 @@ class Producto extends CI_Controller {
 	function modificar($idProducto){
 		isLogin();
 		if ($this->input->post('producto')) {
-			$idProductoModif = $this->productos->modificarProducto($this->input->post('producto'));
+			$idProductoModif = $this->productos->modificarProducto($idProducto, $this->input->post('producto'));
 			if ($idProductoModif) {
 				responder($idProducto, true, 'Producto modificado');
 			}else{
