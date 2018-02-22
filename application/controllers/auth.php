@@ -6,6 +6,7 @@ class Auth extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->helper('funciones');
 	}
@@ -22,10 +23,13 @@ class Auth extends CI_Controller {
 
 		$usuario = $this->usuarios->validarUsuario($email, $password);
 		
-		if (!$usuario) {
-			die("Fallo");
-		}else{
-			die(json_encode($usuario));
+		if ($usuario) {
+			$data['token'] = generarToken();
+			$datosUsuario = $this->usuarios->modificarUsuario($usuario['id_usuario'], $data);
+			if ($datosUsuario) {
+				$this->session->set_userdata($datosUsuario);
+				redirect('panel');
+			}
 		}
 	}
 }
