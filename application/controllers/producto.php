@@ -87,4 +87,24 @@ class Producto extends CI_Controller {
 			}
 		}
 	}
+
+	/**
+	 * ---------------------------------------------------
+	 * Metodos para la app movil
+	 * ---------------------------------------------------
+	 */
+	
+	/*
+	* @author: Nikollai Hernandez G. <nikollaihernandez@gmail.com>
+	* method listarProductos, Metodo que carga la lista de productos para la app
+	* return lista de productos en formato JSON
+	*/
+	function listarProductosApp(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLoginApp($this->input->post('token'), $this->input->post('id_usuario'));
+
+		$objProductos = $this->productos->obtenerProductos();
+
+		responder($objProductos, true, 'Lista de productos');
+	}
 }
