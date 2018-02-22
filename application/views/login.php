@@ -1,4 +1,4 @@
-<? $this->load->view('includes/tags') ?>
+<?php $this->load->view('includes/tags') ?>
 <body class="green-bg login">
 <div class="middle-box text-center loginscreen ">
   <div class="widgets-container">
