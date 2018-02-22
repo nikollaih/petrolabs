@@ -10,6 +10,7 @@ class Producto extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('funciones');
 		$this->load->model('productos');
+		$this->load->model('ventas');
 	}
 
 	/*
@@ -106,5 +107,21 @@ class Producto extends CI_Controller {
 		$objProductos = $this->productos->obtenerProductos();
 
 		responder($objProductos, true, 'Lista de productos');
+	}
+
+	function comisionesIsleroMes(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLoginApp($this->input->post('token'), $this->input->post('id_usuario'));
+
+		$id_islero = $this->input->post('islero');
+		$mes = $this->input->post('mes');
+		$anio = $this->input->post('anio');
+
+		$fecha_inicio = $anio . '-' . $mes . '-01 00:00:00';
+		$fecha_final = $anio . '-' . $mes . '-31 23:59:59';
+
+		$objProductos = $this->ventas->obtenerVentasPonderadoIsleroFechaPago($fecha_inicio, $fecha_final, $id_islero);
+
+		responder($objProductos, true, 'Productos comisiones');
 	}
 }
