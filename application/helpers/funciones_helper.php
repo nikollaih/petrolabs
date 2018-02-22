@@ -25,6 +25,18 @@ if (!function_exists('isLogin')) {
  }
 }
 
+if (!function_exists('isLoginApp')) {
+ function isLoginApp($token, $id){
+   $CI = & get_instance();  //get instance, access the CI superobject
+   $CI->load->model("usuarios");
+
+   if (!$CI->usuarios->validarTokenId($token, $id)) {
+    responder(0, false, 'Acceso denegado');
+   }
+   
+ }
+}
+
 
 if (!function_exists('idUsuarioConectado')) {
  function idUsuarioConectado(){

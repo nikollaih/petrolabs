@@ -77,10 +77,12 @@ class Usuarios extends CI_Model{
 	}
 
 	function modificarUsuario($id_usuario, $usuario, $islero){
-		$this->db->where('id_usuario', $id_usuario);
-		$this->db->update('usuarios', $usuario);
+		if ($usuario != null && $usuario) {
+			$this->db->where('id_usuario', $id_usuario);
+			$this->db->update('usuarios', $usuario);
+		}
 
-		if ($islero != null && !$islero) {
+		if ($islero != null && $islero) {
 			$this->db->where('usuario', $id_usuario);
 			$this->db->update('isleros', $islero);
 		}
