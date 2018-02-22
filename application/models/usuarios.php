@@ -75,4 +75,34 @@ class Usuarios extends CI_Model{
 			return false;
 		}
 	}
+
+	function modificarUsuario($id_usuario, $usuario, $islero){
+		$this->db->where('id_usuario', $id_usuario)
+		$this->db->update('usuarios', $usuario);
+
+		if ($islero != null && !$islero) {
+			$this->db->where('usuario', $id_usuario)
+			$this->db->update('isleros', $islero);
+		}
+
+		return $this->obtenerUsuario($id_usuario);
+	}
+
+	function obtenerUsuario($id_usuario){
+		$this->db->from('usuarios u');
+		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
+		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
+		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->where('u.id_usuario', $id_usuario);
+
+		$objUsuario = $this->db->get();
+
+		if ($objUsuario->num_rows() > 0) {
+			return $objUsuario->row_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
 }
