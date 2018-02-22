@@ -13,7 +13,7 @@ class Productos extends CI_Model{
 
 	function agregarProducto($producto){
 		$this->db->insert('productos', $producto);
-		return $this->db->last_id();
+		return $this->db->insert_id();
 	}
 
 	function obtenerProductos(){
@@ -41,6 +41,6 @@ class Productos extends CI_Model{
 
 	function modificarProducto($id_producto, $producto){
 		$this->db->where('id_producto', $id_producto);
-		return $this->db->upate('productos', $producto);
+		return $this->db->update('productos', $producto);
 	}
 }

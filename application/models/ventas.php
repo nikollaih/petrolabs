@@ -13,7 +13,7 @@ class Ventas extends CI_Model{
 
 	function agregarVenta($venta){
 		$this->db->insert('ventas', $venta);
-		return $this->db->last_id();
+		return $this->db->insert_id();
 	}
 
 	function obtenerVentas(){
