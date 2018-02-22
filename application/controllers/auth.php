@@ -25,10 +25,27 @@ class Auth extends CI_Controller {
 		
 		if ($usuario) {
 			$data['token'] = generarToken();
-			$datosUsuario = $this->usuarios->modificarUsuario($usuario['id_usuario'], $data);
+			$datosUsuario = $this->usuarios->modificarUsuario($usuario['id_usuario'], $data, null);
 			if ($datosUsuario) {
 				$this->session->set_userdata($datosUsuario);
 				redirect('panel');
+			}
+		}
+	}
+
+	function loginApp(){
+		$this->load->model('usuarios');
+
+		$email = $this->input->post('correo');
+		$password = $this->input->post('clave');
+
+		$usuario = $this->usuarios->validarUsuario($email, $password);
+		
+		if ($usuario) {
+			$data['token'] = generarToken();
+			$datosUsuario = $this->usuarios->modificarUsuario($usuario['id_usuario'], $data, null);
+			if ($datosUsuario) {
+				responder($datosUsuario, true, 'Datos usuario');
 			}
 		}
 	}

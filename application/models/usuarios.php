@@ -17,7 +17,7 @@ class Usuarios extends CI_Model{
 		$this->db->join('ciudades c', 'c.id_ciudad = u.ciudad');
 		$this->db->join('Isleros i', 'i.usuario = u.id_usuario', 'left');
 		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
-		$this->db->join('tipos_incentivos ti', 'ti.id_tipo = i.incentivo', 'left');
+		$this->db->join('tipos_incentivo ti', 'ti.id_tipo = i.tipo_incentivo', 'left');
 		$this->db->where('u.email', $email);
 		$this->db->where('u.clave', md5($password));
 		$this->db->where('u.estado', 1);
@@ -77,11 +77,11 @@ class Usuarios extends CI_Model{
 	}
 
 	function modificarUsuario($id_usuario, $usuario, $islero){
-		$this->db->where('id_usuario', $id_usuario)
+		$this->db->where('id_usuario', $id_usuario);
 		$this->db->update('usuarios', $usuario);
 
 		if ($islero != null && !$islero) {
-			$this->db->where('usuario', $id_usuario)
+			$this->db->where('usuario', $id_usuario);
 			$this->db->update('isleros', $islero);
 		}
 
@@ -93,6 +93,8 @@ class Usuarios extends CI_Model{
 		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
 		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
+		$this->db->join('tipos_incentivo ti', 'ti.id_tipo = i.tipo_incentivo', 'left');
 		$this->db->where('u.id_usuario', $id_usuario);
 
 		$objUsuario = $this->db->get();

@@ -6,7 +6,7 @@ if (!function_exists('generarToken')) {
     $string = 'qwertyuiopasdfgh_jklzxcv_bnmQWERTYUIOPA_SDFGHJKLZXC_VBNM01237894_56';
     $token = '';
     for ($i=0; $i < $lenght; $i++) { 
-      $token += substr($string, rand(0,strlen($string)),0);
+      $token .= substr($string, rand(0,strlen($string)),1);
     }
     return $token;
  }
