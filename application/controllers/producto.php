@@ -30,7 +30,7 @@ class Producto extends CI_Controller {
 	*/
 	function listarProductos(){
 		isLogin();
-		$data['productos'] = $this->productos->obtenerProductos();
+		$data = $this->productos->obtenerProductos();
 
 		responder($data, true, 'Lista de productos');
 	}
