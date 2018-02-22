@@ -13,7 +13,7 @@ class Incentivos extends CI_Model{
 
 	function agregarIncentivo($incentivo){
 		$this->db->insert('tipos_incentivo', $incentivo);
-		return $this->db->last_id();
+		return $this->db->insert_id();
 	}
 
 	function obtenerIncentivos(){
