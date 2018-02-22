@@ -1,13 +1,25 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+if (!function_exists('generarToken')) {
+ function generarToken($lenght=35){
+    $string = 'qwertyuiopasdfgh_jklzxcv_bnmQWERTYUIOPA_SDFGHJKLZXC_VBNM01237894_56';
+    $token = '';
+    for ($i=0; $i < $lenght; $i++) { 
+      $token += substr($string, rand(0,strlen($string)),0);
+    }
+    return $token;
+ }
+}
+
 if (!function_exists('isLogin')) {
  function isLogin(){
    $CI = & get_instance();  //get instance, access the CI superobject
    $CI->load->library("session");
+   $CI->load->model("usuarios");
 
-   if (empty(trim($CI->session->userdata("id"))) && empty(trim($CI->session->userdata("nombre"))) && empty(trim($CI->session->userdata("email")))) {
-     redirect("panel");
+   if (!$CI->usuarios->validarTokenId($CI->session->userdata("token"), $CI->session->userdata("id"))) {
+    responder(0, false, 'Acceso denegado');
    }
    
  }
