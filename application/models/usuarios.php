@@ -12,7 +12,6 @@ class Usuarios extends CI_Model{
 	}
 
 	function validarUsuario($email, $password){
-
 		$this->db->from('usuarios u');
 		$this->db->join('roles r', 'r.id_rol = u.rol');
 		$this->db->join('ciudades c', 'c.id_ciudad = u.ciudad');
@@ -27,6 +26,50 @@ class Usuarios extends CI_Model{
 
 		if ($result->num_rows() > 0) {
 			return $result->row_array();
+		}
+		else{
+			return false;
+		}
+	}
+
+	function obtenerUsuariosRol($id_rol){
+		$this->db->from('usuarios u');
+		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
+		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
+		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->where('u.rol', $id_rol);
+
+		$objUsuario = $this->db->get();
+
+		if ($objUsuario->num_rows() > 0) {
+			return $objUsuario->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
+	function agregarUsuario($usuario, $islero){
+		$this->db->insert('usuarios', $usuario);
+		$id_usuario = $this->db->insert_id();
+
+		if ($islero != null && !$islero) {
+			$islero['usuario'] = $id_usuario;
+			$this->db->insert('isleros', $islero);
+		}
+
+		return $id_usuario;
+	}
+
+	function validarTokenId($token, $id_usuario){
+		$this->db->from('usuarios');
+		$this->db->where('token', $token);
+		$this->db->where('id_usuario', $id_usuario);
+
+		$objUsuario = $this->db->get();
+
+		if ($objUsuario->num_rows() > 0) {
+			return true;
 		}
 		else{
 			return false;
