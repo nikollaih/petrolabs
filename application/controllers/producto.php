@@ -8,6 +8,7 @@ class Producto extends CI_Controller {
 		parent::__construct();
 		$this->load->library('session');
 		$this->load->helper('url');
+		$this->load->helper('funciones');
 		$this->load->model('productos');
 	}
 
@@ -43,7 +44,7 @@ class Producto extends CI_Controller {
 	function agregar(){
 		isLogin();
 		if ($this->input->post('producto')) {
-			$idProducto = $this->producto->agregarProduto($this->input->post('producto'));
+			$idProducto = $this->productos->agregarProducto($this->input->post('producto'));
 			if ($idProducto != 0) {
 				responder($idProducto, true, 'Producto agregado');
 			}else{
@@ -60,7 +61,7 @@ class Producto extends CI_Controller {
 	*/
 	function obtener($idProducto){
 		isLogin();
-		$producto = $this->producto->obtenerProdutoId($idProducto);
+		$producto = $this->productos->obtenerProductoId($idProducto);
 		if ($producto != 0) {
 			responder($producto, true, 'Producto obtenido');
 		}else{
@@ -78,7 +79,7 @@ class Producto extends CI_Controller {
 	function modificar($idProducto){
 		isLogin();
 		if ($this->input->post('producto')) {
-			$idProductoModif = $this->producto->modificarProduto($this->input->post('producto'));
+			$idProductoModif = $this->productos->modificarProducto($this->input->post('producto'));
 			if ($idProductoModif) {
 				responder($idProducto, true, 'Producto modificado');
 			}else{
