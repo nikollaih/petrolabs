@@ -33,6 +33,17 @@ class Auth extends CI_Controller {
 		}
 	}
 
+	/**
+	 * ---------------------------------------------------
+	 * Metodos para la app movil
+	 * ---------------------------------------------------
+	 */
+
+	/**
+	 * [loginApp description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @return [type] [description]
+	 */
 	function loginApp(){
 		$this->load->model('usuarios');
 
@@ -47,6 +58,27 @@ class Auth extends CI_Controller {
 			if ($datosUsuario) {
 				responder($datosUsuario, true, 'Datos usuario');
 			}
+			else{
+				responder(0, false, 'Acceso denegado');
+			}
 		}
+		else{
+			responder(0, false, 'Acceso denegado');
+		}
+	}
+
+	/**
+	 * [logoutApp description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @return [type] [description]
+	 */
+	function logoutApp(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLoginApp($this->input->post('token'), $this->input->post('id_usuario'));
+
+		$data['token'] = '';
+		$datosUsuario = $this->usuarios->modificarUsuario($this->input->post('id_usuario'), $data, null);
+
+		responder(0, true, 'Cerrar sesion');
 	}
 }
