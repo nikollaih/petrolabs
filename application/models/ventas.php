@@ -13,13 +13,28 @@ class Ventas extends CI_Model{
 
 	function agregarVenta($venta){
 		$this->db->insert('ventas', $venta);
-		return $this->db->insert_id();
+		return $this->obtenerVentaId($this->db->insert_id());
 	}
 
 	function obtenerVentas(){
 		$this->db->from('ventas v');
 		$this->db->join('isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
+		$objVentas = $this->db->get();
+
+		if ($objVentas->num_rows() > 0) {
+			return $objVentas->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
+	function obtenerVentaId($id_venta){
+		$this->db->from('ventas v');
+		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('productos p', 'v.producto = p.id_producto');
+		$this->db->where('id_venta', $id_venta);
 		$objVentas = $this->db->get();
 
 		if ($objVentas->num_rows() > 0) {
