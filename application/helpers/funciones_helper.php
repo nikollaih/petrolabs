@@ -17,8 +17,8 @@ if (!function_exists('isLogin')) {
    $CI = & get_instance();  //get instance, access the CI superobject
    $CI->load->library("session");
    $CI->load->model("usuarios");
-
-   if (!$CI->usuarios->validarTokenId($CI->session->userdata("token"), $CI->session->userdata("id"))) {
+   
+   if (!$CI->usuarios->validarTokenId($CI->session->userdata("token"), $CI->session->userdata("id_usuario"))) {
     responder(0, false, 'Acceso denegado');
    }
    
