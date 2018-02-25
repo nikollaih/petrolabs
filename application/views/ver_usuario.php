@@ -1,6 +1,4 @@
 <?php $this->load->view('includes/tags'); ?>
-<script type="text/javascript" src="<?= base_url() ?>resources/js/estaciones.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>resources/js/ubicaciones.js"></script>
 <body class="page-header-fixed ">
 <?php $this->load->view('includes/top-navegation'); ?>
 <div class="clearfix"> </div>
