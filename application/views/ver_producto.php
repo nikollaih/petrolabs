@@ -56,7 +56,7 @@
                   		</div>
                   	</div>
                   	<div class="col-md-12"><hr></div>
-                  	<div class="col-md-4 col-md-offset-8">
+                  	<div class="col-md-5 col-md-offset-7">
                   		<div class="col-md-6">
                   			<button class="btn btn-block btn-warning" type="button">Editar</button>
                   		</div>
