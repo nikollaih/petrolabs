@@ -13,6 +13,11 @@ class Venta extends CI_Controller {
 		$this->load->model('productos');
 	}
 
+	function index(){
+		isLogin();
+		$this->load->view('lista_ProductosVendidos');
+	}
+
 	function agregar(){
 		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
 		isLoginApp($this->input->post('token'), $this->input->post('id_usuario'));

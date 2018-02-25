@@ -13,12 +13,12 @@
           </a>
           <ul class="sub-menu">
             <li class="nav-item active">
-              <a class="nav-link" href="index-2.html">
+              <a class="nav-link" href="<?=base_url()?>producto">
                 <span class="title">Listado</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="dashboard2.html">
+              <a class="nav-link" href="<?=base_url()?>producto/obtener/nuevo">
                 <span class="title">Agregar</span>
               </a>
             </li>
