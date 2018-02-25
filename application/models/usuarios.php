@@ -37,6 +37,7 @@ class Usuarios extends CI_Model{
 		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
 		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
 		$this->db->where('u.rol', $id_rol);
 
 		$objUsuario = $this->db->get();
@@ -53,9 +54,10 @@ class Usuarios extends CI_Model{
 		$this->db->insert('usuarios', $usuario);
 		$id_usuario = $this->db->insert_id();
 
-		if ($islero != null && !$islero) {
+		if ($islero != null && $islero != false) {
 			$islero['usuario'] = $id_usuario;
 			$this->db->insert('isleros', $islero);
+
 		}
 
 		return $id_usuario;
@@ -97,6 +99,7 @@ class Usuarios extends CI_Model{
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
 		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
 		$this->db->join('tipos_incentivo ti', 'ti.id_tipo = i.tipo_incentivo', 'left');
+		$this->db->join('roles r', 'r.id_rol = u.rol');
 		$this->db->where('u.id_usuario', $id_usuario);
 
 		$objUsuario = $this->db->get();
