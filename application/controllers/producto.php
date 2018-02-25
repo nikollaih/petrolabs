@@ -20,8 +20,8 @@ class Producto extends CI_Controller {
 	function index(){
 		isLogin();
 		$data['productos'] = $this->productos->obtenerProductos();
-		//$this->load->view('lista_productos', $data);
-		print_r($data);
+
+		$this->load->view('lista_producto', $data);
 	}
 
 	/*
@@ -62,9 +62,9 @@ class Producto extends CI_Controller {
 	*/
 	function obtener($idProducto){
 		isLogin();
-		$producto = $this->productos->obtenerProductoId($idProducto);
-		if ($producto != 0) {
-			responder($producto, true, 'Producto obtenido');
+		$data['producto'] = $this->productos->obtenerProductoId($idProducto);
+		if ($data['producto'] != 0) {
+			$this->load->view('ver_producto', $data);
 		}else{
 			responder(0, false, 'Error obteniendo producto');
 		}

@@ -28,7 +28,9 @@ class Auth extends CI_Controller {
 			$datosUsuario = $this->usuarios->modificarUsuario($usuario['id_usuario'], $data, null);
 			if ($datosUsuario) {
 				$this->session->set_userdata($datosUsuario);
-				redirect('panel');
+				responder($datosUsuario, true, 'Ingreso exitoso');
+			}else{
+				responder(0, false, 'Ingreso fallo');
 			}
 		}
 	}

@@ -16,7 +16,12 @@ function login(){
 	        	clave: password
 	        },
 	        success: function (response) {
-	            console.log(response);
+	            var datos = eval(JSON.parse(response));
+	            if (datos['estado']) {
+	            	window.location.replace("../petrolabs/producto");
+	            }else{
+	            	alert('No se pudo ingresar');
+	            }
 	        },
 	        error: function (e) {
 	            console.log(e);
