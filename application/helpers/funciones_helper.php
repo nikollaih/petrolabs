@@ -70,6 +70,17 @@ if (!function_exists('getUsuarioConectado')) {
  }
 }
 
+
+if(!function_exists('stringToUrl')){
+    function stringToUrl($string) {
+        $no_permitidas= array (",", ".","@", "$", "%", ".", ")", "(", "+", "Ñ", "ñ", " ", "á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã”","Ã›","ü","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
+        $permitidas= array ('.', '-', '', '', '', '_', '', '', '-', 'n', "n", "-", "a","e","i","o","u","a","e","i","o","u","n","n","a","e","i","o","u","a","e","i","o","u","c","c","a","e","i","o","u","a","e","i","o","u","u","o","o","i","a","e","u","i","a","e");
+        $texto = str_replace($no_permitidas, $permitidas ,$string);
+
+        return strtolower($texto);
+    }
+}
+
 function responder($objeto,$estado,$mensaje){
     $resultado["objeto"]=$objeto;
     $resultado["estado"]=$estado;

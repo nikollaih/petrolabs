@@ -77,8 +77,57 @@
         </li>
         <!-- END USER LOGIN DROPDOWN -->
       </ul>
+      <?php 
+        if (($this->session->flashdata())) {
+          $info = $this->session->flashdata()['info'];
+      ?>
+            <div class="alert alert-<?= $info[0] ?> alert-message">
+              <strong><?= $info[1] ?>!</strong>
+               <?= $info[2] ?>
+               <i class="fa fa-close close-alert"></i>
+            </div>
+
+            <script type="text/javascript">
+              setTimeout(function(){
+                $('.alert-message').remove();
+              }, 5000)
+            </script>
+      <?php
+        }
+      ?>
     </div>
     <!-- END TOP NAVIGATION MENU -->
   </div>
   <!-- END HEADER INNER -->
 </div>
+
+<style type="text/css">
+  .alert-message{
+    position: absolute;
+    right: 21px;
+    bottom: -100px;
+  }
+
+  .alert-message i{
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .alert-message.alert-success{
+    border-left: 2px solid #3c763d;
+  }
+
+  .alert-message.alert-danger{
+    border-left: 2px solid #a94442;
+  }
+
+  .alert-message.alert-warning{
+    border-left: 2px solid #8a6d3b;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).on('click', '.close-alert', function(){
+    $('.alert-message').remove();
+  })
+</script>
