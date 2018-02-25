@@ -10,8 +10,8 @@
       <div class="row border-bottom white-bg dashboard-header">
         <ol class="breadcrumb">
           <li> <a>Inicio</a> </li>
-          <li> <a>Venta productos</a> </li>
-          <li class="active"> <strong>Ciudad</strong> </li>
+          <li> <a>Productos</a> </li>
+          <li class="active"> <strong>Vendidos</strong> </li>
         </ol>
       </div>
       <div class="wrapper-content ">
@@ -75,6 +75,14 @@
                           <td class="align-center">$<?= number_format(1000*5,0,'.',',') ?></td>
                         </tr>
                       </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="2" style="text-align: right;">Totales</td>
+                          <td class="align-center">5</td>
+                          <td class="align-center">$<?= number_format(10000*5,0,'.',',') ?></td>
+                          <td class="align-center">$<?= number_format(1000*5,0,'.',',') ?></td>
+                        </tr>
+                      </tfoot>
                     </table>
                   </div>
                 </div>

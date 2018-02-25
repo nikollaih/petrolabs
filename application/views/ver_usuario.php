@@ -10,7 +10,7 @@
       <div class="row border-bottom white-bg dashboard-header">
         <ol class="breadcrumb">
           <li> <a>Inicio</a> </li>
-          <li> <a>Usuario</a> </li>
+          <li> <a>Usuarios</a> </li>
           <?php
           	if (isset($usuario['id_usuario'])) {
           ?>
