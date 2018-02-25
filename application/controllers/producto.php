@@ -62,12 +62,17 @@ class Producto extends CI_Controller {
 	*/
 	function obtener($idProducto){
 		isLogin();
-		$data['producto'] = $this->productos->obtenerProductoId($idProducto);
-		if ($data['producto'] != 0) {
-			$this->load->view('ver_producto', $data);
+		if ($idProducto != 'nuevo') {
+			$data['producto'] = $this->productos->obtenerProductoId($idProducto);
+			if ($data['producto'] != 0) {
+				$this->load->view('ver_producto', $data);
+			}else{
+				responder(0, false, 'Error obteniendo producto');
+			}
 		}else{
-			responder(0, false, 'Error obteniendo producto');
+			$this->load->view('ver_producto');
 		}
+		
 	}
 
 	/*
@@ -79,16 +84,71 @@ class Producto extends CI_Controller {
 	*/
 	function modificar($idProducto){
 		isLogin();
-		if ($this->input->post('producto')) {
-			$idProductoModif = $this->productos->modificarProducto($idProducto, $this->input->post('producto'));
+		if ($idProducto != -1) {
+			if ($this->input->post('producto')) {
+				$datos = $this->input->post('producto');
+				if (isset($_FILES['imageProducto']) && !empty($_FILES['imageProducto']['tmp_name'])) {
+					
+					$dir_subida = 'uploads/productos/';
+					$type_file = str_replace('image/', '', $_FILES['imageProducto']['type']);
+					$file_name = 'producto_'.$idProducto.'_'.time();
+					$full_path = $dir_subida.$file_name.'.'.$type_file;
+
+					if (move_uploaded_file($_FILES['imageProducto']['tmp_name'], $full_path)) {
+						$producto = $this->productos->obtenerProductoId($idProducto);
+						if (file_exists($dir_subida.$producto['foto']) && !empty(trim($producto['foto']))) {
+							unlink($dir_subida.$producto['foto']);
+						}
+						$datos['foto'] = $file_name.'.'.$type_file;
+					}
+				}
+				$idProductoModif = $this->productos->modificarProducto($idProducto, $datos);
+				if ($idProductoModif) {
+					redirect(base_url().'producto');
+				}else{
+					responder(0, false, 'Error modificando el producto');
+				}
+			}
+		}else{
+			if ($this->input->post('producto')) {
+				$info = $this->input->post('producto');
+				$info['id_producto'] = 'null';
+				$idProducto= $this->productos->agregarProducto($info);
+
+				if (isset($_FILES['imageProducto']) && !empty($_FILES['imageProducto']['tmp_name'])) {
+					
+					$dir_subida = 'uploads/productos/';
+					$type_file = str_replace('image/', '', $_FILES['imageProducto']['type']);
+					$file_name = 'producto_'.$idProducto.'_'.time();
+					$full_path = $dir_subida.$file_name.'.'.$type_file;
+
+					if (move_uploaded_file($_FILES['imageProducto']['tmp_name'], $full_path)) {
+						$datos['foto'] = $file_name.'.'.$type_file;
+					}
+				}
+				$idProductoModif = $this->productos->modificarProducto($idProducto, $datos);
+				if ($idProductoModif) {
+					redirect(base_url().'producto');
+				}else{
+					responder(0, false, 'Error modificando el producto');
+				}
+			}
+		}
+		
+	}
+
+	function modificarEstado($idProducto){
+		isLogin();
+		if ($this->input->post('estado')) {
+			$datos['estado'] = $this->input->post('estado');
+			$idProductoModif = $this->productos->modificarProducto($idProducto, $datos);
 			if ($idProductoModif) {
-				responder($idProducto, true, 'Producto modificado');
+				responder(0, true, 'Producto modificado');
 			}else{
 				responder(0, false, 'Error modificando el producto');
 			}
 		}
 	}
-
 	/**
 	 * ---------------------------------------------------
 	 * Metodos para la app movil

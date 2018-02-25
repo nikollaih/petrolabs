@@ -89,3 +89,15 @@ $(window).resize(function() {
     });
 
 });
+
+function mostrarAlerta(clase, titulo, mensaje){
+    var html='<div class="alert alert-'+clase+' alert-message">'
+                +'<strong>'+titulo+'!</strong> '+mensaje
+                +'<i class="fa fa-close close-alert"></i>'
+              +'</div>';
+
+    $('.top-menu').append(html);
+    setTimeout(function(){
+        $('.alert-message').remove();
+    },5000);
+}

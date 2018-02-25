@@ -10,8 +10,8 @@
       <div class="row border-bottom white-bg dashboard-header">
         <ol class="breadcrumb">
           <li> <a>Inicio</a> </li>
-          <li> <a>Productos</a> </li>
-          <li class="active"> <strong>Listado</strong> </li>
+          <li> <a>Venta productos</a> </li>
+          <li class="active"> <strong>Ciudad</strong> </li>
         </ol>
       </div>
       <div class="wrapper-content ">
@@ -19,7 +19,37 @@
           <div class="col-lg-12">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                <h5>Listado de productos</h5>
+                <h5 style="margin-top: 11px;">Productos vendidos</h5>
+                <div class="form-group col-md-2 col-md-offset-2" style="margin-bottom: 0;">
+                  <select class="form-control" required id="departamento-usuario-form" data-ciudad-usuario="0" name="filtro[departamento]">
+                    <option value="0">Departamento</option>
+                    <option value="1">Quindío</option>
+                    <option value="2">Valle del cauca</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2" style="margin-bottom: 0;">
+                  <select class="form-control" required id="ciudad-usuario-form" data-estacion-usuario="0" name="filtro[ciudad]">
+                    <option value="0">Ciudad</option>
+                    <option value="1">Armenia</option>
+                    <option value="2">La tebaida</option>
+                    <option value="3">Cali</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2" style="margin-bottom: 0;">
+                  <select class="form-control" required id="estacion-usuario-form" data-islero="0" name="filtro[estacion]">
+                    <option value="0">Estación</option>
+                    <option value="1">Quindío</option>
+                    <option value="2">Valle del cauca</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2" style="margin-bottom: 0;">
+                  <select class="form-control" required id="filtro[ciudad]" name="filtro[islero]">
+                    <option value="0">Islero</option>
+                    <option value="1">Armenia</option>
+                    <option value="2">La tebaida</option>
+                    <option value="3">Cali</option>
+                  </select>
+                </div>
               </div>
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
@@ -28,46 +58,22 @@
                       <thead class="align-center">
                         <tr>
                           <th>Foto</th>
-                          <th>Nombre</th>
-                          <th class="align-center">Precio</th>
-                          <th class="align-center">Comisión</th>
-                          <th class="align-center">Estado</th>
-                          <th>Opciones</th>
+                          <th style="width: 350px !important;">Nombre</th>
+                          <th class="align-center numeric-field">Cantidad</th>
+                          <th class="align-center numeric-field">Total venta</th>
+                          <th class="align-center numeric-field">Comisión generada</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <?php
-
-                          if ($productos != 0) {
-                            foreach ($productos as $producto) {
-                        ?>
                         <tr>
                           <td class="align-center">
-                            <img class="foto-producto" src="<?=base_url();?>uploads/productos/<?=$producto['foto']?>">
+                            <img class="foto-producto" src="<?=base_url();?>uploads/productos/producto_15_1519547702.jpeg">
                           </td>
-                          <td><?=$producto['nombre_producto']?></td>
-                          <td class="align-center">$<?= number_format($producto['precio'],0,'.',',')?></td>
-                          <td class="align-center">$<?= number_format($producto['comision'],0,'.',',') ?></td>
-                          <td class="align-center">
-                            <select id="producto[estado]" name="producto[estado]" onchange="enviarFormulario(this,'<?=$producto['id_producto']?>');">
-                              <option <?= ($producto['estado']==1) ? 'selected' : ''; ?> value="1">Activo</option>
-                              <option <?= ($producto['estado']==2) ? 'selected' : ''; ?> value="2">Inactivo</option>
-                              <option <?= ($producto['estado']==3) ? 'selected' : ''; ?> value="3">Eliminado</option>
-                            </select>
-                          </td>
-                          <td class="align-center">
-                            <a title="Editar" href="<?=base_url();?>producto/obtener/<?= $producto['id_producto'] ?>" class="btn orange btn-mini" type="button">
-                              <i class="fa fa-pencil"></i>
-                            </a>
-                            <a class="btn red btn-mini btn-cicle" type="button">
-                              <i class="fa fa-trash"></i>
-                            </a>
-                          </td>
+                          <td>Producto 1</td>
+                          <td class="align-center">5</td>
+                          <td class="align-center">$<?= number_format(10000*5,0,'.',',') ?></td>
+                          <td class="align-center">$<?= number_format(1000*5,0,'.',',') ?></td>
                         </tr>
-                        <?php
-                            }
-                          }
-                        ?>
                       </tbody>
                     </table>
                   </div>
@@ -80,6 +86,9 @@
       <style type="text/css">
         table td{
           vertical-align: middle !important;
+        }
+        .numeric-field{
+          width: 100px;
         }
         .align-center{
           text-align: center;
@@ -96,29 +105,6 @@
         }
       </style>
       <script type="text/javascript">
-        function enviarFormulario(element, id){
-          estado =element.value;
-          $.ajax({
-            method: 'post',
-            url: base_url+"producto/modificarEstado/"+id,
-            data:{
-              estado: estado
-            },
-            success: function (response) {
-                var datos = eval(JSON.parse(response));
-                if (datos['estado']) {
-                  mostrarAlerta('success', 'Exito', datos['mensaje']);
-                }else{
-                  mostrarAlerta('danger', 'Fallo', datos['mensaje']);
-
-                }
-            },
-            error: function (e) {
-                console.log(e);
-            }
-          });
-        }
-
         $(document).ready(function(){
           $("#productos").DataTable({
             language: {
