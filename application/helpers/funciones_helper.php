@@ -81,10 +81,19 @@ if(!function_exists('stringToUrl')){
     }
 }
 
-function responder($objeto,$estado,$mensaje){
-    $resultado["objeto"]=$objeto;
-    $resultado["estado"]=$estado;
-    $resultado["mensaje"]=$mensaje;
-    echo json_encode($resultado);
-    die();
+function generarContrasenia($lenght = 6){
+  $string = '0123789456';
+  $contrasenia = '';
+  for ($i=0; $i < $lenght; $i++) { 
+    $contrasenia .= substr($string, rand(0,strlen($string)),1);
   }
+  return $contrasenia;
+}
+
+function responder($objeto,$estado,$mensaje){
+  $resultado["objeto"]=$objeto;
+  $resultado["estado"]=$estado;
+  $resultado["mensaje"]=$mensaje;
+  echo json_encode($resultado);
+  die();
+}

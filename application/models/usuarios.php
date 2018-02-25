@@ -92,6 +92,12 @@ class Usuarios extends CI_Model{
 		return $this->obtenerUsuario($id_usuario);
 	}
 
+	/**
+	 * [obtenerUsuario description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $id_usuario [description]
+	 * @return [type]             [description]
+	 */
 	function obtenerUsuario($id_usuario){
 		$this->db->from('usuarios u');
 		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
@@ -101,6 +107,32 @@ class Usuarios extends CI_Model{
 		$this->db->join('tipos_incentivo ti', 'ti.id_tipo = i.tipo_incentivo', 'left');
 		$this->db->join('roles r', 'r.id_rol = u.rol');
 		$this->db->where('u.id_usuario', $id_usuario);
+
+		$objUsuario = $this->db->get();
+
+		if ($objUsuario->num_rows() > 0) {
+			return $objUsuario->row_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
+	/**
+	 * [obtenerUsuarioEmail description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $email [description]
+	 * @return [type]        [description]
+	 */
+	function obtenerUsuarioEmail($email){
+		$this->db->from('usuarios u');
+		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
+		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
+		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
+		$this->db->join('tipos_incentivo ti', 'ti.id_tipo = i.tipo_incentivo', 'left');
+		$this->db->join('roles r', 'r.id_rol = u.rol');
+		$this->db->where('u.email', $email);
 
 		$objUsuario = $this->db->get();
 

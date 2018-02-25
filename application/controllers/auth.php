@@ -9,6 +9,8 @@ class Auth extends CI_Controller {
 		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->helper('funciones');
+		$this->load->model('usuarios');
+		$this->load->model('myemail');
 	}
 
 	function index(){
@@ -16,8 +18,6 @@ class Auth extends CI_Controller {
 	}
 
 	function login(){
-		$this->load->model('usuarios');
-
 		$email = $this->input->post('correo');
 		$password = $this->input->post('clave');
 
@@ -47,8 +47,6 @@ class Auth extends CI_Controller {
 	 * @return [type] [description]
 	 */
 	function loginApp(){
-		$this->load->model('usuarios');
-
 		$email = $this->input->post('correo');
 		$password = $this->input->post('clave');
 
@@ -82,5 +80,33 @@ class Auth extends CI_Controller {
 		$datosUsuario = $this->usuarios->modificarUsuario($this->input->post('id_usuario'), $data, null);
 
 		responder(0, true, 'Cerrar sesion');
+	}
+
+	/**
+	 * [recuperarContrasenia description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @return [type] [description]
+	 */
+	function recuperarContrasenia(){
+		if (($this->input->post('token_app') && $this->input->post('token_app') == 'P3TR0L4B5-T') && $this->input->post('correo')) {
+			$usuario = $this->usuarios->obtenerUsuarioEmail($this->input->post('correo'));
+			if ($usuario != 0) {
+				$contrasenia = generarContrasenia();
+				$datos['clave'] = md5($contrasenia);
+				if ($this->myemail->recuperarContrasenia($this->input->post('correo'), $contrasenia)){
+					$this->usuarios->modificarUsuario($usuario['id_usuario'], $datos, null);
+					responder($contrasenia, true, 'Mensaje enviado');
+				}
+				else{
+					responder($contrasenia, false, 'Ha ocurrido un error al intentar enviar el correo');
+				}
+			}
+			else{
+				responder(0, false, 'No existe un usuario con el correo especificado');
+			}
+		}
+		else{
+			responder(0, false, 'Acceso denegado');
+		}
 	}
 }
