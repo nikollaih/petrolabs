@@ -34,7 +34,7 @@ class Usuarios extends CI_Model{
 
 	function obtenerUsuariosRol($id_rol){
 		$this->db->from('usuarios u');
-		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
+		$this->db->join('Isleros i', 'u.id_usuario = i.usuario', 'left');
 		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
 		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
@@ -56,7 +56,7 @@ class Usuarios extends CI_Model{
 
 		if ($islero != null && $islero != false) {
 			$islero['usuario'] = $id_usuario;
-			$this->db->insert('isleros', $islero);
+			$this->db->insert('Isleros', $islero);
 
 		}
 
@@ -86,7 +86,7 @@ class Usuarios extends CI_Model{
 
 		if ($islero != null && $islero) {
 			$this->db->where('usuario', $id_usuario);
-			$this->db->update('isleros', $islero);
+			$this->db->update('Isleros', $islero);
 		}
 
 		return $this->obtenerUsuario($id_usuario);
@@ -100,7 +100,7 @@ class Usuarios extends CI_Model{
 	 */
 	function obtenerUsuario($id_usuario){
 		$this->db->from('usuarios u');
-		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
+		$this->db->join('Isleros i', 'u.id_usuario = i.usuario', 'left');
 		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
 		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
@@ -126,7 +126,7 @@ class Usuarios extends CI_Model{
 	 */
 	function obtenerUsuarioEmail($email){
 		$this->db->from('usuarios u');
-		$this->db->join('isleros i', 'u.id_usuario = i.usuario', 'left');
+		$this->db->join('Isleros i', 'u.id_usuario = i.usuario', 'left');
 		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
 		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');

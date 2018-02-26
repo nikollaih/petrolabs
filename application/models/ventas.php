@@ -20,7 +20,7 @@ class Ventas extends CI_Model{
 		$this->db->select('p.id_producto, p.foto, p.nombre_producto, SUM(v.cantidad) cantidad, SUM(v.cantidad*v.precio) total, SUM(v.comision_total) comision_total');
 		$this->db->from('ventas v');
 		$this->db->join('productos p', 'p.id_producto = v.producto');
-		$this->db->join('isleros i', 'i.id_islero = v.islero','LEFT');
+		$this->db->join('Isleros i', 'i.id_islero = v.islero','LEFT');
 		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'LEFT');
 		$this->db->join('ciudades c','c.id_ciudad = e.ciudad','LEFT');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento', 'LEFT');
@@ -58,7 +58,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentas(){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$objVentas = $this->db->get();
 
@@ -72,7 +72,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentaId($id_venta){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('id_venta', $id_venta);
 		$objVentas = $this->db->get();
@@ -87,7 +87,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentasIslero($id_islero){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('v.islero', $id_islero);
 		$objVentas = $this->db->get();
@@ -102,7 +102,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentasFecha($fecha_inicial, $fecha_final){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('fecha >=', $fecha_inicial);
 		$this->db->where('fecha <=', $fecha_final);
@@ -119,7 +119,7 @@ class Ventas extends CI_Model{
 	function obtenerVentasIsleroFecha($fecha_inicial, $fecha_final, $id_islero){
 		$this->db->select('v.id_venta, p.id_producto, p.foto, p.nombre_producto, SUM(v.cantidad) as cantidad, SUM(v.comision_total) as comision_total');
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('v.islero', $id_islero);
 		$this->db->where('fecha >=', $fecha_inicial);
@@ -137,7 +137,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentasFechaPago($fecha_inicial, $fecha_final){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('fecha_pago >=', $fecha_inicial);
 		$this->db->where('fecha_pago <=', $fecha_final);
@@ -153,7 +153,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentasIsleroFechaPago($fecha_inicial, $fecha_final, $id_islero){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('v.islero', $id_islero);
 		$this->db->where('fecha_pago >=', $fecha_inicial);
@@ -171,7 +171,7 @@ class Ventas extends CI_Model{
 	function obtenerVentasPonderadoIsleroFechaPago($fecha_inicial, $fecha_final, $id_islero){
 		$this->db->select('v.id_venta, p.id_producto, p.foto, p.nombre_producto, SUM(v.cantidad) as cantidad, SUM(v.comision_total) as comision_total');
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('v.islero', $id_islero);
 		$this->db->where('fecha_pago >=', $fecha_inicial);
@@ -189,7 +189,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentasProducto($id_producto){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('v.producto', $id_producto);
 		$objVentas = $this->db->get();
@@ -204,7 +204,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentasProductoFecha($fecha_inicial, $fecha_final, $id_producto){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('fecha >=', $fecha_inicial);
 		$this->db->where('fecha <=', $fecha_final);
@@ -221,7 +221,7 @@ class Ventas extends CI_Model{
 
 	function obtenerVentasProductoFechaPago($fecha_inicial, $fecha_final, $id_producto){
 		$this->db->from('ventas v');
-		$this->db->join('isleros i', 'v.islero = i.id_islero');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('fecha_pago >=', $fecha_inicial);
 		$this->db->where('fecha_pago <=', $fecha_final);
