@@ -117,12 +117,14 @@ class Ventas extends CI_Model{
 	}
 
 	function obtenerVentasIsleroFecha($fecha_inicial, $fecha_final, $id_islero){
+		$this->db->select('v.id_venta, p.id_producto, p.foto, p.nombre_producto, SUM(v.cantidad) as cantidad, SUM(v.comision_total) as comision_total');
 		$this->db->from('ventas v');
 		$this->db->join('isleros i', 'v.islero = i.id_islero');
 		$this->db->join('productos p', 'v.producto = p.id_producto');
 		$this->db->where('v.islero', $id_islero);
 		$this->db->where('fecha >=', $fecha_inicial);
 		$this->db->where('fecha <=', $fecha_final);
+		$this->db->group_by('v.producto');
 		$objVentas = $this->db->get();
 
 		if ($objVentas->num_rows() > 0) {

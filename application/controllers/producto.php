@@ -184,4 +184,28 @@ class Producto extends CI_Controller {
 
 		responder($objProductos, true, 'Productos comisiones');
 	}
+
+	function productosSinLiquidar(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLoginApp($this->input->post('token'), $this->input->post('id_usuario'));
+
+		$id_islero = $this->input->post('islero');
+
+		$fecha = '0000-00-00 00:00:00';
+
+		$objProductos = $this->ventas->obtenerVentasPonderadoIsleroFechaPago($fecha, $fecha, $id_islero);
+
+		responder($objProductos, true, 'Productos comisiones');
+	}
+
+	function productosVendidosPorFecha(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLoginApp($this->input->post('token'), $this->input->post('id_usuario'));
+		$fecha = $this->input->post('fecha');
+		$id_islero = $this->input->post('islero');
+
+		$objProductos = $this->ventas->obtenerVentasIsleroFecha($fecha, $fecha, $id_islero);
+
+		responder($objProductos, true, 'Productos comisiones');
+	}
 }
