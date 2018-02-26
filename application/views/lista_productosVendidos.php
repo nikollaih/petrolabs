@@ -65,24 +65,24 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <?php
+                          if ($ventas != 0) {
+                            foreach ($ventas as $venta) {
+                        ?>
                         <tr>
                           <td class="align-center">
-                            <img class="foto-producto" src="<?=base_url();?>uploads/productos/producto_15_1519547702.jpeg">
+                            <img class="foto-producto" src="<?=base_url();?>uploads/productos/<?=$venta['foto'];?>">
                           </td>
-                          <td>Producto 1</td>
-                          <td class="align-center">5</td>
-                          <td class="align-center">$<?= number_format(10000*5,0,'.',',') ?></td>
-                          <td class="align-center">$<?= number_format(1000*5,0,'.',',') ?></td>
+                          <td><?=$venta['nombre_producto'];?></td>
+                          <td class="align-center"><?=$venta['cantidad'];?></td>
+                          <td class="align-center">$<?= number_format($venta['total'],0,'.',',') ?></td>
+                          <td class="align-center">$<?= number_format($venta['comision_total'],0,'.',',') ?></td>
                         </tr>
+                        <?php
+                            }
+                          }
+                        ?>
                       </tbody>
-                      <tfoot>
-                        <tr>
-                          <td colspan="2" style="text-align: right;">Totales</td>
-                          <td class="align-center">5</td>
-                          <td class="align-center">$<?= number_format(10000*5,0,'.',',') ?></td>
-                          <td class="align-center">$<?= number_format(1000*5,0,'.',',') ?></td>
-                        </tr>
-                      </tfoot>
                     </table>
                   </div>
                 </div>

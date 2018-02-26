@@ -14,8 +14,13 @@ class Venta extends CI_Controller {
 	}
 
 	function index(){
+
+	}
+
+	function filtro($departamento = 0, $ciudad = 0, $estacion = 0, $islero = 0){
 		isLogin();
-		$this->load->view('lista_ProductosVendidos');
+		$datos['ventas'] = $this->ventas->obtenerVentasFiltro($departamento, $ciudad, $estacion, $islero);
+		$this->load->view('lista_ProductosVendidos',$datos);
 	}
 
 	function agregar(){

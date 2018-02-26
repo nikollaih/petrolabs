@@ -16,6 +16,46 @@ class Ventas extends CI_Model{
 		return $this->obtenerVentaId($this->db->insert_id());
 	}
 
+	function obtenerVentasFiltro($departamento, $ciudad, $estacion, $islero){
+		$this->db->select('p.id_producto, p.foto, p.nombre_producto, SUM(v.cantidad) cantidad, SUM(v.cantidad*v.precio) total, SUM(v.comision_total) comision_total');
+		$this->db->from('ventas v');
+		$this->db->join('productos p', 'p.id_producto = v.producto');
+		$this->db->join('isleros i', 'i.id_islero = v.islero','LEFT');
+		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'LEFT');
+		$this->db->join('ciudades c','c.id_ciudad = e.ciudad','LEFT');
+		$this->db->join('departamentos d', 'd.id_departamento = c.departamento', 'LEFT');
+		$where = array();
+		if ($departamento != 0) {
+			$where[0] = 'd.id_departamento';
+			$where[1] = $departamento;
+		}
+		if ($ciudad != 0) {
+			$where[0] = 'c.id_ciudad';
+			$where[1] = $ciudad;
+		}
+		if ($estacion != 0) {
+			$where[0] = 'e.id_estacion';
+			$where[1] = $estacion;
+		}
+		if ($islero != 0) {
+			$where[0] = 'i.id_islero';
+			$where[1] = $islero;
+		}
+		if (!empty($where)) {
+			$this->db->where($where[0], $where[1]);
+		}
+		$this->db->group_by('p.id_producto');
+
+		$ventas = $this->db->get();
+
+		if ($ventas->num_rows() > 0) {
+			return $ventas->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
 	function obtenerVentas(){
 		$this->db->from('ventas v');
 		$this->db->join('isleros i', 'v.islero = i.id_islero');
