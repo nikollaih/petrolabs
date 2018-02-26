@@ -90,6 +90,26 @@ function generarContrasenia($lenght = 6){
   return $contrasenia;
 }
 
+function replaceSerialize($cadena){
+  $no_permitidas = ['%20', '%40'];
+  $permitidas = [' ', '@'];
+
+  return str_replace($no_permitidas, $permitidas, $cadena);
+}
+
+function serializeToArray($cadena, $separador = '&'){
+  $array_temp = explode($separador, $cadena);
+  $array = [];
+  if (count($array_temp) > 0) {
+    for ($i=0; $i < count($array_temp); $i++) { 
+       $temp = explode('=', $array_temp[$i]);
+       $array[$temp[0]] = replaceSerialize($temp[1]);
+    }
+  }
+
+  return $array;
+}
+
 function responder($objeto,$estado,$mensaje){
   $resultado["objeto"]=$objeto;
   $resultado["estado"]=$estado;
