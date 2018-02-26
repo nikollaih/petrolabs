@@ -173,4 +173,41 @@ class Usuario extends CI_Controller {
 
 		$this->load->view('asesor_estaciones', $data);
 	}
+
+	/**
+	 * [modificarPerfilApp description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @return [type] [description]
+	 */
+	function modificarPerfilApp(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLoginApp($this->input->post('token'), $this->input->post('id_usuario'));
+		$info = serializeToArray($this->input->post('info'));
+
+		if ($this->input->post('info')) {
+			$usuario = $this->usuarios->obtenerUsuario($this->input->post('id_usuario'));
+			if ($usuario != 0) {
+				if (!empty(trim($info['clave']))) {
+					$info['clave'] = md5($info['clave']);
+				}
+				else{
+					$info['clave'] = $usuario['clave'];
+				}
+
+				$usuario = $this->usuarios->modificarUsuario($this->input->post('id_usuario'), $info, null);
+				if ($usuario != 0){
+					responder($usuario, true, 'Usuario modificado');
+				}
+				else{
+					responder(0, false, 'Ha ocurrido un error');
+				}
+			}
+			else{
+				responder(0, false, 'Acceso denegado');
+			}
+		}
+		else{
+			responder(0, false, 'Acceso denegado');
+		}
+	}
 }
