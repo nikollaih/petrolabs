@@ -21,33 +21,32 @@
               <div class="ibox-title">
                 <h5 style="margin-top: 11px;">Productos vendidos</h5>
                 <div class="form-group col-md-2 col-md-offset-2" style="margin-bottom: 0;">
-                  <select class="form-control" required id="departamento-usuario-form" data-ciudad-usuario="0" name="filtro[departamento]">
+                  <select class="form-control" onchange="setItemSelect('ciudad-usuario-form', 'Ciudad'); cargarFiltro(this, 'Departamento'); validarSelect('departamento-usuario-form', $('#departamento-usuario-form').val(), this);" required id="departamento-usuario-form" data-ciudad-usuario="0" name="filtro[departamento]">
                     <option value="0">Departamento</option>
-                    <option value="1">Quindío</option>
-                    <option value="2">Valle del cauca</option>
+                    <?php 
+                      if ($departamentos != 0) {
+                        foreach ($departamentos as $departamento) {
+                    ?>
+                    <option value="<?=$departamento['id_departamento'];?>"><?=$departamento['nombre_departamento'];?></option>
+                    <?php
+                        }
+                      }
+                    ?>
                   </select>
                 </div>
                 <div class="form-group col-md-2" style="margin-bottom: 0;">
-                  <select class="form-control" required id="ciudad-usuario-form" data-estacion-usuario="0" name="filtro[ciudad]">
+                  <select class="form-control" onchange="setItemSelect('estacion-usuario-form', 'Estación'); cargarFiltro(this, 'Ciudad'); validarSelect('ciudad-usuario-form', $('#ciudad-usuario-form').val(), this);" required id="ciudad-usuario-form" data-estacion-usuario="0" name="filtro[ciudad]">
                     <option value="0">Ciudad</option>
-                    <option value="1">Armenia</option>
-                    <option value="2">La tebaida</option>
-                    <option value="3">Cali</option>
                   </select>
                 </div>
                 <div class="form-group col-md-2" style="margin-bottom: 0;">
-                  <select class="form-control" required id="estacion-usuario-form" data-islero="0" name="filtro[estacion]">
+                  <select class="form-control" onchange="setItemSelect('islero-usuario-form', 'Islero'); cargarFiltro(this, 'Estacion'); validarSelect('estacion-usuario-form', $('#estacion-usuario-form').val(), this);" required id="estacion-usuario-form" data-islero="0" name="filtro[estacion]">
                     <option value="0">Estación</option>
-                    <option value="1">Quindío</option>
-                    <option value="2">Valle del cauca</option>
                   </select>
                 </div>
-                <div class="form-group col-md-2" style="margin-bottom: 0;">
-                  <select class="form-control" required id="filtro[ciudad]" name="filtro[islero]">
+                <div class="form-group col-md-2"  style="margin-bottom: 0;">
+                  <select class="form-control" onchange="cargarFiltro(this, 'Islero');" required id="islero-usuario-form" name="filtro[islero]">
                     <option value="0">Islero</option>
-                    <option value="1">Armenia</option>
-                    <option value="2">La tebaida</option>
-                    <option value="3">Cali</option>
                   </select>
                 </div>
               </div>
@@ -64,7 +63,7 @@
                           <th class="align-center numeric-field">Comisión generada</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody id="body-tabla-ventas">
                         <?php
                           if ($ventas != 0) {
                             foreach ($ventas as $venta) {
@@ -112,30 +111,22 @@
           margin: 0 auto;
         }
       </style>
+      <script type="text/javascript" src="<?=base_url();?>resources/js/ventas.js"></script>
       <script type="text/javascript">
-        $(document).ready(function(){
-          $("#productos").DataTable({
-            language: {
-              "decimal": ".", 
-              "emptyTable": "No hay información",
-              "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-              "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-              "infoFiltered": "(Filtrado de _MAX_ entradas en total)",
-              "infoPostFix": "",
-              "thousands": ",",
-              "lengthMenu": "Mostrar _MENU_ Entradas",
-              "loadingRecords": "Cargando...",
-              "processing": "Procesando...",
-              "search": "Buscar:",
-              "zeroRecords": "No hay coincidencias",
-              "paginate": {
-                  "first": "Primero",
-                  "last": "Ultimo",
-                  "next": "Siguiente",
-                  "previous": "Anterior"
-              }
-            }
-          });
-        });
+        function validarSelect(select, valor, element) {
+          if (select == 'departamento-usuario-form') {
+            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
+            $('#ciudad-usuario-form').html('<option selected value="0">Ciudad</option>');
+            cargarFiltro(element, 'Departamento');
+          }else if(select == 'ciudad-usuario-form' && valor == 0){
+            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
+            cargarFiltro(element, 'Ciudad');
+          }else if(select == 'estacion-usuario-form' && valor == 0){
+            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            cargarFiltro(element, 'Estacion');
+          }
+        }
       </script>
   <?php $this->load->view('includes/footer'); ?> 
