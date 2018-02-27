@@ -12,6 +12,50 @@ class Estacion extends CI_Controller {
 		$this->load->model('estaciones');
 	}
 
+	/**
+	 * [asignarEstacionAsesor description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @return [type] [description]
+	 */
+	function asignarEstacionAsesor(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLogin();
+
+		$data['estacion'] = $this->input->post('estacion');
+		$data['usuario'] = $this->input->post('asesor');
+
+		if (!$this->estaciones->validarEstacionAsesor($data['estacion'], $data['usuario'])) {
+			if ($this->estaciones->asociarEstacionAsesor($data)) {
+				responder(0, true, 'Estacion asosiada al asesor');
+			}
+			else{
+				responder(0, false, 'Ha ocurrido un error al intentar asociar la estacion al asesor');
+			}
+		}
+		else{
+			responder(0, false, 'La estacion ya se encuentra asociada al asesor');
+		}
+	}
+
+	/**
+	 * [desasignarEstacionAsesor description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @return [type] [description]
+	 */
+	function desasignarEstacionAsesor(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLogin();
+
+		$estacion = $this->input->post('estacion');
+		$asesor = $this->input->post('asesor');
+
+		if ($this->estaciones->desasociarEstacionAsesor($estacion, $asesor)) {
+			responder(0, true, 'Estacion eliminada del asesor');
+		}
+		else{
+			responder(0, false, 'Ha ocurrido un error al intentar eliminar la estacion del asesor');
+		}
+	}
 	
 	/**
 	 * Metodos para la app movil

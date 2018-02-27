@@ -97,4 +97,50 @@ class Estaciones extends CI_Model{
 			return 0;
 		}
 	}
+
+	/**
+	 * [asociarEstacionAsesor description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $datos [description]
+	 * @return [type]        [description]
+	 */
+	function asociarEstacionAsesor($datos){
+		$this->db->insert('estaciones_asesor', $datos);
+		return $this->db->insert_id();
+	}
+
+	/**
+	 * [desasociarEstacionAsesor description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $estacion [description]
+	 * @param  [type] $asesor   [description]
+	 * @return [type]           [description]
+	 */
+	function desasociarEstacionAsesor($estacion, $asesor){
+		$this->db->where('usuario', $asesor);
+		$this->db->where('estacion', $estacion);
+		return $this->db->delete('estaciones_asesor');
+	}
+
+	/**
+	 * [validarEstacionAsesor description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $estacion [description]
+	 * @param  [type] $asesor   [description]
+	 * @return [type]           [description]
+	 */
+	function validarEstacionAsesor($estacion, $asesor){
+		$this->db->from('estaciones_asesor');
+		$this->db->where('estacion', $estacion);
+		$this->db->where('usuario', $asesor);
+
+		$objEstacion = $this->db->get();
+
+		if ($objEstacion->num_rows() > 0) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }

@@ -3729,3 +3729,18 @@ WIDGETS
   font-family: "FontAwesome";
 }
 
+#estaciones-asesor tbody tr td:last-child{
+    text-align: center;
+}
+
+#productos tbody tr td{
+    text-align: center;
+}
+
+#productos tbody tr td:nth-child(1){
+    text-align: left;
+}
+
+.sweet-icon{
+    border-radius: 50% !important;
+}
