@@ -1,4 +1,6 @@
 <?php $this->load->view('includes/tags'); ?>
+<script type="text/javascript" src="<?= base_url() ?>resources/plugins/sweetalert/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?= base_url() ?>resources/plugins/sweetalert/dist/sweetalert2.min.css">
 <body class="page-header-fixed ">
 <?php $this->load->view('includes/top-navegation'); ?>
 <div class="clearfix"> </div>
@@ -26,7 +28,7 @@
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
                   <div >
-                    <table id="usuarios" class="table  responsive nowrap table-bordered" cellspacing="0" width="100%">
+                    <table id="estaciones-asesor" class="table  responsive nowrap table-bordered" cellspacing="0" width="100%">
                       <thead class="align-center">
                         <tr>
                           <th>Estacion</th>
@@ -42,7 +44,7 @@
                         <tr>
                           <td><?= $estacion['nombre_estaciones'] ?></td>
                           <td class="align-center">
-                            <a class="btn red btn-mini btn-cicle" type="button">
+                            <a class="btn red btn-mini btn-cicle eliminar-estacion-asesor" data-estacion="<?= $estacion['id_estacion'] ?>" data-asesor="<?= $usuario['id_usuario'] ?>" type="button">
                               <i class="fa fa-trash"></i>
                             </a>
                           </td>
@@ -67,7 +69,7 @@
                 <div class="widgets-container">
                   <div class="row">
                     <div class="col-md-8 col-sm-12">
-                    	 <select class="form-control">
+                    	 <select id="estacion-asesor" class="form-control">
                     	 	<option value="0">Seleccione una estacion</option>
                     	 	<?php
                     	 		if ($estaciones != 0) {
@@ -81,7 +83,7 @@
                     	 </select>
                     </div>
                     <div class="col-md-4 col-sm-12">
-                    	<button class="btn btn-block btn-success" type="submit"><i class="fa fa-link"></i> Asignar</button>
+                    	<button data-asesor="<?= $usuario['id_usuario'] ?>" class="btn btn-block btn-success" id="slt-estacion-asesor" type="button"><i class="fa fa-link"></i> Asignar</button>
                     </div>
                   </div>
                 </div>
@@ -110,8 +112,9 @@
         }
       </style>
       <script type="text/javascript">
+        var tabla_estaciones_asesor;
         $(document).ready(function(){
-          $("#usuarios").DataTable({
+          tabla_estaciones_asesor = $("#estaciones-asesor").DataTable({
             language: {
               "decimal": ".", 
               "emptyTable": "No hay información",
