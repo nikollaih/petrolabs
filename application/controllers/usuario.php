@@ -210,4 +210,10 @@ class Usuario extends CI_Controller {
 			responder(0, false, 'Acceso denegado');
 		}
 	}
+
+	function islerosPorEstacion($id_estacion){
+		isLogin();
+		$isleros = $this->usuarios->obtenerIslerosPorEstacion($id_estacion);
+		responder($isleros, true, 'Lista isleros');
+	}
 }

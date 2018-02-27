@@ -144,4 +144,25 @@ class Usuarios extends CI_Model{
 		}
 	}
 
+	/**
+	 * [obtenerIslerosPorEstacion description]
+	 * @author German Donoso <germanedt@gmail.com>
+	 * @param  [type] $id_Estacion [description]
+	 * @return [type]        [description]
+	 */
+	function obtenerIslerosPorEstacion($id_estacion){
+		$this->db->from('usuarios u');
+		$this->db->join('Isleros i', 'u.id_usuario = i.usuario');
+		$this->db->where('i.estacion', $id_estacion);
+
+		$usuarios = $this->db->get();
+
+		if ($usuarios->num_rows() > 0) {
+			return $usuarios->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
 }

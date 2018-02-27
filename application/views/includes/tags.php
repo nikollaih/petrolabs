@@ -55,6 +55,7 @@
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/auth.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/estaciones.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/ubicaciones.js"></script>
+		<script type="text/javascript" src="<?= base_url() ?>resources/js/isleros.js"></script>
 		<script type="text/javascript">
 			var base_url = "<?= base_url(); ?>"
 		</script>

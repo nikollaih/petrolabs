@@ -11,16 +11,33 @@ class Venta extends CI_Controller {
 		$this->load->helper('funciones');
 		$this->load->model('ventas');
 		$this->load->model('productos');
+		$this->load->model('ubicaciones');
 	}
 
 	function index(){
-
+		isLogin();
+		$datos['ventas'] = $this->ventas->obtenerVentasFiltro(0, 0, 0, 0);
+		$datos['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
+		$this->load->view('lista_ProductosVendidos',$datos);
 	}
 
-	function filtro($departamento = 0, $ciudad = 0, $estacion = 0, $islero = 0){
+	function filtro($tipo, $dato){
 		isLogin();
-		$datos['ventas'] = $this->ventas->obtenerVentasFiltro($departamento, $ciudad, $estacion, $islero);
-		$this->load->view('lista_ProductosVendidos',$datos);
+		$departamento = 0;
+		$ciudad = 0;
+		$estacion = 0;
+		$islero = 0;
+		if ($tipo == 'Departamento') {
+			$departamento = $dato;
+		}elseif ($tipo == 'Ciudad') {
+			$ciudad = $dato;
+		}elseif ($tipo == 'Estacion') {
+			$estacion = $dato;
+		}elseif ($tipo == 'Islero') {
+			$islero = $dato;
+		}
+		$ventas = $this->ventas->obtenerVentasFiltro($departamento, $ciudad, $estacion, $islero);
+		responder($ventas, true, 'Ventas filtradas');
 	}
 
 	function agregar(){
