@@ -32,28 +32,62 @@
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
                   <div class="row">
-                    
+                    <div class="form-group col-md-2 col-md-offset-3" style="margin-bottom: 0;">
+                      <select class="form-control" onchange="setItemSelect('ciudad-usuario-form', 'Ciudad'); cargarFiltro(this, 'Departamento'); validarSelect('departamento-usuario-form', $('#departamento-usuario-form').val(), this);" required id="departamento-usuario-form" data-ciudad-usuario="0" name="filtro[departamento]">
+                        <option value="0">Departamento</option>
+                        <?php 
+                          if ($departamentos != 0) {
+                            foreach ($departamentos as $departamento) {
+                        ?>
+                        <option value="<?=$departamento['id_departamento'];?>"><?=$departamento['nombre_departamento'];?></option>
+                        <?php
+                            }
+                          }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-2" style="margin-bottom: 0;">
+                      <select class="form-control" onchange="setItemSelect('estacion-usuario-form', 'Estación'); cargarFiltro(this, 'Ciudad'); validarSelect('ciudad-usuario-form', $('#ciudad-usuario-form').val(), this);" required id="ciudad-usuario-form" data-estacion-usuario="0" name="filtro[ciudad]">
+                        <option value="0">Ciudad</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-2" style="margin-bottom: 0;">
+                      <select class="form-control" onchange="setItemSelect('islero-usuario-form', 'Islero'); cargarFiltro(this, 'Estacion'); validarSelect('estacion-usuario-form', $('#estacion-usuario-form').val(), this);" required id="estacion-usuario-form" data-islero="0" name="filtro[estacion]">
+                        <option value="0">Estación</option>
+                      </select>
+                    </div>
                   </div>
+                  <br>
+                  <button class="btn blue tn-large" style="margin-bottom: 15px;"><i class="fa fa-money"></i> Liquidar seleccionados</button>
                   <div>
-                    <table id="productos" class="table  responsive nowrap table-bordered" cellspacing="0" width="100%">
+                    <table id="productos" class="table responsive nowrap table-bordered " cellspacing="0">
                       <thead class="align-center">
                         <tr>
-                          <th>Foto</th>
-                          <th style="width: 350px !important;">Nombre</th>
-                          <th class="align-center numeric-field">Cantidad</th>
-                          <th class="align-center numeric-field">Total venta</th>
-                          <th class="align-center numeric-field">Comisión generada</th>
+                          <th style="width: 50px !important;">
+                            <input type="checkbox"></input>
+                          </th>
+                          <th style="width: 450px !important;">Nombre</th>
+                          <th class="align-center">Comisión generada</th>
+                          <th class="align-center">Opciones</th>
                         </tr>
                       </thead>
                       <tbody id="body-tabla-ventas">
                         <tr>
                           <td class="align-center">
-                            <img class="foto-producto" src="<?=base_url();?>uploads/productos/1">
+                            <input type="checkbox"></input>
                           </td>
-                          <td>Hola</td>
-                          <td class="align-center">Hola</td>
-                          <td class="align-center">12312</td>
-                          <td class="align-center">12312</td>
+                          <td>Quindío</td>
+                          <td class="align-center">$2.500.000</td>
+                          <td class="align-center">
+                            <a title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button">
+                              <i class="fa fa-eye"></i>
+                              Detalles
+                            </a>
+                            <a class="btn blue btn-mini" type="button">
+                              <i class="fa fa-money"></i>
+                              Liquidar
+                            </a>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -67,9 +101,6 @@
       <style type="text/css">
         table td{
           vertical-align: middle !important;
-        }
-        .numeric-field{
-          width: 100px;
         }
         .align-center{
           text-align: center;
