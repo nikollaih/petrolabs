@@ -18,7 +18,7 @@ function login(){
 	        success: function (response) {
 	            var datos = eval(JSON.parse(response));
 	            if (datos['estado']) {
-	            	window.location.replace("../petrolabs/producto");
+	            	window.location.replace(base_url+"producto");
 	            }else{
 	            	alert('No se pudo ingresar');
 	            }
