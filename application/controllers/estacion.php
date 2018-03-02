@@ -10,6 +10,7 @@ class Estacion extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('funciones');
 		$this->load->model('estaciones');
+		$this->load->model('ubicaciones');
 	}
 
 	/**
@@ -68,5 +69,18 @@ class Estacion extends CI_Controller {
 		$objEstaciones = $this->estaciones->obtenerEstacionesCiudad($id_ciudad);
 
 		responder($objEstaciones, true, 'Lista estaciones');
+	}
+
+
+	function obtener($idEstacion){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLogin();
+
+		$data['estacion'] = $this->estaciones->obtenerEstacioneId($idEstacion);
+		//$data['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
+
+
+
+		$this->load->view('ver_estacion', $data);
 	}
 }

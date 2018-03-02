@@ -69,6 +69,7 @@
 		                <div class="form-group col-md-6">
 		                  	<label for="info[departamento]">Departamento</label>
 		                  	<select data-ciudad-usuario="<?= $usuario['ciudad'] ?>" class="form-control" required id="departamento-usuario-form">
+                          <option value="">Departamento</option>
 		                  		<?php
 		                  			if ($departamentos != 0) {
 		                  				foreach ($departamentos as $departamento) {
@@ -156,8 +157,14 @@
       		display: none;
       	}
       </style>
-      <script type="text/javascript">
-		llenarSelectCiudad(<?= $usuario['id_departamento'] ?>, '#ciudad-usuario-form', <?= $usuario['id_ciudad'] ?>);
-		llenarSelectEstacion(<?= $usuario['id_ciudad'] ?>, '#estacion-usuario-form', <?= $usuario['id_estacion'] ?>);
-      </script>
+      <?php
+        if (isset($usuario['id_departamento'])) {
+      ?>
+        <script type="text/javascript">
+      		llenarSelectCiudad(<?= $usuario['id_departamento'] ?>, '#ciudad-usuario-form', <?= $usuario['id_ciudad'] ?>);
+      		llenarSelectEstacion(<?= $usuario['id_ciudad'] ?>, '#estacion-usuario-form', <?= $usuario['id_estacion'] ?>);
+        </script>
+      <?php
+        }
+      ?>
   <?php $this->load->view('includes/footer'); ?> 

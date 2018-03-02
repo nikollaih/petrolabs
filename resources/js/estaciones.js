@@ -88,7 +88,7 @@ function obtenerEstacionesCiudad(id_ciudad){
  */
 function llenarSelectEstacion(ciudad, elemento, activo = 0){
 	var estaciones = obtenerEstacionesCiudad(ciudad);
-	var estaciones_DOM = '';
+	var estaciones_DOM = '<option value=""></option>';
 	if (estaciones.length > 0) {
 		for (var i = 0; i < estaciones.length; i++) {
 			var estacion = estaciones[i];
