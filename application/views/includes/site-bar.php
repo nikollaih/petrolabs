@@ -90,6 +90,15 @@
             <span class="title">Productos vendidos</span>
           </a>
         </li>
+        <li class="heading">
+          <h3 class="uppercase">Comisiones</h3>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?=base_url()?>comision">
+            <i class="fa fa-shopping-cart"></i>
+            <span class="title">Liquidar comisiones</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

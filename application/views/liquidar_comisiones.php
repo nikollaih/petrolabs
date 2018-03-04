@@ -1,0 +1,137 @@
+<?php $this->load->view('includes/tags'); ?>
+<body class="page-header-fixed ">
+<?php $this->load->view('includes/top-navegation'); ?>
+<div class="clearfix"> </div>
+<div class="page-container">
+  <?php $this->load->view('includes/site-bar'); ?>
+  <!-- Start page content wrapper -->
+  <div class="page-content-wrapper animated fadeInRight">
+    <div class="page-content">
+      <div class="row border-bottom white-bg dashboard-header">
+        <ol class="breadcrumb">
+          <li> <a href="<?=base_url()?>producto">Inicio</a> </li>
+          <li> <a href="<?=base_url()?>comision">Comisiones</a> </li>
+          <li class="active"> <strong>General</strong> </li>          
+        </ol>
+      </div>
+      <div class="wrapper-content ">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5 style="margin-top: 21px; font-size: 1.3em;">Lista de comisiones</h5>
+                <div class="form-group col-md-4" style="margin-bottom: 0; float: right;">
+                  <label>Fecha final</label>
+                  <input type="date" class="form-control" name="filtro[fecha_final]">
+                </div>
+                <div class="form-group col-md-4" style="margin-bottom: 0; float: right;">
+                  <label>Fecha inicial</label>
+                  <input type="date" class="form-control" name="filtro[fecha_inicial]">
+                </div>
+              </div>
+              <div class="ibox-content collapse in">
+                <div class="widgets-container">
+                  <div class="row">
+                    <div class="form-group col-md-2 col-md-offset-3" style="margin-bottom: 0;">
+                      <select class="form-control" onchange="setItemSelect('ciudad-usuario-form', 'Ciudad'); cargarFiltro(this, 'Departamento'); validarSelect('departamento-usuario-form', $('#departamento-usuario-form').val(), this);" required id="departamento-usuario-form" data-ciudad-usuario="0" name="filtro[departamento]">
+                        <option value="0">Departamento</option>
+                        <?php 
+                          if ($departamentos != 0) {
+                            foreach ($departamentos as $departamento) {
+                        ?>
+                        <option value="<?=$departamento['id_departamento'];?>"><?=$departamento['nombre_departamento'];?></option>
+                        <?php
+                            }
+                          }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-2" style="margin-bottom: 0;">
+                      <select class="form-control" onchange="setItemSelect('estacion-usuario-form', 'Estación'); cargarFiltro(this, 'Ciudad'); validarSelect('ciudad-usuario-form', $('#ciudad-usuario-form').val(), this);" required id="ciudad-usuario-form" data-estacion-usuario="0" name="filtro[ciudad]">
+                        <option value="0">Ciudad</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-2" style="margin-bottom: 0;">
+                      <select class="form-control" onchange="setItemSelect('islero-usuario-form', 'Islero'); cargarFiltro(this, 'Estacion'); validarSelect('estacion-usuario-form', $('#estacion-usuario-form').val(), this);" required id="estacion-usuario-form" data-islero="0" name="filtro[estacion]">
+                        <option value="0">Estación</option>
+                      </select>
+                    </div>
+                  </div>
+                  <br>
+                  <button class="btn blue tn-large" style="margin-bottom: 15px;"><i class="fa fa-money"></i> Liquidar seleccionados</button>
+                  <div>
+                    <table id="productos" class="table responsive nowrap table-bordered " cellspacing="0">
+                      <thead class="align-center">
+                        <tr>
+                          <th style="width: 50px !important;">
+                            <input type="checkbox"></input>
+                          </th>
+                          <th style="width: 450px !important;">Nombre</th>
+                          <th class="align-center">Comisión generada</th>
+                          <th class="align-center">Opciones</th>
+                        </tr>
+                      </thead>
+                      <tbody id="body-tabla-ventas">
+                        <tr>
+                          <td class="align-center">
+                            <input type="checkbox"></input>
+                          </td>
+                          <td>Quindío</td>
+                          <td class="align-center">$2.500.000</td>
+                          <td class="align-center">
+                            <a title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button">
+                              <i class="fa fa-eye"></i>
+                              Detalles
+                            </a>
+                            <a class="btn blue btn-mini" type="button">
+                              <i class="fa fa-money"></i>
+                              Liquidar
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <style type="text/css">
+        table td{
+          vertical-align: middle !important;
+        }
+        .align-center{
+          text-align: center;
+        }
+        .foto-producto{
+          width: 70px;
+          height: 70px;
+          border: 2px dashed #29aba4;
+          position: relative;
+          border-radius: 50% !important;
+          overflow: hidden;
+          text-align: center;
+          margin: 0 auto;
+        }
+      </style>
+      <script type="text/javascript" src="<?=base_url();?>resources/js/ventas.js"></script>
+      <script type="text/javascript">
+        function validarSelect(select, valor, element) {
+          if (select == 'departamento-usuario-form') {
+            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
+            $('#ciudad-usuario-form').html('<option selected value="0">Ciudad</option>');
+            cargarFiltro(element, 'Departamento');
+          }else if(select == 'ciudad-usuario-form' && valor == 0){
+            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
+            cargarFiltro(element, 'Ciudad');
+          }else if(select == 'estacion-usuario-form' && valor == 0){
+            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            cargarFiltro(element, 'Estacion');
+          }
+        }
+      </script>
+  <?php $this->load->view('includes/footer'); ?> 
