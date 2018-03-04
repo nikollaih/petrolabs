@@ -38,7 +38,7 @@ function obtenerCiudadesDepartamento(id_departamento){
  */
 function llenarSelectCiudad(departamento, elemento, activo = 0){
 	var ciudades = obtenerCiudadesDepartamento(departamento);
-	var ciudades_DOM = '';
+	var ciudades_DOM = '<option value="">Ciudad</option>';
 	if (ciudades.length > 0) {
 		for (var i = 0; i < ciudades.length; i++) {
 			var ciudad = ciudades[i];
