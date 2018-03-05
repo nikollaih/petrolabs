@@ -13,8 +13,13 @@ class Auth extends CI_Controller {
 		$this->load->model('myemail');
 	}
 
-	function index(){
-		$this->load->view('login');
+	function index(){ 
+		if ($this->usuarios->validarTokenId($this->session->userdata("token"), $this->session->userdata("id_usuario"))){
+			redirect(base_url().'producto');
+		}
+		else{
+			$this->load->view('login');
+		}
 	}
 
 	function login(){
@@ -102,11 +107,20 @@ class Auth extends CI_Controller {
 				}
 			}
 			else{
-				responder(0, false, 'No existe un usuario con el correo especificado');
+				responder(0, false, 'No se ha encontrado un usuario con el email especificado');
 			}
 		}
 		else{
 			responder(0, false, 'Acceso denegado');
+		}
+	}
+
+	function forgotPassword(){
+		if ($this->usuarios->validarTokenId($this->session->userdata("token"), $this->session->userdata("id_usuario"))){
+			redirect(base_url().'producto');
+		}
+		else{
+			$this->load->view('recuperar_contrasenia');
 		}
 	}
 }

@@ -49,6 +49,8 @@
 		<link href="<?= base_url() ?>resources/css/main.media.css" rel="stylesheet">
 		<!-- adminbag demo css-->
 		<link href="<?= base_url() ?>resources/css/adminbagdemo.css" rel="stylesheet">
+		<script type="text/javascript" src="<?= base_url() ?>resources/plugins/sweetalert/dist/sweetalert2.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>resources/plugins/sweetalert/dist/sweetalert2.min.css">
 		<!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
 		<!--[if lt IE 9]> <script src="dist/html5shiv.js"></script> <![endif]-->
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/vendor/jquery.min.js"></script>

@@ -31,7 +31,18 @@
           <div class="col-lg-12">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                <h5>Detalles del usuario</h5>
+                <?php
+                  if (isset($titulo)) {
+                ?>
+                    <h5><?= $titulo ?></h5>
+                <?php
+                  }
+                  else{
+                ?>
+                    <h5>Detalles del usuario</h5>
+                <?php
+                  }
+                ?>
               </div>
               <div class="ibox-content collapse in">
                 <div class="widgets-container">

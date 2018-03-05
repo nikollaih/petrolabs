@@ -96,6 +96,22 @@ class Usuario extends CI_Controller {
 		$this->load->view('ver_usuario', $data);
 	}
 
+	function perfil($id_usuario){
+		isLogin();
+
+		if ($id_usuario != $this->session->userdata('id_usuario')) {
+			redirect(base_url().'usuario/perfil/'.$this->session->userdata('id_usuario').'/'.stringToUrl($this->session->userdata('nombre').' '.$this->session->userdata('apellidos')));
+		}
+
+		$data['usuario'] = $this->usuarios->obtenerUsuario($id_usuario);
+		$data['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
+		$data['incentivos'] = $this->incentivos->obtenerIncentivos();
+		$data['rol'] = $data['usuario']['id_rol'];
+		$data['titulo'] = 'Perfil '.$data['usuario']['nombre'].' '.$data['usuario']['apellidos'];
+
+		$this->load->view('ver_usuario', $data);
+	}
+
 	/**
 	 * [modificar description]
 	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
@@ -169,7 +185,7 @@ class Usuario extends CI_Controller {
 
 		$data['usuario'] = $this->usuarios->obtenerUsuario($id_asesor);
 		$data['estaciones_usuario'] = $this->estaciones->estacionesUsuario($id_asesor);
-		$data['estaciones'] = $this->estaciones->obtenerEstacionesCiudad($data['usuario']['id_ciudad']);
+		$data['estaciones'] = $this->estaciones->obtenerEstacionesDepartamento($data['usuario']['departamento']);
 
 		$this->load->view('asesor_estaciones', $data);
 	}
@@ -211,9 +227,39 @@ class Usuario extends CI_Controller {
 		}
 	}
 
+	/**
+	 * [islerosPorEstacion description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $id_estacion [description]
+	 * @return [type]              [description]
+	 */
 	function islerosPorEstacion($id_estacion){
 		isLogin();
 		$isleros = $this->usuarios->obtenerIslerosPorEstacion($id_estacion);
 		responder($isleros, true, 'Lista isleros');
+	}
+
+	/**
+	 * [usuariosPorDepartamento description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @return [type] [description]
+	 */
+	function usuariosPorDepartamento(){
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLogin();
+
+		$usuarios = $this->usuarios->obtenerUsuarioDepartamento($this->input->post('id_departamento'), $this->input->post('id_rol'));
+
+		responder($usuarios, true, 'Lista usuarios');
+	}
+
+	/**
+	 * [logout description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @return [type] [description]
+	 */
+	function logout(){
+		$this->session->sess_destroy();
+		redirect(base_url().'auth');
 	}
 }

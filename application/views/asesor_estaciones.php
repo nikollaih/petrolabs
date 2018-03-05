@@ -1,6 +1,4 @@
 <?php $this->load->view('includes/tags'); ?>
-<script type="text/javascript" src="<?= base_url() ?>resources/plugins/sweetalert/dist/sweetalert2.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>resources/plugins/sweetalert/dist/sweetalert2.min.css">
 <body class="page-header-fixed ">
 <?php $this->load->view('includes/top-navegation'); ?>
 <div class="clearfix"> </div>

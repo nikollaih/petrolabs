@@ -9,17 +9,17 @@
     <div class="page-content">
       <div class="row border-bottom white-bg dashboard-header">
         <ol class="breadcrumb">
-          <li> <a href="<?=base_url()?>producto">Inicio</a> </li>
-          <li> <a href="<?=base_url()?>producto">Productos</a> </li>
+          <li> <a href="<?=base_url()?>estacion">Inicio</a> </li>
+          <li> <a href="<?=base_url()?>estacion">Estaciones</a> </li>
           <?php
-            if (isset($producto['id_producto'])) {
+            if (isset($estacion['id_estacion'])) {
           ?>
           <li> <a>Modificar</a> </li>
-          <li class="active"> <strong><?= $producto['nombre_producto'] ?></strong> </li>
+          <li class="active"> <strong><?= $estacion['nombre_estaciones'] ?></strong> </li>
           <?php
             }else{
           ?>
-          <li class="active"> <strong>Nuevo</strong> </li>
+          <li class="active"> <strong>Nueva</strong> </li>
           <?php
             }
           ?>
@@ -31,60 +31,65 @@
           <div class="col-lg-12">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                <h5>Detalles del producto</h5>
+                <h5>Detalles de la estacion</h5>
               </div>
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
-                  <form class="row" method="post" enctype="multipart/form-data" action="<?=base_url();?>producto/modificar/<?= isset($producto['id_producto'])?$producto['id_producto']:'-1'?>">
-                  	<input type="hidden" name="producto[id_producto]" value="<?= isset($producto['id_producto'])?$producto['id_producto']:'-1'?>">
-                  	<div class="col-md-7">
-                  		<div class="form-group col-md-12">
-                  			<label for="producto[nombre_producto]">Nombre producto</label>
-		                  	<input class="form-control" required id="producto[nombre_producto]" name="producto[nombre_producto]" placeholder="Nombre producto" type="text" value="<?= isset($producto['nombre_producto'])?$producto['nombre_producto']:''?>">
-		                  </div>
-		                <div class="form-group col-md-12">
-		                  	<label for="producto[estado]">Estado</label>
-		                  	<select class="form-control" required id="producto[estado]" name="producto[estado]">
+                  <form class="row" method="post" action="<?=base_url();?>estacion/modificar/<?= isset($estacion['id_estacion'])?$estacion['id_estacion']:'nueva'?>">
+                  	<input type="hidden" name="estacion[id_estacion]" value="<?= isset($estacion['id_estacion'])?$estacion['id_estacion']:'-1'?>">
+                  	<div class="form-group col-md-3">
+                        <label for="info[departamento]">Departamento</label>
+                        <select class="form-control departamento-asesores" data-ciudad-usuario="<?= $estacion['ciudad'] ?>" data-asesores="lista-asesores-departamento" required id="departamento-usuario-form">
+                          <option value="">Departamento</option>
                           <?php
-                            if (isset($producto['estado'])) {
+                            if ($departamentos != 0) {
+                              foreach ($departamentos as $departamento) {
                           ?>
-                          <option <?php echo ($producto['estado']==1) ? 'selected' : ''; ?> value="1">Activo</option>
-                          <option <?php echo ($producto['estado']==2) ? 'selected' : ''; ?> value="2">Inactivo</option>
-                          <option <?php echo ($producto['estado']==3) ? 'selected' : ''; ?> value="3">Eliminado</option>
+                                <option <?php echo ($estacion['departamento']==$departamento['id_departamento']) ? 'selected' : ''; ?> value="<?= $departamento['id_departamento'] ?>"><?= $departamento['nombre_departamento'] ?></option>
                           <?php
-                            }else{
-                          ?>
-                          <option value="1">Activo</option>
-                          <option value="2">Inactivo</option>
-                          <option value="3">Eliminado</option>
-                          <?php
+                              }
                             }
                           ?>
-		                    </select>
-		                </div>
-		                <div class="form-group col-md-6">
-                  			<label for="producto[precio]">Precio</label>
-		                  	<input class="form-control" required id="producto[precio]" name="producto[precio]" placeholder="Precio producto" type="number" value="<?= isset($producto['precio'])?$producto['precio']:''?>">
-		                </div>
-		                <div class="form-group col-md-6">
-                  			<label for="producto[comision]">Comisión</label>
-		                  	<input class="form-control" required id="producto[comision]" name="producto[comision]" placeholder="Comisión producto" type="number" value="<?= isset($producto['comision'])?$producto['comision']:''?>">
-		                </div>
-                  	</div>
-                  	
-                  	<div class="col-md-12"><hr></div>
-                  	<div class="col-md-5 col-md-offset-7">
-                  		<div class="col-md-6">
-                  			<button class="btn btn-block btn-success" type="submit">
-	                  			<i class="fa fa-<?= isset($producto['id_producto'])?'paste':'check'?>"></i> Guardar
-	                  		</button>
-                  		</div>
-                  		<div class="col-md-6">
-                  			<a href="<?=base_url()?>producto" class="btn btn-block btn-primary" type="button">
-                  				<i class="fa fa-times"></i> Cancelar
-                  			</a>
-                  		</div>
-                  	</div>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="info[ciudad]">Ciudad</label>
+                        <select data-estacion-estacion="<?= $estacion['id_estacion'] ?>" class="form-control" required id="ciudad-usuario-form" name="info[ciudad]">
+                          
+                        </select>
+                    </div>
+                      <div class="form-group col-md-3">
+                        <label for="info[nombre_estacion]">Nombre estación</label>
+                        <input class="form-control" required name="info[nombre_estaciones]" placeholder="Nombre de la estación" type="text" value="<?= $estacion['nombre_estaciones']?>">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="info[departamento]">Asesor</label>
+                        <select class="form-control lista-asesores-departamento" name="asesor" id="asesor-estacion-form">
+                          <option value="">Asesor</option>
+                          <?php
+                            if ($asesores != 0) {
+                              foreach ($asesores as $asesor) {
+                          ?>
+                                <option <?php echo ($estacion['usuario']==$asesor['id_usuario']) ? 'selected' : ''; ?> value="<?= $asesor['id_usuario'] ?>"><?= $asesor['nombre'] ?></option>
+                          <?php
+                              }
+                            }
+                          ?>
+                        </select>
+                    </div>
+                    <div class="col-md-12"><hr></div>
+                    <div class="col-md-5 col-md-offset-7">
+                      <div class="col-md-6">
+                        <button class="btn btn-block btn-success" type="submit">
+                          <i class="fa fa-<?= isset($estacion['id_estacion'])?'paste':'check'?>"></i> Guardar
+                        </button>
+                      </div>
+                      <div class="col-md-6">
+                        <a href="<?=base_url()?>estacion" class="btn btn-block btn-primary" type="button">
+                          <i class="fa fa-times"></i> Cancelar
+                        </a>
+                      </div>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -92,49 +97,16 @@
           </div>
         </div>
       </div>
-      <style type="text/css">
-      	.foto-contenedor{
-      		width: 100%;
-      		height: 250px;
-      		border: 2px dashed #29aba4;
-      		position: relative;
-      		border-radius: 50% !important;
-      		overflow: hidden;
-      		text-align: center;	
-      	}
-      	.foto-contenedor img{
-      		height: auto;
-		    width: 100%;
-		    margin: 0 auto;
-		    top: 50%;
-		    position: absolute;
-		    left: 0;
-		    transform: translateY(-50%);
-      	}
-      	.overview{
-      		height: 100%;
-      		width: 100%;
-      		position: absolute;
-      		background: rgba(41, 171, 164, 0.75);
-      		top: 0;
-      		left: 0;
-      		display: none;
-      		font-size: 4em;
-      		color: #fff;
-      	}
-      	.overview i, .overview input{
-      		position: absolute;
-      		top: 50%;
-      		left: 50%;
-      		transform: translate(-50%, -50%);
-      		cursor: pointer;
-      	}
-      	.overview input{
-      		opacity: 0;
-		    width: 100%;
-		    height: 100%;
-		    z-index: 99999999;
-      	}
-      </style>
-
+  <?php
+    if (isset($estacion['id_estacion'])) {
+  ?>
+      <script type="text/javascript">
+        setTimeout(function(){
+          obtenerAsesoresDepartamento(<?php echo $estacion['departamento'] ?>, '.lista-asesores-departamento', <?php echo $estacion['usuario'] ?>);
+          llenarSelectCiudad(<?php echo $estacion['departamento'] ?>, '#ciudad-usuario-form', <?php echo $estacion['ciudad'] ?>);
+        }, 500);
+      </script>
+  <?php
+    }
+  ?>
   <?php $this->load->view('includes/footer'); ?> 
