@@ -21,6 +21,9 @@ if (!function_exists('isLogin')) {
    if (!$CI->usuarios->validarTokenId($CI->session->userdata("token"), $CI->session->userdata("id_usuario"))) {
     responder(0, false, 'Acceso denegado');
    }
+   else{
+    return true;
+   }
    
  }
 }

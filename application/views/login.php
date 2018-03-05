@@ -5,7 +5,7 @@
     <div style="margin-bottom: 40px;">
       <img width="60%" src="<?= base_url() ?>resources/images/logo.png">
     </div>
-    <h3>Bienvenido a Petrolabs</h3>
+    <h3>Petrolabs de Colombia</h3>
     <p>Inicia sesion para continuar</p>
     <form class="top15">
       <div class="form-group">
@@ -15,7 +15,7 @@
         <input type="password" required="" placeholder="Password" id="password" name="password" class="form-control">
       </div>
       <div id="loginSubmit" class="btn green block full-width bottom15">Continuar</div>
-      <a href="forgot_password.html"><small>¿Olvidaste tu contraseña?</small></a>
+      <a href="<?= base_url() ?>auth/forgotpassword"><small>¿Olvidaste tu contraseña?</small></a>
     </form>
     <p class="top15"> <small>Petrolabs &copy; <?= Date('Y') ?></small> </p>
   </div>

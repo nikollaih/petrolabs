@@ -91,6 +91,28 @@
           </a>
         </li>
         <li class="heading">
+          <h3 class="uppercase">Estaciones</h3>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-toggle" href="javascript:;">
+            <i class="fa fa-building"></i>
+            <span class="title">Estaciones</span>
+            <span class="arrow"></span>
+          </a>
+          <ul class="sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="<?=base_url()?>estacion">
+                <span class="title">Listado</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?=base_url()?>estacion/obtener/nuevo">
+                <span class="title">Agregar</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="heading">
           <h3 class="uppercase">Comisiones</h3>
         </li>
         <li class="nav-item">

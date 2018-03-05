@@ -13,13 +13,15 @@ class Estaciones extends CI_Model{
 
 	function agregarEstacion($estacion){
 		$this->db->insert('estaciones', $estacion);
-		return $this->db->last_id();
+		return $this->obtenerEstacioneId($this->db->insert_id());
 	}
 
 	function obtenerEstaciones(){
 		$this->db->from('estaciones e');
 		$this->db->join('ciudades c', 'e.ciudad = c.id_ciudad');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->join('estaciones_asesor ea', 'e.id_estacion = ea.estacion', 'left');
+		$this->db->where('e.estado', 1);
 		$objEstaciones = $this->db->get();
 
 		if ($objEstaciones->num_rows() > 0) {
@@ -33,7 +35,27 @@ class Estaciones extends CI_Model{
 		$this->db->from('estaciones e');
 		$this->db->join('ciudades c', 'e.ciudad = c.id_ciudad');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->join('estaciones_asesor ea', 'e.id_estacion = ea.estacion', 'left');
+		$this->db->join('usuarios u', 'ea.usuario = u.id_usuario', 'left');
 		$this->db->where('e.ciudad', $id_ciudad);
+		$this->db->where('e.estado', 1);
+		$objEstaciones = $this->db->get();
+
+		if ($objEstaciones->num_rows() > 0) {
+			return $objEstaciones->result_array();
+		}else{
+			return 0;
+		}
+	}
+
+	function obtenerEstacionesDepartamento($id_departamento){
+		$this->db->from('estaciones e');
+		$this->db->join('ciudades c', 'e.ciudad = c.id_ciudad');
+		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->join('estaciones_asesor ea', 'e.id_estacion = ea.estacion', 'left');
+		$this->db->join('usuarios u', 'ea.usuario = u.id_usuario', 'left');
+		$this->db->where('d.id_departamento', $id_departamento);
+		$this->db->where('e.estado', 1);
 		$objEstaciones = $this->db->get();
 
 		if ($objEstaciones->num_rows() > 0) {
@@ -47,7 +69,9 @@ class Estaciones extends CI_Model{
 		$this->db->from('estaciones e');
 		$this->db->join('ciudades c', 'e.ciudad = c.id_ciudad');
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->join('estaciones_asesor ea', 'e.id_estacion = ea.estacion', 'left');
 		$this->db->where('id_estacion', $id_estacion);
+		$this->db->where('e.estado', 1);
 		$objEstacion = $this->db->get();
 
 		if ($objEstacion->num_rows() > 0) {
@@ -89,6 +113,7 @@ class Estaciones extends CI_Model{
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
 		$this->db->join('estaciones_asesor ea', 'e.id_estacion = ea.estacion');
 		$this->db->where('ea.usuario', $id_usuario);
+		$this->db->where('e.estado', 1);
 		$objEstaciones = $this->db->get();
 
 		if ($objEstaciones->num_rows() > 0) {
