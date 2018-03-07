@@ -33,7 +33,7 @@
                 <div class="widgets-container">
                   <div class="row">
                     <div class="form-group col-md-2 col-md-offset-3" style="margin-bottom: 0;">
-                      <select class="form-control" onchange="setItemSelect('ciudad-usuario-form', 'Ciudad'); cargarFiltro(this, 'Departamento'); validarSelect('departamento-usuario-form', $('#departamento-usuario-form').val(), this);" required id="departamento-usuario-form" data-ciudad-usuario="0" name="filtro[departamento]">
+                      <select class="form-control" required id="departamento-usuario-form">
                         <option value="0">Departamento</option>
                         <?php 
                           if ($departamentos != 0) {
@@ -43,16 +43,16 @@
                         <?php
                             }
                           }
-                        ?>
+                        ?>  
                       </select>
                     </div>
                     <div class="form-group col-md-2" style="margin-bottom: 0;">
-                      <select class="form-control" onchange="setItemSelect('estacion-usuario-form', 'Estación'); cargarFiltro(this, 'Ciudad'); validarSelect('ciudad-usuario-form', $('#ciudad-usuario-form').val(), this);" required id="ciudad-usuario-form" data-estacion-usuario="0" name="filtro[ciudad]">
+                      <select class=" form-control" required id="ciudad">
                         <option value="0">Ciudad</option>
                       </select>
                     </div>
                     <div class="form-group col-md-2" style="margin-bottom: 0;">
-                      <select class="form-control" onchange="setItemSelect('islero-usuario-form', 'Islero'); cargarFiltro(this, 'Estacion'); validarSelect('estacion-usuario-form', $('#estacion-usuario-form').val(), this);" required id="estacion-usuario-form" data-islero="0" name="filtro[estacion]">
+                      <select class=" form-control" required id="estacion">
                         <option value="0">Estación</option>
                       </select>
                     </div>
@@ -66,18 +66,24 @@
                           <th style="width: 50px !important;">
                             <input type="checkbox"></input>
                           </th>
-                          <th style="width: 450px !important;">Nombre</th>
+                          <th style="width: 350px !important;">Nombre</th>
+                          <th style="width: 200px !important;" class="align-center">Tipo incentivo</th>
                           <th class="align-center">Comisión generada</th>
                           <th class="align-center">Opciones</th>
                         </tr>
                       </thead>
                       <tbody id="body-tabla-ventas">
-                        <tr>
+                        <?php
+                          if ($comisiones != 0) {
+                            foreach ($comisiones as $comision) {
+                        ?>
+                        <tr id="comision_<?=$comision['id']?>">
                           <td class="align-center">
                             <input type="checkbox"></input>
                           </td>
-                          <td>Quindío</td>
-                          <td class="align-center">$2.500.000</td>
+                          <td><?=$comision['nombre']?></td>
+                          <td><?=$comision['incentivo']?></td>
+                          <td class="align-center">$<?= number_format($comision['comision'],0,'.',',') ?></td>
                           <td class="align-center">
                             <a title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button">
                               <i class="fa fa-eye"></i>
@@ -88,7 +94,12 @@
                               Liquidar
                             </a>
                           </td>
-                        </tr>
+                        </tr> 
+                        <?php
+                            }
+                          }
+                        ?>
+                        
                       </tbody>
                     </table>
                   </div>
@@ -123,15 +134,19 @@
             $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
             $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
             $('#ciudad-usuario-form').html('<option selected value="0">Ciudad</option>');
-            cargarFiltro(element, 'Departamento');
+            cargarComisiones(element, 'Departamento');
           }else if(select == 'ciudad-usuario-form' && valor == 0){
             $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
             $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
-            cargarFiltro(element, 'Ciudad');
+            cargarComisiones(element, 'Ciudad');
           }else if(select == 'estacion-usuario-form' && valor == 0){
             $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
-            cargarFiltro(element, 'Estacion');
+            cargarComisiones(element, 'Estacion');
           }
         }
+
+        function cargarComisiones(element, tipo){
+          alert(tipo);
+        } 
       </script>
   <?php $this->load->view('includes/footer'); ?> 
