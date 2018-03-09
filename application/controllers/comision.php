@@ -23,14 +23,16 @@ class Comision extends CI_Controller {
 	function filtro($tipo, $codigo){
 		isLogin();
 		$datos['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
+		$fechaInicial = $this->input->post('inicio');
+		$fechaFinal = $this->input->post('fin');
 		if ($tipo == 'Estacion') {
-			$datos['comisiones'] = $this->comisiones->obtenerComisionesFiltro(date('Y-m-d'),date('Y-m-d'),0,0,$codigo);
+			$datos['comisiones'] = $this->comisiones->obtenerComisionesFiltro($fechaInicial,$fechaFinal,0,0,$codigo);
 		}
 		if ($tipo == 'Ciudad') {
-			$datos['comisiones'] = $this->comisiones->obtenerComisionesFiltro(date('Y-m-d'),date('Y-m-d'),0,$codigo,0);
+			$datos['comisiones'] = $this->comisiones->obtenerComisionesFiltro($fechaInicial,$fechaFinal,0,$codigo,0);
 		}
 		if ($tipo == 'Departamento') {
-			$datos['comisiones'] = $this->comisiones->obtenerComisionesFiltro(date('Y-m-d'),date('Y-m-d'),$codigo,0,0);
+			$datos['comisiones'] = $this->comisiones->obtenerComisionesFiltro($fechaInicial,$fechaFinal,$codigo,0,0);
 		}
 		responder($datos['comisiones'], true, 'Estacion asosiada al asesor');
 	}

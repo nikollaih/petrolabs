@@ -22,18 +22,18 @@
                 <h5 style="margin-top: 21px; font-size: 1.3em;">Lista de comisiones</h5>
                 <div class="form-group col-md-4" style="margin-bottom: 0; float: right;">
                   <label>Fecha final</label>
-                  <input type="date" class="form-control" name="filtro[fecha_final]">
+                  <input type="date" class="form-control" id="fecha_fin" name="filtro[fecha_final]">
                 </div>
                 <div class="form-group col-md-4" style="margin-bottom: 0; float: right;">
                   <label>Fecha inicial</label>
-                  <input type="date" class="form-control" name="filtro[fecha_inicial]">
+                  <input type="date" class="form-control" id="fecha_inicial" name="filtro[fecha_inicial]">
                 </div>
               </div>
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
                   <div class="row">
                     <div class="form-group col-md-2 col-md-offset-3" style="margin-bottom: 0;">
-                      <select class="form-control" required id="departamento-usuario-form" onchange="validarSelectComisiones('departamento-usuario-form', $(this).val()); aplicarFiltro(this, 'Departamento');">
+                      <select class="form-control" required id="departamento-usuario-form" onchange="validarSelectComisiones('departamento-usuario-form', $(this).val()); aplicarFiltro('departamento-usuario-form', 'Departamento');">
                         <option value="0">Departamento</option>
                         <?php 
                           if ($departamentos != 0) {
@@ -47,12 +47,12 @@
                       </select>
                     </div>
                     <div class="form-group col-md-2" style="margin-bottom: 0;">
-                      <select class=" form-control" required id="ciudad" onchange="validarSelectComisiones('ciudad', $(this).val()); aplicarFiltro(this, 'Ciudad');">
+                      <select class=" form-control" required id="ciudad" onchange="validarSelectComisiones('ciudad', $(this).val()); aplicarFiltro('ciudad', 'Ciudad');">
                         <option value="0">Ciudad</option>
                       </select>
                     </div>
                     <div class="form-group col-md-2" style="margin-bottom: 0;">
-                      <select class=" form-control" required id="estacion" onchange="validarSelectComisiones('estacion', $(this).val()); aplicarFiltro(this, 'Estacion');">
+                      <select class=" form-control" required id="estacion" onchange="validarSelectComisiones('estacion', $(this).val()); aplicarFiltro('estacion', 'Estacion');">
                         <option value="0">Estación</option>
                       </select>
                     </div>

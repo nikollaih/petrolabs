@@ -101,45 +101,62 @@ function llenarSelectEstacion(ciudad, elemento){
 }
 
 function aplicarFiltro(element, tipo){
-  var idElement = $(element).val();
-  if (idElement != 0) {
-	  $.ajax({
-	    method: 'post',
-	    url: base_url+"comision/filtro/"+tipo+'/'+idElement,
-	    data:{},
-	    success: function (response) {
-	    	console.log(response);
-	        var datos = eval(JSON.parse(response));
-	        tabla.clear().draw();
-	        if (datos['objeto'] != 0) {
-	          for (var i = 0; i < datos['objeto'].length; i++) {
-	            comision = datos['objeto'][i];
-	            var check = '<input type="checkbox"></input>';
-	            var opciones = '<a style="margin-right:3px;" title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button"><i class="fa fa-eye"></i> Detalles</a><a class="btn blue btn-mini" type="button"><i class="fa fa-money"></i> Liquidar</a>';
-	            tabla
-	            .row
-	            .add([check, comision['nombre'], comision['incentivo'], '$'+numberFormat(comision['comision']), opciones])
-	            .draw()
-	            .node();
-	          }
+	var fechaInicial = $('#fecha_inicial').val();
+	if (fechaInicial == null || fechaInicial == '') {
+		fechaInicial = new Date(1901,01,01);
+	}
+	var fechaFin = $('#fecha_fin').val();
+	if (fechaFin == null || fechaFin == '') {
+		fechaFin = new Date();
+	}
+  	var idElement = $('#'+element).val();
+  	if (idElement != 0) {
+	  	$.ajax({
+		    method: 'post',
+		    url: base_url+"comision/filtro/"+tipo+'/'+idElement,
+		    data:{
+		    	inicio: fechaInicial,
+		    	fin: fechaFin
+		    },
+		    success: function (response) {
+		    	console.log(response);
+		        var datos = eval(JSON.parse(response));
+		        tabla.clear().draw();
+		        if (datos['objeto'] != 0) {
+		          for (var i = 0; i < datos['objeto'].length; i++) {
+		            comision = datos['objeto'][i];
+		            var check = '<input type="checkbox"></input>';
+		            var opciones = '<a style="margin-right:3px;" title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button"><i class="fa fa-eye"></i> Detalles</a><a class="btn blue btn-mini" type="button"><i class="fa fa-money"></i> Liquidar</a>';
+		            tabla
+		            .row
+		            .add([check, comision['nombre'], comision['incentivo'], '$'+numberFormat(comision['comision']), opciones])
+		            .draw()
+		            .node();
+		          }
 
-	        }
-	    },
-	    error: function (e) {
-	        console.log(e);
-	    }
-	  }); 
+		        }
+		    },
+		    error: function (e) {
+		        console.log(e);
+		    }
+	  	}); 
 	}else if(idElement == 0 && tipo == 'Departamento'){
 		location.reload();
-	} 
+	}
 }
+
 function validarSelectComisiones(select, valor) {
   if (select == 'departamento-usuario-form' && valor == 0) {
-    $('#estacion').html('<option selected value="">Estación</option>');
+    $('#estacion').html('<option selected value="0">Estación</option>');
     $('#ciudad').html('<option selected value="">Ciudad</option>');
     //LLamado a la funcion
+    location.reload();
   }else if(select == 'ciudad' && valor == 0){
-    $('#estacion').html('<option selected value="">Estación</option>');
+    $('#estacion').html('<option selected value="0">Estación</option>');
     //Llamado a la duncion
+    aplicarFiltro('departamento-usuario-form', 'Departamento');
+  }else if(select == 'estacion' && valor == 0){
+    //Llamado a la duncion
+    aplicarFiltro('ciudad', 'Ciudad');
   }
 }

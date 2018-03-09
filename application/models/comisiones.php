@@ -94,6 +94,8 @@ class Comisiones extends CI_Model{
 				}
 				$this->db->where('i.tipo_incentivo', $incentivo['id_tipo']);
 				$this->db->where('v.fecha_pago', 0);
+				$this->db->where('v.fecha >=', $fechaInicial);
+				$this->db->where('v.fecha <=', $fechaFinal);
 				$this->db->group_by($group);
 
 				$comisiones = $this->db->get();
