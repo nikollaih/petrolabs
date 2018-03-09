@@ -33,7 +33,7 @@
                 <div class="widgets-container">
                   <div class="row">
                     <div class="form-group col-md-2 col-md-offset-3" style="margin-bottom: 0;">
-                      <select class="form-control" required id="departamento-usuario-form">
+                      <select class="form-control" required id="departamento-usuario-form" onchange="validarSelectComisiones('departamento-usuario-form', $(this).val()); aplicarFiltro(this, 'Departamento');">
                         <option value="0">Departamento</option>
                         <?php 
                           if ($departamentos != 0) {
@@ -47,12 +47,12 @@
                       </select>
                     </div>
                     <div class="form-group col-md-2" style="margin-bottom: 0;">
-                      <select class=" form-control" required id="ciudad">
+                      <select class=" form-control" required id="ciudad" onchange="validarSelectComisiones('ciudad', $(this).val()); aplicarFiltro(this, 'Ciudad');">
                         <option value="0">Ciudad</option>
                       </select>
                     </div>
                     <div class="form-group col-md-2" style="margin-bottom: 0;">
-                      <select class=" form-control" required id="estacion">
+                      <select class=" form-control" required id="estacion" onchange="validarSelectComisiones('estacion', $(this).val()); aplicarFiltro(this, 'Estacion');">
                         <option value="0">Estación</option>
                       </select>
                     </div>
@@ -128,25 +128,5 @@
         }
       </style>
       <script type="text/javascript" src="<?=base_url();?>resources/js/ventas.js"></script>
-      <script type="text/javascript">
-        function validarSelect(select, valor, element) {
-          if (select == 'departamento-usuario-form') {
-            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
-            $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
-            $('#ciudad-usuario-form').html('<option selected value="0">Ciudad</option>');
-            cargarComisiones(element, 'Departamento');
-          }else if(select == 'ciudad-usuario-form' && valor == 0){
-            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
-            $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
-            cargarComisiones(element, 'Ciudad');
-          }else if(select == 'estacion-usuario-form' && valor == 0){
-            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
-            cargarComisiones(element, 'Estacion');
-          }
-        }
-
-        function cargarComisiones(element, tipo){
-          alert(tipo);
-        } 
-      </script>
+      <script type="text/javascript" src="<?=base_url();?>resources/js/comisiones.js"></script>
   <?php $this->load->view('includes/footer'); ?> 

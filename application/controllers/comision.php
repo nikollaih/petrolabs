@@ -32,6 +32,6 @@ class Comision extends CI_Controller {
 		if ($tipo == 'Departamento') {
 			$datos['comisiones'] = $this->comisiones->obtenerComisionesFiltro(date('Y-m-d'),date('Y-m-d'),$codigo,0,0);
 		}
-		$this->load->view('liquidar_comisiones',$datos);
+		responder($datos['comisiones'], true, 'Estacion asosiada al asesor');
 	}
 }

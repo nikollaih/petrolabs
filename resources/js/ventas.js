@@ -57,3 +57,19 @@ function cargarFiltro(element, tipo){
     }
   });  
 }
+
+function validarSelect(select, valor, element) {
+  if (select == 'departamento-usuario-form') {
+    $('#islero-usuario-form').html('<option selected value="">Islero</option>');
+    $('#estacion-usuario-form').html('<option selected value="">Estación</option>');
+    $('#ciudad-usuario-form').html('<option selected value="">Ciudad</option>');
+    cargarComisiones(element, 'Departamento');
+  }else if(select == 'ciudad-usuario-form' && valor == undefined){
+    $('#islero-usuario-form').html('<option selected value="">Islero</option>');
+    $('#estacion-usuario-form').html('<option selected value="">Estación</option>');
+    cargarComisiones(element, 'Ciudad');
+  }else if(select == 'estacion-usuario-form' && valor == undefined){
+    $('#islero-usuario-form').html('<option selected value="">Islero</option>');
+    cargarComisiones(element, 'Estacion');
+  }
+}
