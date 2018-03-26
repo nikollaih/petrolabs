@@ -1,6 +1,6 @@
 <!-- Start page sidebar wrapper -->
   <div class="page-sidebar-wrapper">
-    <div class="page-sidebar">
+    <div class="page-sidebar" style="background-color: #30404f;">
       <ul class="page-sidebar-menu  page-header-fixed ">
         <li class="heading">
           <h3 class="uppercase">Usuarios</h3>

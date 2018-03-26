@@ -22,11 +22,11 @@
                 <h5 style="margin-top: 21px; font-size: 1.3em;">Lista de comisiones</h5>
                 <div class="form-group col-md-4" style="margin-bottom: 0; float: right;">
                   <label>Fecha final</label>
-                  <input type="date" class="form-control" id="fecha_fin" name="filtro[fecha_final]">
+                  <input type="date" class="form-control" id="fecha_fin" name="filtro[fecha_final]" value="<?=date('Y-m-d')?>">
                 </div>
                 <div class="form-group col-md-4" style="margin-bottom: 0; float: right;">
                   <label>Fecha inicial</label>
-                  <input type="date" class="form-control" id="fecha_inicial" name="filtro[fecha_inicial]">
+                  <input type="date" class="form-control" id="fecha_inicial" name="filtro[fecha_inicial]" value="<?=date('Y');?>-01-01">
                 </div>
               </div>
               <div class="ibox-content collapse in">
@@ -64,7 +64,7 @@
                       <thead class="align-center">
                         <tr>
                           <th style="width: 50px !important;">
-                            <input type="checkbox"></input>
+                            <input id="selectAll" type="checkbox"></input>
                           </th>
                           <th style="width: 350px !important;">Nombre</th>
                           <th style="width: 200px !important;" class="align-center">Tipo incentivo</th>
@@ -89,7 +89,7 @@
                               <i class="fa fa-eye"></i>
                               Detalles
                             </a>
-                            <a class="btn blue btn-mini" type="button">
+                            <a class="btn blue btn-mini" type="button" onclick="liquidar(<?=$comision['id']?>);">
                               <i class="fa fa-money"></i>
                               Liquidar
                             </a>

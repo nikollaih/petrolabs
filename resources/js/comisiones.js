@@ -125,8 +125,10 @@ function aplicarFiltro(element, tipo){
 		        if (datos['objeto'] != 0) {
 		          for (var i = 0; i < datos['objeto'].length; i++) {
 		            comision = datos['objeto'][i];
+		            console.log(comision);
 		            var check = '<input type="checkbox"></input>';
-		            var opciones = '<a style="margin-right:3px;" title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button"><i class="fa fa-eye"></i> Detalles</a><a class="btn blue btn-mini" type="button"><i class="fa fa-money"></i> Liquidar</a>';
+		            /*<a style="margin-right:3px;" title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button"><i class="fa fa-eye"></i> Detalles</a>*/
+		            var opciones = '<a href="venta/liquidar/'+comision['id_incentivo']+'/0/0/0/0" class="btn blue btn-mini" type="button"><i class="fa fa-money"></i> Liquidar</a>';
 		            tabla
 		            .row
 		            .add([check, comision['nombre'], comision['incentivo'], '$'+numberFormat(comision['comision']), opciones])
@@ -160,3 +162,8 @@ function validarSelectComisiones(select, valor) {
     aplicarFiltro('ciudad', 'Ciudad');
   }
 }
+
+$('#selectAll').click(function(e){
+    var table= $(e.target).closest('table');
+    $('tr td input:checkbox',table).prop('checked',this.checked);
+});

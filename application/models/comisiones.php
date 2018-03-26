@@ -15,6 +15,7 @@ class Comisiones extends CI_Model{
 	 */
 	function obtenerComisionesGeneral(){
 		$incentivos = $this->obtenerTiposIncentivos();
+		$fechaInicial = date('Y').'-01-01';
 		$ventas = array();
 		if ($incentivos != 0) {
 			foreach ($incentivos as $incentivo) {
@@ -26,6 +27,8 @@ class Comisiones extends CI_Model{
 				$this->db->join('departamentos d', 'd.id_departamento = c.departamento','RIGHT');
 				$this->db->where('i.tipo_incentivo', $incentivo['id_tipo']);
 				$this->db->where('v.fecha_pago', 0);
+				$this->db->where('v.fecha >=', $fechaInicial);
+				$this->db->where('v.fecha <=', date('Y-m-d'));
 				$this->db->group_by('d.id_departamento');
 				$this->db->order_by('nombre', 'asc');
 
@@ -106,6 +109,7 @@ class Comisiones extends CI_Model{
 						$datos['id'] = $comision['id'];
 						$datos['nombre'] = $comision['nombre'];
 						$datos['incentivo'] = $incentivo['descripcion'];
+						$datos['id_incentivo'] = $incentivo['id_tipo'];
 						$datos['comision'] = $comision['comision'];
 						array_push($ventas, $datos);
 					}

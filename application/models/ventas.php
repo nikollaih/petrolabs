@@ -70,6 +70,55 @@ class Ventas extends CI_Model{
 		}
 	}
 
+	function obtenerVentasLiquidar($incentivo=0, $islero=0, $estacion=0, $ciudad=0, $departamento=0){
+		$this->db->select('v.id_venta');
+		$this->db->from('ventas v');
+		$this->db->join('Isleros i', 'i.id_islero = v.islero');
+		$whereCampo = '';
+		$whereValor = '';
+
+		if ($islero != 0) {
+			$whereCampo = 'i.id_islero';
+			$whereValor = $islero;
+		}
+		if ($estacion != 0) {
+			$whereCampo = 'i.estacion';
+			$whereValor = $estacion;
+		}
+		if ($ciudad != 0) {
+			$this->db->join('estaciones e', 'e.id_estacion = i.estacion');
+			$whereCampo = 'e.ciudad';
+			$whereValor = $ciudad;
+		}
+		if ($departamento != 0) {
+			$this->db->join('estaciones e', 'e.id_estacion = i.estacion');
+			$this->db->join('ciudades c', 'c.id_ciudad = e.ciudad');
+			$whereCampo = 'c.departamento';
+			$whereValor = $departamento;
+		}
+		$this->db->where('v.fecha_pago', 0);
+		if ($incentivo != 0) {
+			$this->db->where('i.tipo_incentivo', $incentivo);	
+		}
+		if ($whereCampo != '' && $whereValor != '') {
+			$this->db->where($whereCampo, $whereValor);	
+		}
+
+		$ventas = $this->db->get();
+		
+		if ($ventas->num_rows() > 0) {
+			return $ventas->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
+	function modificarVenta($venta, $id_venta){
+		$this->db->where('id_venta', $id_venta);
+		return $this->db->update('ventas', $venta);
+	}
+
 	function obtenerVentaId($id_venta){
 		$this->db->from('ventas v');
 		$this->db->join('Isleros i', 'v.islero = i.id_islero');

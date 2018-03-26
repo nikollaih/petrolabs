@@ -61,4 +61,20 @@ class Venta extends CI_Controller {
 			responder(0, false, 'Error al intentar registrar la venta');
 		}
 	}
+
+	function liquidar($incentivo=0, $islero=0, $estacion=0, $ciudad=0, $departamento=0){
+		//isLogin();
+		$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, $islero, $estacion, $ciudad, $departamento);
+		$ventasLiquidadas = array();
+		if ($ventas != 0) {
+			foreach ($ventas as $venta) {
+				$datos['fecha_pago'] = date('Y-m-d');
+				if($this->ventas->modificarVenta($datos, $venta['id_venta'])){
+					array_push($ventasLiquidadas, $venta);
+				}
+			}
+		}
+		//responder($ventasLiquidadas, true, 'Ventas liquidadas correctamente');
+		
+	}
 }
