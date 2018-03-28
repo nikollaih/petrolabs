@@ -1,7 +1,9 @@
 $(document).on('change', '#departamento-usuario-form', function(){
 	llenarSelectCiudad($(this).val(), '#ciudad');
 });
-
+$(document).on('change', '#departamento-liquidada', function(){
+	llenarSelectCiudad($(this).val(), '#ciudad-liquidada');
+});
 /**
  * [obtenerCiudadesDepartamento description]
  * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
@@ -52,6 +54,9 @@ function llenarSelectCiudad(departamento, elemento){
 $(document).on('change', '#ciudad', function(){
 	llenarSelectEstacion($(this).val(), '#estacion');
 });
+$(document).on('change', '#ciudad-liquidada', function(){
+	llenarSelectEstacion($(this).val(), '#estacion-liquidada');
+});
 
 /**
  * [obtenerEstacionesCiudad description]
@@ -79,6 +84,29 @@ function obtenerEstacionesCiudad(id_ciudad){
     return estaciones;
 }
 
+function liquidarComisiones(incentivo, tipo, valor, elemento){
+	$.ajax({
+		method: 'post',
+        url: base_url+"venta/liquidar/" + incentivo+'/'+tipo+'/'+valor,
+        data:{},
+        async: false,
+        success: function (response) {
+        	respuesta = eval(JSON.parse(response));
+        	if (respuesta['estado']) {
+        		var ventas = respuesta['objeto'];
+        		swal('Comisiones liquidadas', 'Se liquidaron '+ventas.length+' venta(s).', 'success');
+        		filaEliminar = $(elemento).parent('td').parent('tr');
+        		tabla.row(filaEliminar).remove().draw();
+        	}else{
+        		swal('Error!', 'No se obtuvo ventas que liquidar', 'error');
+        	}
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
 /**
  * [llenarSelectEstacion description]
  * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
@@ -100,7 +128,17 @@ function llenarSelectEstacion(ciudad, elemento){
 	$(elemento).html(estaciones_DOM);
 }
 
-function aplicarFiltro(element, tipo){
+function aplicarFiltro(element, tipo, estado){
+	var infoEstado = 0;
+	if (!estado) {
+		infoEstado = 1;
+	}
+	var tipoLiquidar = 'Ciudad';
+	if (tipo=='Ciudad') {
+		tipoLiquidar = 'Estacion';
+	}else if (tipo=='Estacion') {
+		tipoLiquidar='Islero';
+	}
 	var fechaInicial = $('#fecha_inicial').val();
 	if (fechaInicial == null || fechaInicial == '') {
 		fechaInicial = new Date(1901,01,01);
@@ -113,13 +151,12 @@ function aplicarFiltro(element, tipo){
   	if (idElement != 0) {
 	  	$.ajax({
 		    method: 'post',
-		    url: base_url+"comision/filtro/"+tipo+'/'+idElement,
+		    url: base_url+"comision/filtro/"+tipo+'/'+idElement+'/'+infoEstado,
 		    data:{
 		    	inicio: fechaInicial,
 		    	fin: fechaFin
 		    },
 		    success: function (response) {
-		    	console.log(response);
 		        var datos = eval(JSON.parse(response));
 		        tabla.clear().draw();
 		        if (datos['objeto'] != 0) {
@@ -128,7 +165,7 @@ function aplicarFiltro(element, tipo){
 		            console.log(comision);
 		            var check = '<input type="checkbox"></input>';
 		            /*<a style="margin-right:3px;" title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button"><i class="fa fa-eye"></i> Detalles</a>*/
-		            var opciones = '<a href="venta/liquidar/'+comision['id_incentivo']+'/0/0/0/0" class="btn blue btn-mini" type="button"><i class="fa fa-money"></i> Liquidar</a>';
+		            var opciones = '<a class="btn blue btn-mini" type="button" onclick="liquidarComisiones('+comision['id_incentivo']+', `'+tipoLiquidar+'`, '+comision['id']+',this);"><i class="fa fa-money"></i> Liquidar</a>';
 		            tabla
 		            .row
 		            .add([check, comision['nombre'], comision['incentivo'], '$'+numberFormat(comision['comision']), opciones])
@@ -163,6 +200,21 @@ function validarSelectComisiones(select, valor) {
   }
 }
 
+function validarSelectComisionesLiquidadas(select, valor) {
+  if (select == 'departamento-liquidada' && valor == 0) {
+    $('#estacion-liquidada').html('<option selected value="0">Estación</option>');
+    $('#ciudad-liquidada').html('<option selected value="0">Ciudad</option>');
+    //LLamado a la funcion
+    location.reload();
+  }else if(select == 'ciudad-liquidada' && valor == 0){
+    $('#estacion-liquidada').html('<option selected value="0">Estación</option>');
+    //Llamado a la funcion
+    aplicarFiltro('departamento-liquidada', 'Departamento');
+  }else if(select == 'estacion-liquidada' && valor == 0){
+    //Llamado a la funcion
+    aplicarFiltro('ciudad-liquidada', 'Ciudad');
+  }
+}
 $('#selectAll').click(function(e){
     var table= $(e.target).closest('table');
     $('tr td input:checkbox',table).prop('checked',this.checked);

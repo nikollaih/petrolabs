@@ -13,7 +13,7 @@ class Comisiones extends CI_Model{
 	 * @author German Donoso <germanedt@gmail.com>
 	 * @return [type] [description]
 	 */
-	function obtenerComisionesGeneral(){
+	function obtenerComisionesGeneral($estadoComision){
 		$incentivos = $this->obtenerTiposIncentivos();
 		$fechaInicial = date('Y').'-01-01';
 		$ventas = array();
@@ -26,7 +26,9 @@ class Comisiones extends CI_Model{
 				$this->db->join('ciudades c', 'c.id_ciudad = e.ciudad','RIGHT');
 				$this->db->join('departamentos d', 'd.id_departamento = c.departamento','RIGHT');
 				$this->db->where('i.tipo_incentivo', $incentivo['id_tipo']);
-				$this->db->where('v.fecha_pago', 0);
+				if ($estadoComision) {
+					$this->db->where('v.fecha_pago', 0);
+				}
 				$this->db->where('v.fecha >=', $fechaInicial);
 				$this->db->where('v.fecha <=', date('Y-m-d'));
 				$this->db->group_by('d.id_departamento');
@@ -40,6 +42,7 @@ class Comisiones extends CI_Model{
 						$datos['id'] = $comision['id'];
 						$datos['nombre'] = $comision['nombre'];
 						$datos['incentivo'] = $incentivo['descripcion'];
+						$datos['id_incentivo'] = $incentivo['id_tipo'];
 						$datos['comision'] = $comision['comision'];
 						array_push($ventas, $datos);
 					}
@@ -68,7 +71,7 @@ class Comisiones extends CI_Model{
 	--AND c.departamento = 1
 	--GROUP BY c.id_ciudad
 	 */
-	function obtenerComisionesFiltro($fechaInicial, $fechaFinal, $departamento = 0, $ciudad = 0, $estacion = 0){
+	function obtenerComisionesFiltro($fechaInicial, $fechaFinal, $departamento = 0, $ciudad = 0, $estacion = 0, $estado){
 		$incentivos = $this->obtenerTiposIncentivos();
 		$ventas = array();
 		if ($incentivos != 0) {
@@ -96,7 +99,9 @@ class Comisiones extends CI_Model{
 					$group = 'c.id_ciudad'; 
 				}
 				$this->db->where('i.tipo_incentivo', $incentivo['id_tipo']);
-				$this->db->where('v.fecha_pago', 0);
+				if ($estado) {
+					$this->db->where('v.fecha_pago', 0);
+				}
 				$this->db->where('v.fecha >=', $fechaInicial);
 				$this->db->where('v.fecha <=', $fechaFinal);
 				$this->db->group_by($group);

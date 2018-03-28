@@ -121,6 +121,12 @@
             <span class="title">Liquidar comisiones</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?=base_url()?>comision/liquidadas">
+            <i class="fa fa-archive"></i>
+            <span class="title">Comiciones liquidadas</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

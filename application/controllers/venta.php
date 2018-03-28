@@ -62,9 +62,18 @@ class Venta extends CI_Controller {
 		}
 	}
 
-	function liquidar($incentivo=0, $islero=0, $estacion=0, $ciudad=0, $departamento=0){
+	function liquidar($incentivo=0, $tipo, $codigo){
 		//isLogin();
-		$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, $islero, $estacion, $ciudad, $departamento);
+		$ventas = 0;
+		if ($tipo=='Departamento') {
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, 0, 0, $codigo);
+		}else if ($tipo=='Ciudad') {
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, 0, $codigo, 0);
+		}else if ($tipo=='Estacion') {
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, $codigo, 0, 0);
+		}else if ($tipo=='Islero') {
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, $codigo, 0, 0, 0);
+		}
 		$ventasLiquidadas = array();
 		if ($ventas != 0) {
 			foreach ($ventas as $venta) {
@@ -74,7 +83,12 @@ class Venta extends CI_Controller {
 				}
 			}
 		}
-		//responder($ventasLiquidadas, true, 'Ventas liquidadas correctamente');
+		if (count($ventasLiquidadas)!=0) {
+			responder($ventasLiquidadas, true, 'Ventas liquidadas correctamente');	
+		}else{
+			responder(0, false, 'Error liquidando');
+		}
+		
 		
 	}
 }
