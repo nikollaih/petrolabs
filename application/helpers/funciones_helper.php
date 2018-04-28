@@ -19,7 +19,8 @@ if (!function_exists('isLogin')) {
    $CI->load->model("usuarios");
    
    if (!$CI->usuarios->validarTokenId($CI->session->userdata("token"), $CI->session->userdata("id_usuario"))) {
-    responder(0, false, 'Acceso denegado');
+    //responder(0, false, 'Acceso denegado');
+    redirect(base_url().'auth');
    }
    else{
     return true;
@@ -54,7 +55,7 @@ if (!function_exists('tipoUsuarioConectado')) {
  function tipoUsuarioConectado(){
    $CI = & get_instance();  //get instance, access the CI superobject
    $CI->load->library("session");
-   return trim($CI->session->userdata("tipo"));
+   return trim($CI->session->userdata("rol"));
  }
 }
 /**
@@ -69,7 +70,26 @@ if (!function_exists('getUsuarioConectado')) {
    $id= trim($CI->session->userdata("id_usuario"));
    //echo ($id);
    $CI->load->model("usuarios");
-   return $CI->usuarios->buscarUsuarioPorId($id);
+   return $CI->usuarios->obtenerUsuario($id);
+ }
+}
+
+// Define si el usuario conectado tiene permisos para realizar una accion
+if (!function_exists('permisos')) {
+ function permisos($roles){
+   $estado = false;
+
+   if (count($roles) > 0) {
+      for ($i=0; $i <= (count($roles) - 1); $i++) { 
+        if ($roles[$i] == tipoUsuarioConectado()) {
+          $estado = true;
+        }
+      }
+   }
+
+   if (!$estado) {
+     redirect(base_url().'producto');
+   }
  }
 }
 

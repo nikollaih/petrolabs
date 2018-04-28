@@ -44,9 +44,22 @@
                           <?php
                             if ($departamentos != 0) {
                               foreach ($departamentos as $departamento) {
+                                if (tipoUsuarioConectado() == 2) {
+                                  $dptos = unserialize(getUsuarioConectado()['dptos']);
+                                  $selected = '';
+                                  for ($i=0; $i < count($dptos); $i++) { 
+                                    if ($departamento['id_departamento'] == $dptos[$i]) {
                           ?>
-                                <option <?php echo ($estacion['departamento']==$departamento['id_departamento']) ? 'selected' : ''; ?> value="<?= $departamento['id_departamento'] ?>"><?= $departamento['nombre_departamento'] ?></option>
+                                      <option value="<?= $departamento['id_departamento'] ?>"><?= $departamento['nombre_departamento'] ?></option>
                           <?php
+                                    }
+                                  }  
+                                }
+                                else if(tipoUsuarioConectado() == 1){
+                          ?>
+                                  <option <?php echo ($estacion['departamento']==$departamento['id_departamento']) ? 'selected' : ''; ?> value="<?= $departamento['id_departamento'] ?>"><?= $departamento['nombre_departamento'] ?></option>
+                          <?php
+                                }
                               }
                             }
                           ?>

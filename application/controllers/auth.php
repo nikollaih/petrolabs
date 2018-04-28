@@ -32,11 +32,15 @@ class Auth extends CI_Controller {
 			$data['token'] = generarToken();
 			$datosUsuario = $this->usuarios->modificarUsuario($usuario['id_usuario'], $data, null);
 			if ($datosUsuario) {
+				$datosUsuario['clave'] = $password;
 				$this->session->set_userdata($datosUsuario);
 				responder($datosUsuario, true, 'Ingreso exitoso');
 			}else{
 				responder(0, false, 'Ingreso fallo');
 			}
+		}
+		else{
+			responder(0, false, 'Ingreso fallo');
 		}
 	}
 

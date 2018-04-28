@@ -157,13 +157,18 @@ function aplicarFiltro(element, tipo, estado){
 		    	fin: fechaFin
 		    },
 		    success: function (response) {
+		    	console.log(response);
 		        var datos = eval(JSON.parse(response));
 		        tabla.clear().draw();
 		        if (datos['objeto'] != 0) {
 		          for (var i = 0; i < datos['objeto'].length; i++) {
-		            comision = datos['objeto'][i];
-		            console.log(comision);
-		            var check = '<input type="checkbox"></input>';
+		            comision = datos['objeto'][i]; 
+		            if (!estado) {
+		            	var check = '<input type="checkbox"></input>';
+		            }
+		            else{
+		            	var check = i + 1;
+		            }
 		            /*<a style="margin-right:3px;" title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button"><i class="fa fa-eye"></i> Detalles</a>*/
 		            var opciones = '<a class="btn blue btn-mini" type="button" onclick="liquidarComisiones('+comision['id_incentivo']+', `'+tipoLiquidar+'`, '+comision['id']+',this);"><i class="fa fa-money"></i> Liquidar</a>';
 		            tabla

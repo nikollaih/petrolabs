@@ -26,8 +26,22 @@
                     <?php 
                       if ($departamentos != 0) {
                         foreach ($departamentos as $departamento) {
+                          if (tipoUsuarioConectado() == 2) {
+                            $dptos = unserialize(getUsuarioConectado()['dptos']);
+                            for ($i=0; $i < count($dptos); $i++) { 
+                              if ($departamento['id_departamento'] == $dptos[$i]) {
+                          ?>
+                                <option value="<?=$departamento['id_departamento'];?>"><?=$departamento['nombre_departamento'];?></option>
+                          <?php
+                              }
+                            }  
+                          }
+                          else if(tipoUsuarioConectado() == 1){
                     ?>
-                    <option value="<?=$departamento['id_departamento'];?>"><?=$departamento['nombre_departamento'];?></option>
+                            <option value="<?=$departamento['id_departamento'];?>"><?=$departamento['nombre_departamento'];?></option>
+                    <?php
+                          }
+                    ?>
                     <?php
                         }
                       }
@@ -46,7 +60,7 @@
                 </div>
                 <div class="form-group col-md-2"  style="margin-bottom: 0;">
                   <select class="form-control" onchange="cargarFiltro(this, 'Islero');" required id="islero-usuario-form" name="filtro[islero]">
-                    <option value="0">Islero</option>
+                    <option value="0">Promotor</option>
                   </select>
                 </div>
               </div>
@@ -67,17 +81,19 @@
                         <?php
                           if ($ventas != 0) {
                             foreach ($ventas as $venta) {
+                              if (tipoUsuarioConectado() == 1) {
                         ?>
-                        <tr>
-                          <td class="align-center">
-                            <img class="foto-producto" src="<?=base_url();?>uploads/productos/<?=$venta['foto'];?>">
-                          </td>
-                          <td><?=$venta['nombre_producto'];?></td>
-                          <td class="align-center"><?=$venta['cantidad'];?></td>
-                          <td class="align-center">$<?= number_format($venta['total'],0,'.',',') ?></td>
-                          <td class="align-center">$<?= number_format($venta['comision_total'],0,'.',',') ?></td>
-                        </tr>
+                                <tr>
+                                  <td class="align-center">
+                                    <img class="foto-producto" src="<?=base_url();?>uploads/productos/<?=$venta['foto'];?>">
+                                  </td>
+                                  <td><?=$venta['nombre_producto'];?></td>
+                                  <td class="align-center"><?=$venta['cantidad'];?></td>
+                                  <td class="align-center">$<?= number_format($venta['total'],0,'.',',') ?></td>
+                                  <td class="align-center">$<?= number_format($venta['comision_total'],0,'.',',') ?></td>
+                                </tr>
                         <?php
+                              }
                             }
                           }
                         ?>
@@ -115,16 +131,16 @@
       <script type="text/javascript">
         function validarSelect(select, valor, element) {
           if (select == 'departamento-usuario-form') {
-            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            $('#islero-usuario-form').html('<option selected value="0">Promotor</option>');
             $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
             $('#ciudad-usuario-form').html('<option selected value="0">Ciudad</option>');
             cargarFiltro(element, 'Departamento');
           }else if(select == 'ciudad-usuario-form' && valor == 0){
-            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            $('#islero-usuario-form').html('<option selected value="0">Promotor</option>');
             $('#estacion-usuario-form').html('<option selected value="0">Estación</option>');
             cargarFiltro(element, 'Ciudad');
           }else if(select == 'estacion-usuario-form' && valor == 0){
-            $('#islero-usuario-form').html('<option selected value="0">Islero</option>');
+            $('#islero-usuario-form').html('<option selected value="0">Promotor</option>');
             cargarFiltro(element, 'Estacion');
           }
         }

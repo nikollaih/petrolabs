@@ -1,4 +1,5 @@
 var tabla;
+
 $(document).ready(function(){
   tabla = $("#productos").DataTable({
     language: {
@@ -45,7 +46,7 @@ function cargarFiltro(element, tipo){
             imagen = '<img class="foto-producto" src="'+base_url+'uploads/productos/'+venta['foto']+'">';
             tabla
             .row
-            .add([imagen, venta['nombre_producto'], venta['cantidad'], numberFormat(venta['total']), numberFormat(venta['comision_total'])])
+            .add([imagen, venta['nombre_producto'], venta['cantidad'], '$' + numberFormat(venta['total']), '$' + numberFormat(venta['comision_total'])])
             .draw()
             .node();
           }

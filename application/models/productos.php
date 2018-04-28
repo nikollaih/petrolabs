@@ -18,6 +18,7 @@ class Productos extends CI_Model{
 
 	function obtenerProductos(){
 		$this->db->from('productos');
+		$this->db->where('estado != ', 0);
 		$objProductos = $this->db->get();
 		if ($objProductos->num_rows() > 0) {
 			return $objProductos->result_array();

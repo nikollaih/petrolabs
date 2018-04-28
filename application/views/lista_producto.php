@@ -1,4 +1,5 @@
 <?php $this->load->view('includes/tags'); ?>
+<script type="text/javascript" src="<?= base_url() ?>resources/js/productos.js"></script>
 <body class="page-header-fixed ">
 <?php $this->load->view('includes/top-navegation'); ?>
 <div class="clearfix"> </div>
@@ -32,7 +33,13 @@
                           <th class="align-center">Precio</th>
                           <th class="align-center">Comisión</th>
                           <th class="align-center">Estado</th>
-                          <th>Opciones</th>
+                          <?php
+                            if (tipoUsuarioConectado() == 1) {
+                          ?>
+                              <th>Opciones</th>
+                          <?php
+                            }
+                          ?>
                         </tr>
                       </thead>
                       <tbody>
@@ -49,20 +56,49 @@
                           <td class="align-center">$<?= number_format($producto['precio'],0,'.',',')?></td>
                           <td class="align-center">$<?= number_format($producto['comision'],0,'.',',') ?></td>
                           <td class="align-center">
-                            <select id="producto[estado]" name="producto[estado]" onchange="enviarFormulario(this,'<?=$producto['id_producto']?>');">
-                              <option <?= ($producto['estado']==1) ? 'selected' : ''; ?> value="1">Activo</option>
-                              <option <?= ($producto['estado']==2) ? 'selected' : ''; ?> value="2">Inactivo</option>
-                              <option <?= ($producto['estado']==3) ? 'selected' : ''; ?> value="3">Eliminado</option>
-                            </select>
+                          <?php
+                            if (tipoUsuarioConectado() == 1) {
+                          ?>
+                              <select id="producto[estado]" name="producto[estado]" onchange="enviarFormulario(this,'<?=$producto['id_producto']?>');">
+                                <option <?= ($producto['estado']==1) ? 'selected' : ''; ?> value="1">Activo</option>
+                                <option <?= ($producto['estado']==2) ? 'selected' : ''; ?> value="2">Inactivo</option>
+                                <option <?= ($producto['estado']==3) ? 'selected' : ''; ?> value="3">Eliminado</option>
+                              </select>
+                          <?php
+                            }
+                            else{
+                              switch ($producto['estado']) {
+                                case '1':
+                                  echo 'Activo';
+                                  break;
+                                case '2':
+                                  echo 'Inactivo';
+                                  break;
+                                case '3':
+                                  echo 'Eliminado';
+                                  break;
+                                
+                                default:
+                                  # code...
+                                  break;
+                              }
+                            }
+                          ?>
                           </td>
-                          <td class="align-center">
-                            <a title="Editar" href="<?=base_url();?>producto/obtener/<?= $producto['id_producto'] ?>" class="btn orange btn-mini" type="button">
-                              <i class="fa fa-pencil"></i>
-                            </a>
-                            <a class="btn red btn-mini btn-cicle" type="button">
-                              <i class="fa fa-trash"></i>
-                            </a>
-                          </td>
+                          <?php
+                            if (tipoUsuarioConectado() == 1) {
+                          ?>
+                              <td class="align-center">
+                                <a title="Editar" href="<?=base_url();?>producto/obtener/<?= $producto['id_producto'] ?>" class="btn orange btn-mini" type="button">
+                                  <i class="fa fa-pencil"></i>
+                                </a>
+                                <a class="btn red btn-mini btn-cicle e-producto" data-id="<?= $producto['id_producto'] ?>" type="button">
+                                  <i class="fa fa-trash"></i>
+                                </a>
+                              </td>
+                          <?php
+                            }
+                          ?>
                         </tr>
                         <?php
                             }
@@ -96,52 +132,6 @@
         }
       </style>
       <script type="text/javascript">
-        function enviarFormulario(element, id){
-          estado =element.value;
-          $.ajax({
-            method: 'post',
-            url: base_url+"producto/modificarEstado/"+id,
-            data:{
-              estado: estado
-            },
-            success: function (response) {
-                var datos = eval(JSON.parse(response));
-                if (datos['estado']) {
-                  mostrarAlerta('success', 'Exito', datos['mensaje']);
-                }else{
-                  mostrarAlerta('danger', 'Fallo', datos['mensaje']);
-
-                }
-            },
-            error: function (e) {
-                console.log(e);
-            }
-          });
-        }
-
-        $(document).ready(function(){
-          $("#productos").DataTable({
-            language: {
-              "decimal": ".", 
-              "emptyTable": "No hay información",
-              "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-              "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-              "infoFiltered": "(Filtrado de _MAX_ entradas en total)",
-              "infoPostFix": "",
-              "thousands": ",",
-              "lengthMenu": "Mostrar _MENU_ Entradas",
-              "loadingRecords": "Cargando...",
-              "processing": "Procesando...",
-              "search": "Buscar:",
-              "zeroRecords": "No hay coincidencias",
-              "paginate": {
-                  "first": "Primero",
-                  "last": "Ultimo",
-                  "next": "Siguiente",
-                  "previous": "Anterior"
-              }
-            }
-          });
-        });
+        
       </script>
   <?php $this->load->view('includes/footer'); ?> 

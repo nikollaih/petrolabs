@@ -15,6 +15,7 @@ class Comision extends CI_Controller {
 
 	function index(){
 		isLogin();
+		permisos(array(1, 2));
 		$datos['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
 		$datos['comisiones'] = $this->comisiones->obtenerComisionesGeneral(1);
 		$this->load->view('liquidar_comisiones',$datos);
@@ -22,6 +23,7 @@ class Comision extends CI_Controller {
 
 	function liquidadas(){
 		isLogin();
+		permisos(array(1, 2));
 		$datos['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
 		$datos['comisiones'] = $this->comisiones->obtenerComisionesGeneral(0);
 		$this->load->view('comisiones_liquidadas',$datos);

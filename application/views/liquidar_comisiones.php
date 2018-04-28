@@ -89,10 +89,19 @@
                               <i class="fa fa-eye"></i>
                               Detalles
                             </a>-->
-                            <a class="btn blue btn-mini" type="button" onclick="liquidarComisiones(<?=$comision['id_incentivo']?>, 'Departamento', <?=$comision['id']?>, this);">
-                              <i class="fa fa-money"></i>
-                              Liquidar
-                            </a>
+                            <?php
+                                if (tipoUsuarioConectado() == 1) {
+                            ?>
+                                  <a class="btn blue btn-mini" type="button" onclick="liquidarComisiones(<?=$comision['id_incentivo']?>, 'Departamento', <?=$comision['id']?>, this);">
+                                    <i class="fa fa-money"></i>
+                                    Liquidar
+                                  </a>
+                            <?php
+                                }
+                                else{
+                                  echo '<p>- N/A -</p>';
+                                }
+                            ?>
                           </td>
                         </tr> 
                         <?php

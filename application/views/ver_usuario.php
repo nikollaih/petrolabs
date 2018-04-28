@@ -42,13 +42,13 @@
                     <h5>Detalles del usuario</h5>
                 <?php
                   }
-                ?>
+                ?> 
               </div>
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
-                  <form enctype="multipart/form-data" method="post" action="<?= base_url() ?>usuario/modificar/<? echo (isset($usuario['id_usuario'])) ? $usuario['id_usuario'] : '0' ?>" class="row">
-                  	<input type="hidden" name="id_usuario" value="<? echo (isset($usuario['id_usuario'])) ? $usuario['id_usuario'] : '-1' ?>">
-                  	<input type="hidden" name="info[rol]" value="<? echo (isset($usuario['rol'])) ? $usuario['rol'] : $rol ?>">
+                  <form onsubmit="return validarFormularioPerfil(<?php echo (isset($perfil) ? '1' : '0') ?>);" enctype="multipart/form-data" method="post" action="<?= base_url() ?>usuario/modificar/<?php echo (isset($usuario['id_usuario'])) ? $usuario['id_usuario'] : '0' ?>" class="row">
+                  	<input type="hidden" name="id_usuario" value="<?php echo (isset($usuario['id_usuario'])) ? $usuario['id_usuario'] : '-1' ?>">
+                  	<input type="hidden" name="info[rol]" value="<?php echo (isset($usuario['rol'])) ? $usuario['rol'] : $rol ?>">
                   	<div class="col-md-12">
                   		<div class="form-group col-md-6">
                   			<label for="info[nombre]">Nombre</label>
@@ -56,7 +56,7 @@
 		                </div>
 		                <div class="form-group col-md-6">
                   			<label for="info[apellidos]">Apellidos</label>
-		                  	<input class="form-control" required name="info[apellidos]" placeholder="Apellidos" type="text" value="<?= $usuario['apellidos']?>">
+		                  	<input class="form-control" name="info[apellidos]" placeholder="Apellidos" type="text" value="<?= $usuario['apellidos']?>">
 		                </div>
 		                <div class="form-group col-md-6">
                   			<label for="info[cedula]">Cedula</label>
@@ -64,7 +64,7 @@
 		                </div>
 		                <div class="form-group col-md-6">
                   			<label for="info[telefono]">Telefono</label>
-		                  	<input class="form-control" required name="info[telefono]" placeholder="Telefono" type="number" value="<?= $usuario['telefono']?>">
+		                  	<input class="form-control" name="info[telefono]" placeholder="Telefono" type="number" value="<?= $usuario['telefono']?>">
 		                </div>
 		                <div class="form-group col-md-6">
                   			<label for="info[email]">Email</label>
@@ -84,9 +84,22 @@
 		                  		<?php
 		                  			if ($departamentos != 0) {
 		                  				foreach ($departamentos as $departamento) {
+                                if (tipoUsuarioConectado() == 2) {
+                                  $dptos = unserialize(getUsuarioConectado()['dptos']);
+                                  $selected = '';
+                                  for ($i=0; $i < count($dptos); $i++) { 
+                                    if ($departamento['id_departamento'] == $dptos[$i]) {
+                          ?>
+                                      <option value="<?= $departamento['id_departamento'] ?>"><?= $departamento['nombre_departamento'] ?></option>
+                          <?php
+                                    }
+                                  }   
+                                }
+                                else if(tipoUsuarioConectado() == 1){
 		                  		?>
-		                  					<option <?php echo ($usuario['departamento']==$departamento['id_departamento']) ? 'selected' : ''; ?> value="<?= $departamento['id_departamento'] ?>"><?= $departamento['nombre_departamento'] ?></option>
+		                  					 <option <?php echo ($usuario['departamento']==$departamento['id_departamento']) ? 'selected' : ''; ?> value="<?= $departamento['id_departamento'] ?>"><?= $departamento['nombre_departamento'] ?></option>
 		                  		<?php
+                                }
 		                  				}
 		                  			}
 		                  		?>
@@ -130,7 +143,60 @@
 		                	}
 		                ?>
                   	</div>
+                    <?php
+                      if (isset($perfil)) {
+                    ?>
+                        <div class="col-md-12">
+                          <div class="form-group col-md-4">
+                            <label for="info[apellidos]">Contraseña actual</label>
+                            <input class="form-control" id="c-actual" name="pass[actual]" placeholder="Contraseña actual" type="password" value="">
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="info[apellidos]">Nueva contraseña</label>
+                            <input class="form-control" id="c-nueva" name="pass[nueva]" placeholder="Nueva contraseña" type="password" value="">
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="info[apellidos]">Repetir contraseña</label>
+                            <input class="form-control" id="c-rnueva" name="pass[r_nueva]" placeholder="Repetir contraseña" type="password" value="">
+                          </div>
+                        </div>
+                    <?php
+                      }
+                    ?>
                   	<div class="col-md-12"><hr></div>
+                    <?php
+                      if ($rol == 2) {
+                    ?>
+                        <div class="col-md-12">
+                          <div style="border: 0; padding: 0px 0px 0px 15px;" class="ibox-title">
+                            <h5>A continuación seleccione cada uno de los departamentos a los cuales pertenerá el asesor (Mientras lo hace mantenga presionada la tecla <b style="font-weight: 900">CTRL</b>)</h5>
+                          </div>
+                        </div>
+                        <div style="padding: 20px 23px 0px 23px;" class="form-group col-md-12">
+                          <select style="height: 200px;" data-ciudad-usuario="<?= $usuario['ciudad'] ?>" class="form-control" id="departamentos-asesor" multiple name="dptos[]">
+                            <option value="">Departamento</option>
+                            <?php
+                              if ($departamentos != 0) {
+                                foreach ($departamentos as $departamento) {
+                                  $dptos = unserialize($usuario['dptos']);
+                                  $selected = '';
+                                  for ($i=0; $i < count($dptos); $i++) { 
+                                    if ($departamento['id_departamento'] == $dptos[$i]) {
+                                      $selected = 'selected';
+                                    }
+                                  }    
+                            ?>
+                                <option <?php echo $selected ?> value="<?= $departamento['id_departamento'] ?>"><?= $departamento['nombre_departamento'] ?></option>
+                            <?php
+                                }
+                              }
+                            ?>
+                          </select>
+                      </div>
+                        <div class="col-md-12"><hr></div>
+                    <?php
+                      }
+                    ?>
                   	<div class="col-md-5 col-md-offset-7">
                   		<div class="col-md-6">
                   			<button class="btn btn-block btn-success" type="submit"><i class="fa fa-paste"></i> Guardar</button>

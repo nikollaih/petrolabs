@@ -18,7 +18,7 @@ class Venta extends CI_Controller {
 		isLogin();
 		$datos['ventas'] = $this->ventas->obtenerVentasFiltro(0, 0, 0, 0);
 		$datos['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
-		$this->load->view('lista_ProductosVendidos',$datos);
+		$this->load->view('lista_productosVendidos',$datos);
 	}
 
 	function filtro($tipo, $dato){

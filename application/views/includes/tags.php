@@ -53,12 +53,15 @@
 		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>resources/plugins/sweetalert/dist/sweetalert2.min.css">
 		<!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
 		<!--[if lt IE 9]> <script src="dist/html5shiv.js"></script> <![endif]-->
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="<?= base_url() ?>resources/js/vendor/jquery.min.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/vendor/jquery.min.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/auth.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/estaciones.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/ubicaciones.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>resources/js/isleros.js"></script>
 		<script type="text/javascript">
-			var base_url = "<?= base_url(); ?>"
+			var base_url = "<?= base_url(); ?>";
+			var tokenAppAccess = "12gn34dh<?= $this->session->userdata('clave');?>00li98";
 		</script>
 	</head>

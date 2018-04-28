@@ -137,6 +137,7 @@ class Estacion extends CI_Controller {
 		}
 		else{
 			$temp_estacion['info']['id_estacion'] = 'null';
+			$temp_estacion['info']['estado'] = '1';
 			$estacion = $this->estaciones->agregarEstacion($temp_estacion['info']);
 			if ($estacion != 0) {
 				if (!empty(trim($temp_estacion['asesor']))) {
@@ -149,7 +150,7 @@ class Estacion extends CI_Controller {
 				$this->session->set_flashdata('info', $info);
 			}
 			else{
-				$info = ['warning', 'Error', 'Ha ocurrido un error, intente d enuevo más tarde'];
+				$info = ['warning', 'Error', 'Ha ocurrido un error, intente de nuevo más tarde'];
 				$this->session->set_flashdata('info', $info);
 			}
 		}

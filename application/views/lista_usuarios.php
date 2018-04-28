@@ -49,44 +49,66 @@
                         <?php
 
                           if ($usuarios != 0) {
+                            $dptos = unserialize(getUsuarioConectado()['dptos']);
                             foreach ($usuarios as $usuario) {
-                        ?>
-                        <tr>
-                          <td><?= $usuario['cedula'] ?></td>
-                          <td><?= $usuario['nombre'] ?></td>
-                          <td><?= $usuario['apellidos'] ?></td>
-                          <td><?= $usuario['email'] ?></td>
-                          <td><?= $usuario['telefono'] ?></td>
-                          <td><?= $usuario['nombre_ciudad'] ?></td>
-                          <?php
-                          	if ($rol == 3) {
-                          ?>
-                          		<td><?= $usuario['nombre_estaciones'] ?></td>
-                          		<td class="align-center">
-                          			<a href="<?= base_url() ?>uploads/rut/<?= $usuario['rut'] ?>" target="blank"><i class="fa fa-file icon-table-link"></i></a>
-                          		</td>
-                          <?php
-                          	}
-                          ?>
-                          <td class="align-center">
-                            <?php
-                              if ($rol == 2) {
-                            ?>
-                                 <a title="Asignar estaciones" href="<?=base_url();?>usuario/asesorestaciones/<?= $usuario['id_usuario'] ?>/<?= stringToUrl($usuario['nombre'].' '.$usuario['apellidos']) ?>" class="btn blue btn-mini" type="button">
-                                  <i class="fa fa-tint"></i>
-                                </a>
-                            <?php
+                              $mostrar = false;
+                              
+                              if (tipoUsuarioConectado() == 2) {
+                                  for ($i=0; $i < count($dptos); $i++) { 
+                                    if ($usuario['id_departamento'] == $dptos[$i]) {
+                                      $mostrar = true;
+                                    }
+                                  }
                               }
-                            ?>
-                            <a title="Editar" href="<?=base_url();?>usuario/obtener/<?= $usuario['id_usuario'] ?>/<?= $usuario['rol'] ?>/<?= stringToUrl($usuario['nombre'].' '.$usuario['apellidos']) ?>" class="btn orange btn-mini" type="button">
-                              <i class="fa fa-pencil"></i>
-                            </a>
-                            <a class="btn red btn-mini btn-cicle" type="button">
-                              <i class="fa fa-trash"></i>
-                            </a>
-                          </td>
-                        </tr>
+                              else if(tipoUsuarioConectado() == 1){
+                                $mostrar = true;
+                              }
+
+                              if($mostrar){
+                        ?>
+                                <tr>
+                                  <td><?= $usuario['cedula'] ?></td>
+                                  <td><?= $usuario['nombre'] ?></td>
+                                  <td><?= $usuario['apellidos'] ?></td>
+                                  <td><?= $usuario['email'] ?></td>
+                                  <td><?= $usuario['telefono'] ?></td>
+                                  <td><?= $usuario['nombre_ciudad'] ?></td>
+                                  <?php
+                                  	if ($rol == 3) {
+                                  ?>
+                                  		<td><?= $usuario['nombre_estaciones'] ?></td>
+                                  		<td class="align-center">
+                                        <?php
+                                          if (!empty($usuario['rut'])) {
+                                        ?>
+                                            <a href="<?= base_url() ?>uploads/rut/<?= $usuario['rut'] ?>" target="blank"><i class="fa fa-file icon-table-link"></i></a>
+                                        <?php
+                                          }
+                                        ?>
+                                  		</td>
+                                  <?php
+                                  	}
+                                  ?>
+                                  <td class="align-center">
+                                    <?php
+                                      if ($rol == 2) {
+                                    ?>
+                                         <a title="Asignar estaciones" href="<?=base_url();?>usuario/asesorestaciones/<?= $usuario['id_usuario'] ?>/<?= stringToUrl($usuario['nombre'].' '.$usuario['apellidos']) ?>" class="btn blue btn-mini" type="button">
+                                          <i class="fa fa-tint"></i>
+                                        </a>
+                                    <?php
+                                      }
+                                    ?>
+                                    <a title="Editar" href="<?=base_url();?>usuario/obtener/<?= $usuario['id_usuario'] ?>/<?= $usuario['rol'] ?>/<?= stringToUrl($usuario['nombre'].' '.$usuario['apellidos']) ?>" class="btn orange btn-mini" type="button">
+                                      <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a class="btn red btn-mini btn-cicle" type="button">
+                                      <i class="fa fa-trash"></i>
+                                    </a>
+                                  </td>
+                                </tr>
                         <?php
+                              }
                             }
                           }
                         ?>

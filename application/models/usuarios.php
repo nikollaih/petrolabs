@@ -29,7 +29,7 @@ class Usuarios extends CI_Model{
 		}
 		else{
 			return false;
-		}
+		} 
 	}
 
 	function obtenerUsuariosRol($id_rol){
@@ -181,6 +181,35 @@ class Usuarios extends CI_Model{
 		$this->db->join('tipos_incentivo ti', 'ti.id_tipo = i.tipo_incentivo', 'left');
 		$this->db->join('roles r', 'r.id_rol = u.rol');
 		$this->db->where('d.id_departamento', $depto);
+		$this->db->where('r.id_rol', $rol);
+
+		$objUsuario = $this->db->get();
+
+		if ($objUsuario->num_rows() > 0) {
+			return $objUsuario->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
+
+	/**
+	 * [obtenerAsesorPorDepartamento description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type]  $depto [description]
+	 * @param  integer $rol   [description]
+	 * @return [type]         [description]
+	 */
+	function obtenerAsesorPorDepartamento($depto, $rol=1){
+		$this->db->from('usuarios u');
+		$this->db->join('Isleros i', 'u.id_usuario = i.usuario', 'left');
+		$this->db->join('ciudades c', 'u.ciudad = c.id_ciudad');
+		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
+		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
+		$this->db->join('tipos_incentivo ti', 'ti.id_tipo = i.tipo_incentivo', 'left');
+		$this->db->join('roles r', 'r.id_rol = u.rol');
+		$this->db->like('u.dptos', 's:'.strlen($depto).':"'.$depto.'";');
 		$this->db->where('r.id_rol', $rol);
 
 		$objUsuario = $this->db->get();

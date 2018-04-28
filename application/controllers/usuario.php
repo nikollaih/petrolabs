@@ -71,6 +71,9 @@ class Usuario extends CI_Controller {
 	 */
 	function lista($rol, $nombre_rol = 'administrador'){
 		isLogin();
+		if ($rol < 3) {
+			permisos(array(1));
+		}
 
 		$data['usuarios'] = $this->usuarios->obtenerUsuariosRol($rol);
 		$data['rol'] = $rol;
@@ -87,6 +90,9 @@ class Usuario extends CI_Controller {
 	 */
 	function obtener($id_usuario, $rol = 1){
 		isLogin();
+		if ($rol < 3) {
+			permisos(array(1));
+		}
 
 		$data['usuario'] = $this->usuarios->obtenerUsuario($id_usuario);
 		$data['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
@@ -108,6 +114,7 @@ class Usuario extends CI_Controller {
 		$data['incentivos'] = $this->incentivos->obtenerIncentivos();
 		$data['rol'] = $data['usuario']['id_rol'];
 		$data['titulo'] = 'Perfil '.$data['usuario']['nombre'].' '.$data['usuario']['apellidos'];
+		$data['perfil'] = true;
 
 		$this->load->view('ver_usuario', $data);
 	}
@@ -121,6 +128,12 @@ class Usuario extends CI_Controller {
 	function modificar($id_usuario){
 		isLogin();
 
+		$info = $this->input->post('info');
+
+		if (isset($_POST['dptos'])) {
+			$info['dptos'] = serialize($_POST['dptos']);
+		}
+
 		if ($this->input->post('info')) {
 			$islero = 0;
 
@@ -128,7 +141,11 @@ class Usuario extends CI_Controller {
 				$islero = $this->input->post('islero');	
 			}
 			if ($this->usuarios->obtenerUsuario($this->input->post('id_usuario')) != 0) {
-				if ($this->usuarios->modificarUsuario($this->input->post('id_usuario'), $this->input->post('info'), $islero) != 0){
+				$datos = $info;
+				if (!empty($this->input->post('pass')['nueva'])) {
+					$datos['clave'] = md5($this->input->post('pass')['nueva']);
+				}
+				if ($this->usuarios->modificarUsuario($this->input->post('id_usuario'), $datos, $islero) != 0){
 					$info = ['success', 'Exito', 'Usuario modificado exitosamente'];
 					$this->session->set_flashdata('info', $info);
 				}
@@ -138,8 +155,9 @@ class Usuario extends CI_Controller {
 				}
 			}
 			else{
-
-				$id_usuario = $this->usuarios->agregarUsuario($this->input->post('info'), $islero);
+				$info_usuario = $info;
+				$info_usuario['clave'] = md5($info_usuario['cedula']);
+				$id_usuario = $this->usuarios->agregarUsuario($info_usuario, $islero);
 
 				if ($id_usuario){
 					$info = ['success', 'Exito', 'Usuario creado exitosamente'];
@@ -248,8 +266,8 @@ class Usuario extends CI_Controller {
 		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
 		isLogin();
 
-		$usuarios = $this->usuarios->obtenerUsuarioDepartamento($this->input->post('id_departamento'), $this->input->post('id_rol'));
-
+		$usuarios = $this->usuarios->obtenerAsesorPorDepartamento($this->input->post('id_departamento'), $this->input->post('id_rol'));
+ 
 		responder($usuarios, true, 'Lista usuarios');
 	}
 
@@ -259,6 +277,8 @@ class Usuario extends CI_Controller {
 	 * @return [type] [description]
 	 */
 	function logout(){
+		$info['token'] = '';
+		$this->usuarios->modificarUsuario($this->session->userdata('id_usuario'), $info, null);
 		$this->session->sess_destroy();
 		redirect(base_url().'auth');
 	}

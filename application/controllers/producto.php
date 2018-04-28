@@ -62,6 +62,7 @@ class Producto extends CI_Controller {
 	*/
 	function obtener($idProducto){
 		isLogin();
+		permisos(array(1));
 		if ($idProducto != 'nuevo') {
 			$data['producto'] = $this->productos->obtenerProductoId($idProducto);
 			if ($data['producto'] != 0) {
@@ -137,9 +138,10 @@ class Producto extends CI_Controller {
 		
 	}
 
-	function modificarEstado($idProducto){
+	function modificarEstado($idProducto){ 
 		isLogin();
-		if ($this->input->post('estado')) {
+
+		if ($this->input->post('estado') !== '') {
 			$datos['estado'] = $this->input->post('estado');
 			$idProductoModif = $this->productos->modificarProducto($idProducto, $datos);
 			if ($idProductoModif) {
@@ -147,6 +149,9 @@ class Producto extends CI_Controller {
 			}else{
 				responder(0, false, 'Error modificando el producto');
 			}
+		}
+		else{
+			responder(0, false, 'Error modificando el producto');
 		}
 	}
 	/**

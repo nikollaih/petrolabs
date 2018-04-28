@@ -12,7 +12,6 @@
     <!-- BEGIN TOP NAVIGATION MENU -->
     <div class="top-menu">
       <ul class="nav navbar-nav pull-right">
-        
         <!-- START USER LOGIN DROPDOWN -->
 <li class="dropdown dropdown-user"> <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown"  class="dropdown-toggle" href="javascript:;"> <span class="username username-hide-on-mobile"><?= $this->session->userdata('nombre').' '.$this->session->userdata('apellidos') ?></span> <i class="fa fa-angle-down"></i> </a>
           <ul class="dropdown-menu dropdown-menu-default">

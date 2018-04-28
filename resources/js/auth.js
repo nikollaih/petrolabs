@@ -19,11 +19,15 @@ function login(){
 	        	clave: password
 	        },
 	        success: function (response) {
+	        	console.log(response);
 	            var datos = eval(JSON.parse(response));
 	            if (datos['estado']) {
 	            	window.location.replace(base_url+"producto");
 	            }else{
-	            	alert('No se pudo ingresar');
+	            	$('.login-error').show();
+	            	setTimeout(function(){
+	            		$('.login-error').hide();
+	            	}, 3000)
 	            }
 	        },
 	        error: function (e) {
@@ -44,7 +48,6 @@ function forgot(){
 	        	token_app: config['token']
 	        },
 	        success: function (response) {
-	        	console.log(response);
 	            var datos = eval(JSON.parse(response));
 	            if (datos['estado']) {
 	            	$('.alert-success').html('<strong>Exito!</strong> ' + datos['mensaje']);
@@ -72,5 +75,29 @@ function forgot(){
     	setTimeout(function(){
     		$('.alert-danger').hide();
     	}, 5000);
+	}
+}
+
+
+function validarFormularioPerfil(validar){
+	if (!validar) {
+		return true;
+	}
+	
+	var passActual = '12gn34dh'+$('#c-actual').val()+'00li98';
+	if ($('#c-actual').val() != '' && passActual == tokenAppAccess) {
+		if ($('#c-nueva').val() != '' && $('#c-rnueva').val() != '' && $('#c-nueva').val() == $('#c-rnueva').val()) {
+			return true;
+		}else{
+			mostrarAlerta('warning', 'Advertencia!','Las contraseña nueva no coincide o está vacía.');
+			return false;
+		}
+	}else{
+		if ($('#c-nueva').val() != '' || $('#c-rnueva').val() != '') {
+			mostrarAlerta('warning', 'Advertencia!','Por favor escriba la contraseña actual');
+			return false;
+		}else{
+			return true;
+		}	
 	}
 }

@@ -19,7 +19,7 @@ class Comisiones extends CI_Model{
 		$ventas = array();
 		if ($incentivos != 0) {
 			foreach ($incentivos as $incentivo) {
-				$this->db->select('d.id_departamento id, d.nombre_departamento nombre, SUM(IFNULL(V.comision_total,0)) comision');
+				$this->db->select('d.id_departamento id, d.nombre_departamento nombre, SUM(IFNULL(v.comision_total,0)) comision');
 				$this->db->from('ventas v');
 				$this->db->join('Isleros i', 'i.id_islero = v.islero','RIGHT');
 				$this->db->join('estaciones e', 'e.id_estacion = i.estacion','RIGHT');
@@ -101,6 +101,9 @@ class Comisiones extends CI_Model{
 				$this->db->where('i.tipo_incentivo', $incentivo['id_tipo']);
 				if ($estado) {
 					$this->db->where('v.fecha_pago', 0);
+				}
+				else{
+					$this->db->where('v.fecha_pago >', 0);
 				}
 				$this->db->where('v.fecha >=', $fechaInicial);
 				$this->db->where('v.fecha <=', $fechaFinal);
