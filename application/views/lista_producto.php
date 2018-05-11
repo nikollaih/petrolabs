@@ -22,9 +22,9 @@
               <div class="ibox-title">
                 <h5 style="margin: 0; margin-top: 7px;">Listado de productos</h5>
                 <div class="row">
-                  <div class="col-md-1" style="float: right;">
+                  <div class="col-md-2" style="float: right;">
                     <a class="btn btn-block btn-primary" href="<?= base_url() ?>excels/exportarProductos" target="_blank">
-                      <i class="fa fa-file-excel-o"></i> Exportar
+                      <i class="fa fa-file-excel-o"></i> Exportar a excel
                     </a>
                   </div>
                 </div>
