@@ -20,7 +20,14 @@
           <div class="col-lg-12">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                <h5>Listado de productos</h5>
+                <h5 style="margin: 0; margin-top: 7px;">Listado de productos</h5>
+                <div class="row">
+                  <div class="col-md-1" style="float: right;">
+                    <a class="btn btn-block btn-primary" href="<?= base_url() ?>excels/exportarProductos" target="_blank">
+                      <i class="fa fa-file-excel-o"></i> Exportar
+                    </a>
+                  </div>
+                </div>
               </div>
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
