@@ -1,4 +1,5 @@
 <?php $this->load->view('includes/tags'); ?>
+<script type="text/javascript" src="<?=base_url();?>resources/js/ventas.js"></script>
 <body class="page-header-fixed ">
 <?php $this->load->view('includes/top-navegation'); ?>
 <div class="clearfix"> </div>
@@ -20,7 +21,7 @@
             <div class="ibox float-e-margins">
               <div class="ibox-title">
                 <h5 style="margin-top: 11px;">Productos vendidos</h5>
-                <div class="form-group col-md-2 col-md-offset-2" style="margin-bottom: 0;">
+                <div class="form-group col-md-2" style="margin-bottom: 0; margin-left: 20px;">
                   <select class="form-control" onchange="setItemSelect('ciudad-usuario-form', 'Ciudad'); cargarFiltro(this, 'Departamento'); validarSelect('departamento-usuario-form', $('#departamento-usuario-form').val(), this);" required id="departamento-usuario-form" data-ciudad-usuario="0" name="filtro[departamento]">
                     <option value="0">Departamento</option>
                     <?php 
@@ -63,7 +64,15 @@
                     <option value="0">Promotor</option>
                   </select>
                 </div>
+                <div class="col-md-2" style="float: right;">
+                    <button class="btn btn-block btn-primary" id="prod_vendidos_export">
+                      <i class="fa fa-file-excel-o"></i> Exportar a excel
+                    </button>
+                  </div>
               </div>
+              <form id="formExportar" action="<?=base_url()?>excels/exportarProductosVendidos" method="post" target="_blank">
+                <input type="hidden" id="productosArray" name="productosArray">
+              </form>
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
                   <div >
@@ -78,6 +87,11 @@
                         </tr>
                       </thead>
                       <tbody id="body-tabla-ventas">
+                        <script type="text/javascript">
+                          $( document ).ready(function() {
+                            productosVendidos=JSON.parse('<?=json_encode($ventas);?>');
+                          });
+                        </script>
                         <?php
                           if ($ventas != 0) {
                             foreach ($ventas as $venta) {
@@ -127,7 +141,6 @@
           margin: 0 auto;
         }
       </style>
-      <script type="text/javascript" src="<?=base_url();?>resources/js/ventas.js"></script>
       <script type="text/javascript">
         function validarSelect(select, valor, element) {
           if (select == 'departamento-usuario-form') {

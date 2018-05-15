@@ -1,5 +1,7 @@
 var tabla;
 
+var productosVendidos;
+
 $(document).ready(function(){
   tabla = $("#productos").DataTable({
     language: {
@@ -25,6 +27,10 @@ $(document).ready(function(){
   });
 });
 
+$(document).on('click', '#prod_vendidos_export', function(){
+  exportarFiltroVendidos();
+})
+
 function setItemSelect(element,item){
   setTimeout(function(){ 
     $('#'+element).prepend('<option selected value="0">'+item+'</option>'); 
@@ -40,6 +46,7 @@ function cargarFiltro(element, tipo){
     success: function (response) {
         var datos = eval(JSON.parse(response));
         tabla.clear().draw();
+        productosVendidos = datos['objeto'];
         if (datos['objeto'] != 0) {
           for (var i = 0; i < datos['objeto'].length; i++) {
             venta = datos['objeto'][i];
@@ -73,4 +80,10 @@ function validarSelect(select, valor, element) {
     $('#islero-usuario-form').html('<option selected value="">Islero</option>');
     cargarComisiones(element, 'Estacion');
   }
+}
+
+function exportarFiltroVendidos(){
+  $('#productosArray').val(JSON.stringify(productosVendidos));
+
+  $('#formExportar').submit();
 }
