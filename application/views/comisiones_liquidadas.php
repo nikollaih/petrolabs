@@ -1,9 +1,12 @@
 <?php $this->load->view('includes/tags'); ?>
+
 <body class="page-header-fixed ">
   <script src="<?= base_url() ?>resources/js/angular.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>resources/js/jquery.tabletojson.min.js"></script>
 <script src="<?= base_url() ?>resources/js/excellentexport.min.js"></script>
     <script data-require="ui-bootstrap@0.11.0" data-semver="0.11.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script type="text/javascript" src="<?=base_url();?>resources/js/ventas.js"></script>
+<script type="text/javascript" src="<?=base_url();?>resources/js/comisiones.js"></script>
 
 <?php $this->load->view('includes/top-navegation'); ?>
 <div class="clearfix"> </div>
@@ -37,7 +40,7 @@
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
                   <div class="row">
-                    <div class="form-group col-md-2 col-md-offset-3" style="margin-bottom: 0;">
+                    <div class="form-group col-md-2" style="margin-bottom: 0;">
                       <select class="form-control" required id="departamento-liquidada" onchange="validarSelectComisionesLiquidadas('departamento-liquidada', $(this).val()); aplicarFiltro('departamento-liquidada', 'Departamento',1);">
                         <option value="0">Departamento</option>
                         <?php 
@@ -61,7 +64,15 @@
                         <option value="0">Estación</option>
                       </select>
                     </div>
+                    <div class="col-md-2" style="float: right;">
+                      <button class="btn btn-block btn-primary" id="comision_liq_export">
+                        <i class="fa fa-file-excel-o"></i> Exportar a excel
+                      </button>
+                    </div>
                   </div>
+                  <form id="formExportarComisiones" action="<?=base_url()?>excels/exportarComisionesLiquidadas" method="post" target="_blank">
+                    <input type="hidden" id="comisionesArray" name="comisionesArray">
+                  </form>
                   <br>
                   <br>
                   <div>
@@ -75,6 +86,11 @@
                         </tr>
                       </thead>
                       <tbody id="body-tabla-ventas">
+                        <script type="text/javascript">
+                          $( document ).ready(function() {
+                            comisionesLiquidadas=JSON.parse('<?=json_encode($comisiones);?>');
+                          });
+                        </script>
                         <?php
                           if ($comisiones != 0) {
                             $i = 1;
@@ -120,8 +136,6 @@
           margin: 0 auto;
         }
       </style>
-      <script type="text/javascript" src="<?=base_url();?>resources/js/ventas.js"></script>
-      <script type="text/javascript" src="<?=base_url();?>resources/js/comisiones.js"></script>
   <?php $this->load->view('includes/footer'); ?> 
   <script type="text/javascript">
     $(document).ready(function(){

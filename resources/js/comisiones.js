@@ -1,3 +1,6 @@
+
+var comisionesLiquidadas;
+
 $(document).on('change', '#departamento-usuario-form', function(){
 	llenarSelectCiudad($(this).val(), '#ciudad');
 });
@@ -58,6 +61,9 @@ $(document).on('change', '#ciudad-liquidada', function(){
 	llenarSelectEstacion($(this).val(), '#estacion-liquidada');
 });
 
+$(document).on('click', '#comision_liq_export', function(){
+  exportarFiltroComisionesLiquidadas();
+})
 /**
  * [obtenerEstacionesCiudad description]
  * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
@@ -159,6 +165,7 @@ function aplicarFiltro(element, tipo, estado){
 		    success: function (response) {
 		    	console.log(response);
 		        var datos = eval(JSON.parse(response));
+		        comisionesLiquidadas = datos['objeto'];
 		        tabla.clear().draw();
 		        if (datos['objeto'] != 0) {
 		          for (var i = 0; i < datos['objeto'].length; i++) {
@@ -224,3 +231,9 @@ $('#selectAll').click(function(e){
     var table= $(e.target).closest('table');
     $('tr td input:checkbox',table).prop('checked',this.checked);
 });
+
+function exportarFiltroComisionesLiquidadas(){
+  $('#comisionesArray').val(JSON.stringify(comisionesLiquidadas));
+
+  $('#formExportarComisiones').submit();
+}
