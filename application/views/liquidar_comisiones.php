@@ -69,6 +69,7 @@
                           <th style="width: 350px !important;">Nombre</th>
                           <th style="width: 200px !important;" class="align-center">Tipo incentivo</th>
                           <th class="align-center">Comisión generada</th>
+                          <th class="align-center">Comisión 2%</th>
                           <th class="align-center">Opciones</th>
                         </tr>
                       </thead>
@@ -84,6 +85,7 @@
                           <td><?=$comision['nombre']?></td>
                           <td><?=$comision['incentivo']?></td>
                           <td class="align-center">$<?= number_format($comision['comision'],0,'.',',') ?></td>
+                          <td class="align-center">$<?= number_format((($comision['comision']*2)/100),2,'.',',') ?></td>
                           <td class="align-center">
                             <!--<a title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button">
                               <i class="fa fa-eye"></i>

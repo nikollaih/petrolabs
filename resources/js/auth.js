@@ -7,6 +7,10 @@ $(document).on('click', '#forgotSubmit', function(){
 	forgot();
 });
 
+$(document).on('click', '.e-usuario', function(){
+  eliminarUsuario($(this).attr('data-id'), $(this));
+})
+
 function login(){
 	var email = $('#email').val();
 	var password = $('#password').val();
@@ -100,4 +104,53 @@ function validarFormularioPerfil(validar){
 			return true;
 		}	
 	}
+}
+
+/**
+ * [eliminarUsuario description]
+ * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+ * @param  {[type]} idUsuario [description]
+ * @param  {[type]} btn       [description]
+ * @return {[type]}           [description]
+ */
+function eliminarUsuario(idUsuario, btn){
+	var row_DOM = $(btn).closest('tr');
+	swal({
+      title: '¿Esta seguro?',
+      text: 'Desea eliminar el usuario',
+      type: "warning",
+      showCancelButton: !0,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Si, Continuar!",
+      cancelButtonText: "No, Cancelar!",
+      closeOnConfirm: 1
+  }).then(function (success) {
+      if(success) {
+        $.ajax({
+      	method: 'post',
+          url: base_url+"usuario/eliminarusuario/" + idUsuario,
+          data:{
+            estado: 0,
+          },
+          async: false,
+          success: function (response) {
+              usuario = eval(JSON.parse(response));
+              if (usuario['estado'] == true) {
+                tablaUsuarios
+                .row(row_DOM)
+                .remove()
+                .draw();
+
+                mostrarAlerta('success', 'Exito!', 'Usuario eliminado correctamente');
+              }
+              else{
+                mostrarAlerta('danger', 'Error!', 'Ha ocurrido un error al intentar eliminar el usuario');
+              }
+          },
+          error: function (e) {
+              console.log(e);
+          }
+      	});
+      }
+  })
 }

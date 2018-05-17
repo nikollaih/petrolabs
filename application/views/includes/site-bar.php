@@ -139,7 +139,7 @@
             <li class="nav-item">
               <a class="nav-link" href="<?=base_url()?>comision/liquidadas">
                 <i class="fa fa-archive"></i>
-                <span class="title">Comiciones liquidadas</span>
+                <span class="title">Comisiones liquidadas</span>
               </a>
             </li>
         <?php

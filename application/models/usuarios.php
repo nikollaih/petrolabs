@@ -39,6 +39,7 @@ class Usuarios extends CI_Model{
 		$this->db->join('departamentos d', 'd.id_departamento = c.departamento');
 		$this->db->join('estaciones e', 'e.id_estacion = i.estacion', 'left');
 		$this->db->where('u.rol', $id_rol);
+		$this->db->where('u.estado !=', 2);
 
 		$objUsuario = $this->db->get();
 

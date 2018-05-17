@@ -72,6 +72,8 @@
                   </div>
                   <form id="formExportarComisiones" action="<?=base_url()?>excels/exportarComisionesLiquidadas" method="post" target="_blank">
                     <input type="hidden" id="comisionesArray" name="comisionesArray">
+                    <input type="hidden" name="filtroNombre" id="filtroNombre">
+                    <input type="hidden" name="tipoFiltro" id="tipoFiltro">
                   </form>
                   <br>
                   <br>
@@ -83,12 +85,15 @@
                           <th style="width: 350px !important;">Nombre</th>
                           <th style="width: 200px !important;" class="align-center">Tipo incentivo</th>
                           <th class="align-center">Comisión generada</th>
+                          <th class="align-center">Comisión 2%</th>
                         </tr>
                       </thead>
                       <tbody id="body-tabla-ventas">
                         <script type="text/javascript">
                           $( document ).ready(function() {
                             comisionesLiquidadas=JSON.parse('<?=json_encode($comisiones);?>');
+                            filtroComision = 'General';
+                            filtroAplicado = '';
                           });
                         </script>
                         <?php
@@ -101,6 +106,7 @@
                           <td><?=$comision['nombre']?></td>
                           <td><?=$comision['incentivo']?></td>
                           <td class="align-center">$<?= number_format($comision['comision'],0,'.',',') ?></td>
+                          <td class="align-center">$<?= number_format((($comision['comision']*2)/100),2,'.',',') ?></td>
                         </tr> 
                         <?php
                               $i++;
@@ -110,7 +116,6 @@
                         
                       </tbody>
                     </table>
-                    <button id="boton">Aqui</button>
                   </div>
                 </div>
               </div>

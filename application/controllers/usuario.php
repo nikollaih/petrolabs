@@ -272,6 +272,21 @@ class Usuario extends CI_Controller {
 	}
 
 	/**
+	 * [eliminarUsuario description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $idUsuario [description]
+	 * @return [type]            [description]
+	 */
+	function eliminarUsuario($idUsuario){+
+		//Valida que la peticion se haga desde un dispositivo que se encuentre logueado en el sistema
+		isLogin();
+
+		$data['estado'] = 2;
+		$this->usuarios->modificarUsuario($idUsuario, $data, null);
+		responder(0, true, 'Usuario eliminado');
+	}
+
+	/**
 	 * [logout description]
 	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
 	 * @return [type] [description]

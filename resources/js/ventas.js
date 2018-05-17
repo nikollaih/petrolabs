@@ -1,6 +1,8 @@
 var tabla;
 
 var productosVendidos;
+var tipoFiltro;
+var filtroNombre;
 
 $(document).ready(function(){
   tabla = $("#productos").DataTable({
@@ -39,6 +41,7 @@ function setItemSelect(element,item){
 
 function cargarFiltro(element, tipo){
   var idElement = $(element).val();
+  var idSelect = $(element).attr('id');
   $.ajax({
     method: 'post',
     url: base_url+"venta/filtro/"+tipo+'/'+idElement,
@@ -47,6 +50,9 @@ function cargarFiltro(element, tipo){
         var datos = eval(JSON.parse(response));
         tabla.clear().draw();
         productosVendidos = datos['objeto'];
+        tipoFiltro = tipo;
+        filtroNombre = $('#'+idSelect+' option:selected').text();
+        
         if (datos['objeto'] != 0) {
           for (var i = 0; i < datos['objeto'].length; i++) {
             venta = datos['objeto'][i];
@@ -84,6 +90,8 @@ function validarSelect(select, valor, element) {
 
 function exportarFiltroVendidos(){
   $('#productosArray').val(JSON.stringify(productosVendidos));
+  $('#tipoFiltro').val(tipoFiltro);
+  $('#filtroNombre').val(filtroNombre);
 
   $('#formExportar').submit();
 }

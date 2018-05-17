@@ -102,8 +102,9 @@
                                     <a title="Editar" href="<?=base_url();?>usuario/obtener/<?= $usuario['id_usuario'] ?>/<?= $usuario['rol'] ?>/<?= stringToUrl($usuario['nombre'].' '.$usuario['apellidos']) ?>" class="btn orange btn-mini" type="button">
                                       <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a class="btn red btn-mini btn-cicle" type="button">
+                                    <a class="btn red btn-mini btn-cicle e-usuario" data-id="<?= $usuario['id_usuario'] ?>" type="button">
                                       <i class="fa fa-trash"></i>
+                                    </a>
                                     </a>
                                   </td>
                                 </tr>
@@ -141,8 +142,9 @@
         }
       </style>
       <script type="text/javascript">
+        var tablaUsuarios;
         $(document).ready(function(){
-          $("#usuarios").DataTable({
+          tablaUsuarios = $("#usuarios").DataTable({
             language: {
               "decimal": ".", 
               "emptyTable": "No hay información",

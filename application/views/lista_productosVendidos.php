@@ -72,6 +72,8 @@
               </div>
               <form id="formExportar" action="<?=base_url()?>excels/exportarProductosVendidos" method="post" target="_blank">
                 <input type="hidden" id="productosArray" name="productosArray">
+                <input type="hidden" name="filtroNombre" id="filtroNombre">
+                <input type="hidden" name="tipoFiltro" id="tipoFiltro">
               </form>
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
@@ -90,6 +92,8 @@
                         <script type="text/javascript">
                           $( document ).ready(function() {
                             productosVendidos=JSON.parse('<?=json_encode($ventas);?>');
+                            tipoFiltro='General';
+                            filtroNombre='';
                           });
                         </script>
                         <?php

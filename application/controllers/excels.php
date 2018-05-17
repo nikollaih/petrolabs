@@ -177,8 +177,17 @@ class Excels extends CI_Controller {
 
 
 		// ====================== CABECERA DEL ARCHIVO ===================== //
+		
+		$tipoFiltro = $this->input->post('tipoFiltro');
+		$titulo = 'LISTA DE PRODUCTOS VENDIDOS: '.$tipoFiltro;
+
+		if ($tipoFiltro != 'General') {
+			$filtro = $this->input->post('filtroNombre');
+			$titulo .= ' ('.$filtro.')';
+		}
+
    		$this->excel->getActiveSheet()->mergeCells('A1:E2');
-		$this->excel->getActiveSheet()->setCellValue('A1', 'LISTA DE PRODUCTOS VENDIDOS');
+		$this->excel->getActiveSheet()->setCellValue('A1', strtoupper($titulo));
 
 		$this->excel->getActiveSheet()->mergeCells('A3:C4');
 		$this->excel->getActiveSheet()->setCellValue('A3', 'PETROLABS');
@@ -211,7 +220,7 @@ class Excels extends CI_Controller {
 		$this->excel->getActiveSheet()->getStyle('A5')->applyFromArray($estilo);
 
 		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(35.8);
-		$this->excel->getActiveSheet()->setCellValue('B5', 'NOMBRE');
+		$this->excel->getActiveSheet()->setCellValue('B5', 'PRODUCTO');
 		$this->excel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo);
 
 		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(18.5);
@@ -300,8 +309,16 @@ class Excels extends CI_Controller {
 
 
 		// ====================== CABECERA DEL ARCHIVO ===================== //
+   		$tipoFiltro = $this->input->post('tipoFiltro');
+		$titulo = 'COMISIONES LIQUIDADAS: '.$tipoFiltro;
+
+		if ($tipoFiltro != 'General') {
+			$filtro = $this->input->post('filtroNombre');
+			$titulo .= ' ('.$filtro.')';
+		}
+
    		$this->excel->getActiveSheet()->mergeCells('A1:E2');
-		$this->excel->getActiveSheet()->setCellValue('A1', 'LISTA DE PRODUCTOS VENDIDOS');
+		$this->excel->getActiveSheet()->setCellValue('A1', strtoupper($titulo));
 
 		$this->excel->getActiveSheet()->mergeCells('A3:C4');
 		$this->excel->getActiveSheet()->setCellValue('A3', 'PETROLABS');
@@ -334,11 +351,11 @@ class Excels extends CI_Controller {
 		$this->excel->getActiveSheet()->getStyle('A5')->applyFromArray($estilo);
 
 		$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(35.8);
-		$this->excel->getActiveSheet()->setCellValue('B5', 'NOMBRE');
+		$this->excel->getActiveSheet()->setCellValue('B5','DESCRIPCIÓN');
 		$this->excel->getActiveSheet()->getStyle('B5')->applyFromArray($estilo);
 
 		$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(18.5);
-		$this->excel->getActiveSheet()->setCellValue('C5', 'CANTIDAD');
+		$this->excel->getActiveSheet()->setCellValue('C5', 'TIPO INCENTIVO');
 		$this->excel->getActiveSheet()->getStyle('C5')->applyFromArray($estilo);
 
 		$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
@@ -346,21 +363,22 @@ class Excels extends CI_Controller {
 		$this->excel->getActiveSheet()->getStyle('D5')->applyFromArray($estilo);
 
 		$this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(18.5);
-		$this->excel->getActiveSheet()->setCellValue('E5', 'TOTAL');
+		$this->excel->getActiveSheet()->setCellValue('E5', 'COMISIÓN 2%');
 		$this->excel->getActiveSheet()->getStyle('E5')->applyFromArray($estilo);
 		// ========================= FIN CABECERA ========================== //
 		
-		//$comisiones = (array) json_decode($this->input->post('comisionesArray'));
-		$comisiones = 0;
+		$comisiones = (array) json_decode($this->input->post('comisionesArray'));
+
 		// ========================= INICIO PRODUCTOS ========================== //
 		$fila= 6;
 		if ($comisiones != 0) {
-			foreach ($productos as $producto) {
-				$this->excel->getActiveSheet()->setCellValue('A'.$fila, $producto->id_producto);	
-				$this->excel->getActiveSheet()->setCellValue('B'.$fila, $producto->nombre_producto);
-				$this->excel->getActiveSheet()->setCellValue('C'.$fila, $producto->cantidad);
-				$this->excel->getActiveSheet()->setCellValue('D'.$fila, $producto->comision_total);
-				$this->excel->getActiveSheet()->setCellValue('E'.$fila, $producto->total);
+			foreach ($comisiones as $comision) {
+				$porcentaje = ($comision->comision*2)/100;
+				$this->excel->getActiveSheet()->setCellValue('A'.$fila, $comision->id);	
+				$this->excel->getActiveSheet()->setCellValue('B'.$fila, $comision->nombre);
+				$this->excel->getActiveSheet()->setCellValue('C'.$fila, $comision->incentivo);
+				$this->excel->getActiveSheet()->setCellValue('D'.$fila, $comision->comision);
+				$this->excel->getActiveSheet()->setCellValue('E'.$fila, $porcentaje);
 
 				$fila++;
 			}

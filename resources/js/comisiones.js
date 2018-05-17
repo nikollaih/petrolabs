@@ -1,5 +1,7 @@
 
 var comisionesLiquidadas;
+var filtroComision;
+var filtroAplicado;
 
 $(document).on('change', '#departamento-usuario-form', function(){
 	llenarSelectCiudad($(this).val(), '#ciudad');
@@ -154,6 +156,7 @@ function aplicarFiltro(element, tipo, estado){
 		fechaFin = new Date();
 	}
   	var idElement = $('#'+element).val();
+
   	if (idElement != 0) {
 	  	$.ajax({
 		    method: 'post',
@@ -166,6 +169,10 @@ function aplicarFiltro(element, tipo, estado){
 		    	console.log(response);
 		        var datos = eval(JSON.parse(response));
 		        comisionesLiquidadas = datos['objeto'];
+
+		        filtroComision = tipo;
+		        filtroAplicado = $('#'+element+' option:selected').text();
+
 		        tabla.clear().draw();
 		        if (datos['objeto'] != 0) {
 		          for (var i = 0; i < datos['objeto'].length; i++) {
@@ -176,11 +183,12 @@ function aplicarFiltro(element, tipo, estado){
 		            else{
 		            	var check = i + 1;
 		            }
+		            var porcentaje = (comision['comision']*2)/100;
 		            /*<a style="margin-right:3px;" title="Ver" href="<?=base_url();?>producto/obtener/" class="btn orange btn-mini" type="button"><i class="fa fa-eye"></i> Detalles</a>*/
 		            var opciones = '<a class="btn blue btn-mini" type="button" onclick="liquidarComisiones('+comision['id_incentivo']+', `'+tipoLiquidar+'`, '+comision['id']+',this);"><i class="fa fa-money"></i> Liquidar</a>';
 		            tabla
 		            .row
-		            .add([check, comision['nombre'], comision['incentivo'], '$'+numberFormat(comision['comision']), opciones])
+		            .add([check, comision['nombre'], comision['incentivo'], '$'+numberFormat(comision['comision']), '$'+numberFormat(porcentaje,2), opciones])
 		            .draw()
 		            .node();
 		          }
@@ -234,6 +242,8 @@ $('#selectAll').click(function(e){
 
 function exportarFiltroComisionesLiquidadas(){
   $('#comisionesArray').val(JSON.stringify(comisionesLiquidadas));
+  $('#tipoFiltro').val(filtroComision);
+  $('#filtroNombre').val(filtroAplicado);
 
   $('#formExportarComisiones').submit();
 }
