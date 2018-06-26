@@ -12,6 +12,9 @@ $(document).on('change', '#departamento-liquidada', function(){
 $(document).on('change', '#asesor', function(){
 	llenarSelectDepartamento($(this).val(), '#departamento-usuario-form');
 });
+$(document).on('change', '#asesor-liquidado', function(){
+	llenarSelectDepartamento($(this).val(), '#departamento-liquidada');
+});
 /**
  * [obtenerCiudadesDepartamento description]
  * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
@@ -262,14 +265,14 @@ function validarSelectComisiones(select, valor) {
     $('#estacion').html('<option selected value="0">Estación</option>');
     $('#ciudad').html('<option selected value="">Ciudad</option>');
     //LLamado a la funcion
-    aplicarFiltro('asesor', 'Asesor');
+    aplicarFiltro('asesor', 'Asesor', 0);
   }else if(select == 'ciudad' && valor == 0){
     $('#estacion').html('<option selected value="0">Estación</option>');
     //Llamado a la duncion
-    aplicarFiltro('departamento-usuario-form', 'Departamento');
+    aplicarFiltro('departamento-usuario-form', 'Departamento', 0);
   }else if(select == 'estacion' && valor == 0){
     //Llamado a la duncion
-    aplicarFiltro('ciudad', 'Ciudad');
+    aplicarFiltro('ciudad', 'Ciudad', 0);
   }else if(select == 'asesor' && valor == 0){
     //Llamado a la duncion
     location.reload();
@@ -277,19 +280,25 @@ function validarSelectComisiones(select, valor) {
 }
 
 function validarSelectComisionesLiquidadas(select, valor) {
-  if (select == 'departamento-liquidada' && valor == 0) {
-    $('#estacion-liquidada').html('<option selected value="0">Estación</option>');
-    $('#ciudad-liquidada').html('<option selected value="0">Ciudad</option>');
-    //LLamado a la funcion
-    location.reload();
-  }else if(select == 'ciudad-liquidada' && valor == 0){
-    $('#estacion-liquidada').html('<option selected value="0">Estación</option>');
-    //Llamado a la funcion
-    aplicarFiltro('departamento-liquidada', 'Departamento');
-  }else if(select == 'estacion-liquidada' && valor == 0){
-    //Llamado a la funcion
-    aplicarFiltro('ciudad-liquidada', 'Ciudad');
-  }
+	if (select == 'asesor-liquidado' && valor == 0) {
+		$('#departamento-liquidada').html('<option selected value="0">Departamento</option>');
+		$('#estacion-liquidada').html('<option selected value="0">Estación</option>');
+		$('#ciudad-liquidada').html('<option selected value="0">Ciudad</option>');
+		//LLamado a la funcion
+		location.reload();
+	}else if (select == 'departamento-liquidada' && valor == 0) {
+		$('#estacion-liquidada').html('<option selected value="0">Estación</option>');
+		$('#ciudad-liquidada').html('<option selected value="0">Ciudad</option>');
+		//LLamado a la funcion
+		aplicarFiltro('asesor-liquidado', 'Asesor',1);
+	}else if(select == 'ciudad-liquidada' && valor == 0){
+		$('#estacion-liquidada').html('<option selected value="0">Estación</option>');
+		//Llamado a la funcion
+		aplicarFiltro('departamento-liquidada', 'Departamento',1);
+	}else if(select == 'estacion-liquidada' && valor == 0){
+		//Llamado a la funcion
+		aplicarFiltro('ciudad-liquidada', 'Ciudad',1);
+	}
 }
 $('#selectAll').click(function(e){
     var table= $(e.target).closest('table');

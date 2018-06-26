@@ -41,17 +41,22 @@
                 <div class="widgets-container">
                   <div class="row">
                     <div class="form-group col-md-2" style="margin-bottom: 0;">
-                      <select class="form-control" required id="departamento-liquidada" onchange="validarSelectComisionesLiquidadas('departamento-liquidada', $(this).val()); aplicarFiltro('departamento-liquidada', 'Departamento',1);">
-                        <option value="0">Departamento</option>
+                      <select class="form-control" required id="asesor-liquidado" onchange="validarSelectComisionesLiquidadas('asesor-liquidado', $(this).val()); aplicarFiltro('asesor-liquidado', 'Asesor',1);">
+                        <option value="0">Asesor</option>
                         <?php 
-                          if ($departamentos != 0) {
-                            foreach ($departamentos as $departamento) {
+                          if ($asesores != 0) {
+                            foreach ($asesores as $asesor) {
                         ?>
-                        <option value="<?=$departamento['id_departamento'];?>"><?=$departamento['nombre_departamento'];?></option>
+                        <option value="<?=$asesor['id_usuario'];?>"><?=$asesor['nombre'].' '.$asesor['apellidos'];?></option>
                         <?php
                             }
                           }
                         ?>  
+                      </select>
+                    </div>
+                    <div class="form-group col-md-2" style="margin-bottom: 0;">
+                      <select class="form-control" required id="departamento-liquidada" onchange="validarSelectComisionesLiquidadas('departamento-liquidada', $(this).val()); aplicarFiltro('departamento-liquidada', 'Departamento',1);">
+                        <option value="0">Departamento</option>
                       </select>
                     </div>
                     <div class="form-group col-md-2" style="margin-bottom: 0;">

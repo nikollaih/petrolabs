@@ -8,6 +8,7 @@ class Comisiones extends CI_Model{
 		$this->load->database();
 	}
 
+
 	/**
 	 * [obtenerComisionesGeneral description]
 	 * @author German Donoso <germanedt@gmail.com>
@@ -28,6 +29,8 @@ class Comisiones extends CI_Model{
 				$this->db->where('i.tipo_incentivo', $incentivo['id_tipo']);
 				if ($estadoComision) {
 					$this->db->where('v.fecha_pago', 0);
+				}else{
+					$this->db->where('v.fecha_pago <>', 0);
 				}
 				$this->db->where('v.fecha >=', $fechaInicial);
 				$this->db->where('v.fecha <=', date('Y-m-d'));
