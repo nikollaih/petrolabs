@@ -66,13 +66,15 @@ class Venta extends CI_Controller {
 		//isLogin();
 		$ventas = 0;
 		if ($tipo=='Departamento') {
-			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, 0, 0, $codigo);
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, 0, 0, $codigo, 0);
 		}else if ($tipo=='Ciudad') {
-			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, 0, $codigo, 0);
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, 0, $codigo, 0, 0);
 		}else if ($tipo=='Estacion') {
-			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, $codigo, 0, 0);
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, $codigo, 0, 0, 0);
 		}else if ($tipo=='Islero') {
-			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, $codigo, 0, 0, 0);
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, $codigo, 0, 0, 0, 0);
+		}else if ($tipo=='Asesor') {
+			$ventas = $this->ventas->obtenerVentasLiquidar($incentivo, 0, 0, 0, 0, $codigo);
 		}
 		$ventasLiquidadas = array();
 		if ($ventas != 0) {

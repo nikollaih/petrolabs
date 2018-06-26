@@ -10,6 +10,7 @@ class Ubicacion extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('funciones');
 		$this->load->model('ubicaciones');
+		$this->load->model('usuarios');
 	}
 
 	/**
@@ -23,5 +24,19 @@ class Ubicacion extends CI_Controller {
 
 		$objCiudades = $this->ubicaciones->obtenerCiudadesDepartamento($id_departamento);
 		responder($objCiudades, true, 'Lista ciudades');
+	}
+
+	/**
+	 * [departamentosAsesor description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $asesor [description]
+	 * @return [type]         [description]
+	 */
+	function departamentosAsesor($asesor){
+		isLogin();
+
+		$asesor = $this->usuarios->obtenerUsuario($asesor);
+		$objDepartamentos = $this->ubicaciones->obtenerDepartamentosPorId(unserialize($asesor['dptos']));
+		responder($objDepartamentos, true, 'Lista departamentos');
 	}
 }

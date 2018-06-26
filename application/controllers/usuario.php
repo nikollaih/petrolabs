@@ -93,7 +93,7 @@ class Usuario extends CI_Controller {
 		if ($rol < 3) {
 			permisos(array(1));
 		}
-
+ 
 		$data['usuario'] = $this->usuarios->obtenerUsuario($id_usuario);
 		$data['departamentos'] = $this->ubicaciones->obtenerDepartamentos();
 		$data['incentivos'] = $this->incentivos->obtenerIncentivos();

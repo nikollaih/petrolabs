@@ -67,4 +67,25 @@ class Ubicaciones extends CI_Model{
 			return 0;
 		}
 	}
+
+	/**
+	 * [obtenerDepartamentosPorId description]
+	 * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+	 * @param  [type] $ids [description]
+	 * @return [type]      [description]
+	 */
+	function obtenerDepartamentosPorId($ids){
+		$this->db->from('departamentos');
+		$this->db->where_in('id_departamento', $ids);
+		$this->db->order_by('nombre_departamento', 'asc');
+
+		$objDepartamentos = $this->db->get();
+
+		if ($objDepartamentos->num_rows() > 0) {
+			return $objDepartamentos->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
 }

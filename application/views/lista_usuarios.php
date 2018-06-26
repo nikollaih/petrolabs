@@ -42,6 +42,13 @@
                           <?php
                           	}
                           ?>
+                          <?php
+                            if ($rol == 2) {
+                          ?>
+                              <th>Comisión vigente</th>
+                          <?php
+                            }
+                          ?>
                           <th>Opciones</th>
                         </tr>
                       </thead>
@@ -89,6 +96,17 @@
                                   <?php
                                   	}
                                   ?>
+
+
+                                  <?php
+                                    if ($rol == 2) {
+                                  ?>
+                                      <td>$<?= number_format(comisionAsesor($usuario['id_usuario']), 0, ',', '.') ?></td>
+                                  <?php
+                                    }
+                                  ?>
+
+
                                   <td class="align-center">
                                     <?php
                                       if ($rol == 2) {

@@ -9,6 +9,9 @@ $(document).on('change', '#departamento-usuario-form', function(){
 $(document).on('change', '#departamento-liquidada', function(){
 	llenarSelectCiudad($(this).val(), '#ciudad-liquidada');
 });
+$(document).on('change', '#asesor', function(){
+	llenarSelectDepartamento($(this).val(), '#departamento-usuario-form');
+});
 /**
  * [obtenerCiudadesDepartamento description]
  * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
@@ -36,6 +39,32 @@ function obtenerCiudadesDepartamento(id_departamento){
 }
 
 /**
+ * [obtenerDepartamentosAsesor description]
+ * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+ * @param  {[type]} id_asesor [description]
+ * @return {[type]}           [description]
+ */
+function obtenerDepartamentosAsesor(id_asesor){
+	var dptos;
+	$.ajax({
+		method: 'post',
+        url: base_url+"ubicacion/departamentosAsesor/" + id_asesor,
+        data:{
+        	
+        },
+        async: false,
+        success: function (response) {
+            dptos = eval(JSON.parse(response))['objeto'];
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+
+    return dptos;
+}
+
+/**
  * [llenarSelectCiudad description]
  * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
  * @param  {[int]} departamento    Recibe el id del departamento para consultar sus ciudades
@@ -54,6 +83,27 @@ function llenarSelectCiudad(departamento, elemento){
 	}
 
 	$(elemento).html(ciudades_DOM);
+}
+
+/**
+ * [llenarSelectDepartamento description]
+ * @author Nikollai Hernandez G <nikollaihernandez@gmail.com>
+ * @param  {[type]} asesor   [description]
+ * @param  {[type]} elemento [description]
+ * @return {[type]}          [description]
+ */
+function llenarSelectDepartamento(asesor, elemento){
+	var dptos = obtenerDepartamentosAsesor(asesor);
+	var dptos_DOM = '<option value="0">Departamento</option>';
+	if (dptos.length > 0) {
+		for (var i = 0; i < dptos.length; i++) {
+			var dpto = dptos[i];
+
+			dptos_DOM += '<option value="'+dpto['id_departamento']+'">'+dpto['nombre_departamento']+'</option>';
+		}
+	}
+
+	$(elemento).html(dptos_DOM);
 }
 
 $(document).on('change', '#ciudad', function(){
@@ -147,6 +197,9 @@ function aplicarFiltro(element, tipo, estado){
 	}else if (tipo=='Estacion') {
 		tipoLiquidar='Islero';
 	}
+	else if (tipo=='Asesor') {
+		tipoLiquidar='Departamento';
+	}
 	var fechaInicial = $('#fecha_inicial').val();
 	if (fechaInicial == null || fechaInicial == '') {
 		fechaInicial = new Date(1901,01,01);
@@ -199,7 +252,7 @@ function aplicarFiltro(element, tipo, estado){
 		        console.log(e);
 		    }
 	  	}); 
-	}else if(idElement == 0 && tipo == 'Departamento'){
+	}else if(idElement == 0 && tipo == 'Asesor'){
 		location.reload();
 	}
 }
@@ -209,7 +262,7 @@ function validarSelectComisiones(select, valor) {
     $('#estacion').html('<option selected value="0">Estación</option>');
     $('#ciudad').html('<option selected value="">Ciudad</option>');
     //LLamado a la funcion
-    location.reload();
+    aplicarFiltro('asesor', 'Asesor');
   }else if(select == 'ciudad' && valor == 0){
     $('#estacion').html('<option selected value="0">Estación</option>');
     //Llamado a la duncion
@@ -217,6 +270,9 @@ function validarSelectComisiones(select, valor) {
   }else if(select == 'estacion' && valor == 0){
     //Llamado a la duncion
     aplicarFiltro('ciudad', 'Ciudad');
+  }else if(select == 'asesor' && valor == 0){
+    //Llamado a la duncion
+    location.reload();
   }
 }
 

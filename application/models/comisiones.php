@@ -71,7 +71,14 @@ class Comisiones extends CI_Model{
 	--AND c.departamento = 1
 	--GROUP BY c.id_ciudad
 	 */
-	function obtenerComisionesFiltro($fechaInicial, $fechaFinal, $departamento = 0, $ciudad = 0, $estacion = 0, $estado){
+	function obtenerComisionesFiltro($fechaInicial, $fechaFinal, $departamento = 0, $ciudad = 0, $estacion = 0, $estado, $id_asesor = 0){
+		if ($id_asesor) {
+			$this->db->select('dptos');
+			$this->db->from('usuarios');
+			$this->db->where('id_usuario', $id_asesor);
+			$resultado = $this->db->get();
+			$dptosIds = unserialize($resultado->row_array()['dptos']);
+		}
 		$incentivos = $this->obtenerTiposIncentivos();
 		$ventas = array();
 		if ($incentivos != 0) {
@@ -97,6 +104,14 @@ class Comisiones extends CI_Model{
 					$this->db->join('ciudades c', 'c.id_ciudad = e.ciudad', 'RIGHT');
 					$this->db->where('c.departamento', $departamento);
 					$group = 'c.id_ciudad'; 
+				}
+				if ($id_asesor) {
+					$this->db->select('d.id_departamento id, d.nombre_departamento nombre, SUM(IFNULL(v.comision_total,0)) comision');
+					$this->db->join('estaciones e', 'e.id_estacion = i.estacion','RIGHT');
+					$this->db->join('ciudades c', 'c.id_ciudad = e.ciudad','RIGHT');
+					$this->db->join('departamentos d', 'd.id_departamento = c.departamento','RIGHT');
+					$this->db->where_in('d.id_departamento', $dptosIds);
+					$group = 'd.id_departamento';
 				}
 				$this->db->where('i.tipo_incentivo', $incentivo['id_tipo']);
 				if ($estado) {

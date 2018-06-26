@@ -140,3 +140,12 @@ function responder($objeto,$estado,$mensaje){
   echo json_encode($resultado);
   die();
 }
+
+function comisionAsesor($idAsesor){
+  $CI = & get_instance();  //get instance, access the CI superobject
+  $CI->load->model("ventas");
+
+  $ventas = $CI->ventas->comisionAsesor($idAsesor);
+
+  return $ventas['comision'];
+}

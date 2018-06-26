@@ -32,18 +32,23 @@
               <div class="ibox-content collapse in">
                 <div class="widgets-container">
                   <div class="row">
-                    <div class="form-group col-md-2 col-md-offset-3" style="margin-bottom: 0;">
-                      <select class="form-control" required id="departamento-usuario-form" onchange="validarSelectComisiones('departamento-usuario-form', $(this).val()); aplicarFiltro('departamento-usuario-form', 'Departamento',0);">
-                        <option value="0">Departamento</option>
+                    <div class="form-group col-md-2 col-md-offset-2" style="margin-bottom: 0;">
+                      <select class="form-control" required id="asesor" onchange="validarSelectComisiones('asesor', $(this).val()); aplicarFiltro('asesor', 'Asesor',0);">
+                        <option value="0">Asesor</option>
                         <?php 
-                          if ($departamentos != 0) {
-                            foreach ($departamentos as $departamento) {
+                          if ($asesores != 0) {
+                            foreach ($asesores as $asesor) {
                         ?>
-                        <option value="<?=$departamento['id_departamento'];?>"><?=$departamento['nombre_departamento'];?></option>
+                        <option value="<?=$asesor['id_usuario'];?>"><?=$asesor['nombre'].' '.$asesor['apellidos'];?></option>
                         <?php
                             }
                           }
                         ?>  
+                      </select>
+                    </div>
+                    <div class="form-group col-md-2" style="margin-bottom: 0;">
+                      <select class="form-control" required id="departamento-usuario-form" onchange="validarSelectComisiones('departamento-usuario-form', $(this).val()); aplicarFiltro('departamento-usuario-form', 'Departamento',0);">
+                        <option value="0">Departamento</option>
                       </select>
                     </div>
                     <div class="form-group col-md-2" style="margin-bottom: 0;">
@@ -94,7 +99,7 @@
                             <?php
                                 if (tipoUsuarioConectado() == 1) {
                             ?>
-                                  <a class="btn blue btn-mini" type="button" onclick="liquidarComisiones(<?=$comision['id_incentivo']?>, 'Departamento', <?=$comision['id']?>, this);">
+                                  <a class="btn blue btn-mini" type="button" onclick="liquidarComisiones(<?=$comision['id_incentivo']?>, 'Asesor', <?=$comision['id']?>, this);">
                                     <i class="fa fa-money"></i>
                                     Liquidar
                                   </a>
