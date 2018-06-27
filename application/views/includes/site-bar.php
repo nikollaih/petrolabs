@@ -142,6 +142,12 @@
                 <span class="title">Comisiones liquidadas</span>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?=base_url()?>pdf/facturas">
+                <i class="fa fa-file"></i>
+                <span class="title">Facturas</span>
+              </a>
+            </li>
         <?php
           }
         ?>

@@ -90,6 +90,24 @@ class Ventas extends CI_Model{
 		}
 	}
 
+	function obtenerVentasIds($ids, $sum){
+		if ($sum) {
+			$this->db->select('SUM(v.comision_total) as valor');
+		}
+		$this->db->from('ventas v');
+		$this->db->join('Isleros i', 'v.islero = i.id_islero');
+		$this->db->join('productos p', 'v.producto = p.id_producto');
+		$this->db->where_in('v.id_venta', $ids);
+		$objVentas = $this->db->get();
+
+		if ($objVentas->num_rows() > 0) {
+			return $objVentas->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
 	function obtenerVentasLiquidar($incentivo=0, $islero=0, $estacion=0, $ciudad=0, $departamento=0, $id_asesor = 0){
 		if ($id_asesor) {
 			$this->db->select('dptos');

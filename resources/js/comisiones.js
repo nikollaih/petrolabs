@@ -152,6 +152,7 @@ function liquidarComisiones(incentivo, tipo, valor, elemento){
         data:{},
         async: false,
         success: function (response) {
+        	console.log(response);
         	respuesta = eval(JSON.parse(response));
         	if (respuesta['estado']) {
         		var ventas = respuesta['objeto'];

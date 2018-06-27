@@ -169,6 +169,24 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	$this->PDFVersion = '1.3';
 }
 
+// Tabla simple
+function BasicTable($header, $data, $cell_width = 40)
+{
+	$this->SetFont('Arial', 'B', 11);
+    // Cabecera
+    foreach($header as $col)
+        $this->Cell($cell_width,7,utf8_decode($col),1);
+    $this->Ln();
+    $this->SetFont('Arial', '', 11);
+    // Datos
+    foreach($data as $row)
+    {
+        foreach($row as $col)
+            $this->Cell($cell_width,6,utf8_decode($col),1);
+        $this->Ln();
+    }
+}
+
 function WordWrap(&$text, $maxwidth)
 {
     $text = trim($text);

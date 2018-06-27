@@ -223,4 +223,48 @@ class Usuarios extends CI_Model{
 		}
 	}
 
+
+	function obtenerAsesorLiquidacion($dpto = 0, $ciudad = 0, $estacion = 0, $islero = 0){
+		$this->db->select('d.id_departamento');
+		$this->db->from('departamentos d');
+		if ($dpto != 0) {
+			$this->db->where('d.id_departamento', $dpto);
+		}
+
+		if ($ciudad != 0) {
+			$this->db->join('ciudades c', 'd.id_departamento = c.departamento');
+			$this->db->where('c.id_ciudad', $ciudad);
+		}
+
+		if ($estacion != 0) {
+			$this->db->join('ciudades c', 'd.id_departamento = c.departamento');
+			$this->db->join('estaciones e', 'e.ciudad = c.id_ciudad');
+			$this->db->where('e.id_estacion', $estacion);
+		}
+
+		if ($islero != 0) {
+			$this->db->join('ciudades c', 'd.id_departamento = c.departamento');
+			$this->db->join('estaciones e', 'e.ciudad = c.id_ciudad');
+			$this->db->join('Isleros i', 'i.estacion = e.id_estacion');
+			$this->db->where('i.id_islero', $islero);
+		}
+
+		$objDptos = $this->db->get();
+
+		if ($objDptos->num_rows() > 0) {
+			$dptos = $objDptos->row_array();
+			$x = 0;
+			$sql = '';
+			$this->db->from('usuarios u');
+			$this->db->like('u.dptos', 's:'.strlen($dptos['id_departamento']).':"'.$dptos['id_departamento'].'";');
+
+			$usuarios = $this->db->get();
+
+			return $usuarios->result_array();
+		}
+		else{
+			return 0;
+		}
+	}
+
 }

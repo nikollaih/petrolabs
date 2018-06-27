@@ -1,0 +1,63 @@
+.item-factura{
+	text-align: center;
+    padding: 10px;
+    border: 1px solid #e6e9eb;
+    border-radius: 5px;
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.item-factura .etiqueta{
+	padding: 7px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border-radius: 50% !important;
+}
+
+.incentivo-header{
+    margin: -4px 3px 0px 0px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 7px;
+    border-radius: 50% !important;
+    cursor: pointer;
+}
+
+.item-factura .etiqueta.incentivo-1, .incentivo-1{
+	background: #ffe000;
+}
+
+
+.item-factura .etiqueta.incentivo-2, .incentivo-2{
+	background: #00adff;
+}
+
+
+.item-factura .etiqueta.incentivo-3, .incentivo-3{
+	background: #30c063;
+}
+
+
+.item-factura .content-bottom{
+	padding: 10px;
+    border-top: 1px solid #e6e9eb;
+    margin-top: 10px;
+}
+
+.item-factura .content-bottom p{
+	margin: 0;
+}
+
+.item-factura .content-bottom p i{
+	margin-right: 4px;
+    color: #66696b;
+}
+
+.item-factura .content-img{
+	
+}
+
+.item-factura .content-img img{
+	
+}
